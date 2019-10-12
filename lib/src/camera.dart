@@ -7,29 +7,28 @@ part of flutter_platform_maps;
 /// The position of the map "camera", the view point from which the world is
 /// shown in the map view. Aggregates the camera's [target] geographical
 /// location, its [zoom] level, [pitch] angle, and [heading].
-class CameraPosition
-    implements googleMaps.CameraPosition, appleMaps.CameraPosition {
+class CameraPosition {
   const CameraPosition({
     @required this.target,
-    this.heading = 0.0,
-    this.pitch = 0.0,
+    this.bearing = 0.0,
+    this.tilt = 0.0,
     this.zoom = 0,
   })  : assert(target != null),
-        assert(heading != null),
-        assert(pitch != null),
+        assert(bearing != null),
+        assert(tilt != null),
         assert(zoom != null);
 
   /// The camera's bearing in degrees, measured clockwise from north.
   ///
   /// A bearing of 0.0, the default, means the camera points north.
   /// A bearing of 90.0 means the camera points east.
-  final double heading;
+  final double bearing;
 
   /// The geographical location that the camera is pointing at.
   final LatLng target;
 
   // In degrees where 0 is looking straight down. Pitch may be clamped to an appropriate value.
-  final double pitch;
+  final double tilt;
 
   /// The zoom level of the camera.
   ///
@@ -45,21 +44,21 @@ class CameraPosition
   /// will be silently clamped to the supported range.
   final double zoom;
 
-  @override
-  String toString() =>
-      'CameraPosition(bearing: $heading, target: $target, tilt: $pitch, zoom: $zoom)';
+  appleMaps.CameraPosition appleMapsCameraPosition() {
+    return appleMaps.CameraPosition(
+      target: this.target.appleLatLng,
+      heading: this.bearing,
+      pitch: this.tilt,
+      zoom: this.zoom,
+    );
+  }
 
-  @override
-  // TODO: implement bearing
-  double get bearing => null;
-
-  @override
-  // TODO: implement tilt
-  double get tilt => null;
-
-  @override
-  toMap() {
-    // TODO: implement toMap
-    return null;
+  googleMaps.CameraPosition googleMapsCameraPosition() {
+    return googleMaps.CameraPosition(
+      target: this.target.googleLatLng,
+      bearing: this.bearing,
+      tilt: this.tilt,
+      zoom: this.zoom,
+    );
   }
 }

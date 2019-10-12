@@ -5,28 +5,28 @@ class PlatformMap extends StatefulWidget {
   const PlatformMap({
     Key key,
     @required this.initialCameraPosition,
-    // this.onMapCreated,
+    this.onMapCreated,
     this.gestureRecognizers,
     this.compassEnabled = true,
     this.trafficEnabled = false,
-    // this.mapType = MapType.standard,
+    this.mapType,
     // this.trackingMode = TrackingMode.none,
     this.rotateGesturesEnabled = true,
     this.scrollGesturesEnabled = true,
     this.zoomGesturesEnabled = true,
-    this.pitchGesturesEnabled = true,
+    this.tiltGestureEnabled = true,
     this.myLocationEnabled = false,
     this.myLocationButtonEnabled = true,
-    // this.markers,
+    this.markers,
     this.onCameraMoveStarted,
-    // this.onCameraMove,
+    this.onCameraMove,
     this.onCameraIdle,
-    // this.onTap,
-    // this.onLongPress,
+    this.onTap,
+    this.onLongPress,
   })  : assert(initialCameraPosition != null),
         super(key: key);
 
-  // final MapCreatedCallback onMapCreated;
+  final Function onMapCreated;
 
   /// The initial position of the map's camera.
   final CameraPosition initialCameraPosition;
@@ -34,11 +34,11 @@ class PlatformMap extends StatefulWidget {
   /// True if the map should show a compass when rotated.
   final bool compassEnabled;
 
+  /// Type of map tiles to be rendered.
+  final MapType mapType;
+
   /// True if the map should display the current traffic.
   final bool trafficEnabled;
-
-  /// Type of map tiles to be rendered.
-  // final MapType mapType;
 
   /// The mode used to track the user location.
   // final TrackingMode trackingMode;
@@ -53,10 +53,10 @@ class PlatformMap extends StatefulWidget {
   final bool zoomGesturesEnabled;
 
   /// True if the map view should respond to tilt gestures.
-  final bool pitchGesturesEnabled;
+  final bool tiltGestureEnabled;
 
   /// Markers to be placed on the map.
-  // final Set<Marker> markers;
+  final Set<Marker> markers;
 
   /// Called when the camera starts moving.
   ///
@@ -73,17 +73,17 @@ class PlatformMap extends StatefulWidget {
   ///
   /// This may be called as often as once every frame and should
   /// not perform expensive operations.
-  // final CameraPositionCallback onCameraMove;
+  final Function onCameraMove;
 
   /// Called when camera movement has ended, there are no pending
   /// animations and the user has stopped interacting with the map.
   final VoidCallback onCameraIdle;
 
   /// Called every time a [AppleMap] is tapped.
-  // final ArgumentCallback<LatLng> onTap;
+  final Function onTap;
 
   /// Called every time a [AppleMap] is long pressed.
-  // final ArgumentCallback<LatLng> onLongPress;
+  final Function onLongPress;
 
   /// True if a "My Location" layer should be shown on the map.
   ///
@@ -143,11 +143,45 @@ class _PlatformMapState extends State<PlatformMap> {
   Widget build(BuildContext context) {
     if (Platform.isAndroid) {
       return googleMaps.GoogleMap(
-        initialCameraPosition: widget.initialCameraPosition,
+        initialCameraPosition:
+            widget.initialCameraPosition.googleMapsCameraPosition(),
+        compassEnabled: widget.compassEnabled,
+        mapType: widget.mapType ?? MapType.normal,
+        gestureRecognizers: widget.gestureRecognizers,
+        onCameraIdle: widget.onCameraIdle,
+        myLocationButtonEnabled: widget.myLocationButtonEnabled,
+        myLocationEnabled: widget.myLocationEnabled,
+        onCameraMoveStarted: widget.onCameraMoveStarted,
+        tiltGesturesEnabled: widget.tiltGestureEnabled,
+        rotateGesturesEnabled: widget.rotateGesturesEnabled,
+        zoomGesturesEnabled: widget.zoomGesturesEnabled,
+        scrollGesturesEnabled: widget.scrollGesturesEnabled,
+        onMapCreated: widget.onMapCreated,
+        onCameraMove: widget.onCameraMove,
+        onTap: widget.onTap,
+        onLongPress: widget.onLongPress,
+        trafficEnabled: widget.trafficEnabled,
       );
     } else if (Platform.isIOS) {
       return appleMaps.AppleMap(
-        initialCameraPosition: widget.initialCameraPosition,
+        initialCameraPosition:
+            widget.initialCameraPosition.appleMapsCameraPosition(),
+        compassEnabled: widget.compassEnabled,
+        mapType: widget.mapType ?? MapType.normal,
+        gestureRecognizers: widget.gestureRecognizers,
+        onCameraIdle: widget.onCameraIdle,
+        myLocationButtonEnabled: widget.myLocationButtonEnabled,
+        myLocationEnabled: widget.myLocationEnabled,
+        onCameraMoveStarted: widget.onCameraMoveStarted,
+        pitchGesturesEnabled: widget.tiltGestureEnabled,
+        rotateGesturesEnabled: widget.rotateGesturesEnabled,
+        zoomGesturesEnabled: widget.zoomGesturesEnabled,
+        scrollGesturesEnabled: widget.scrollGesturesEnabled,
+        onMapCreated: widget.onMapCreated,
+        onCameraMove: widget.onCameraMove,
+        onTap: widget.onTap,
+        onLongPress: widget.onLongPress,
+        trafficEnabled: widget.trafficEnabled,
       );
     } else {
       return Text("Platform not yet implemented");
