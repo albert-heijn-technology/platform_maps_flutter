@@ -30,19 +30,16 @@ class MinMaxZoomPreference
   /// The preferred maximum zoom level or null, if unbounded from above.
   final double maxZoom;
 
-  /// Unbounded zooming.
-  static MinMaxZoomPreference get unbounded {
-    if (Platform.isIOS) {
-      return appleMaps.MinMaxZoomPreference.unbounded;
-    } else if (Platform.isAndroid) {
-      return googleMaps.MinMaxZoomPreference.unbounded;
-    }
-    return null;
-  }
-
   appleMaps.MinMaxZoomPreference get appleMapsZoomPreference =>
       appleMaps.MinMaxZoomPreference(this.maxZoom, this.maxZoom);
 
   googleMaps.MinMaxZoomPreference get googleMapsZoomPreference =>
       googleMaps.MinMaxZoomPreference(this.maxZoom, this.maxZoom);
+
+  static appleMaps.MinMaxZoomPreference get appleMapsUnboundedZoomPreference =>
+      appleMaps.MinMaxZoomPreference.unbounded;
+
+  static googleMaps.MinMaxZoomPreference
+      get googleMapsUnboundedZoomPreference =>
+          googleMaps.MinMaxZoomPreference.unbounded;
 }

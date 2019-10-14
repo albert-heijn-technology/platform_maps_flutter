@@ -12,7 +12,6 @@ class PlatformMap extends StatefulWidget {
     this.compassEnabled = true,
     this.trafficEnabled = false,
     this.mapType,
-    // this.trackingMode = TrackingMode.none,
     this.rotateGesturesEnabled = true,
     this.scrollGesturesEnabled = true,
     this.zoomGesturesEnabled = true,
@@ -42,9 +41,6 @@ class PlatformMap extends StatefulWidget {
 
   /// True if the map should display the current traffic.
   final bool trafficEnabled;
-
-  /// The mode used to track the user location.
-  // final TrackingMode trackingMode;
 
   /// Preferred bounds for the camera zoom level.
   ///
@@ -127,8 +123,6 @@ class PlatformMap extends StatefulWidget {
   /// By default, the my-location button is enabled (and hence shown when the
   /// my-location layer is enabled).
   ///
-  /// See also:
-  ///   * [myLocationEnabled] parameter.
   final bool myLocationButtonEnabled;
 
   /// Which gestures should be consumed by the map.
@@ -171,9 +165,9 @@ class _PlatformMapState extends State<PlatformMap> {
         onTap: widget.onTap,
         onLongPress: widget.onLongPress,
         trafficEnabled: widget.trafficEnabled,
-        minMaxZoomPreference:
-            widget.minMaxZoomPreference.googleMapsZoomPreference ??
-                MinMaxZoomPreference.unbounded,
+        minMaxZoomPreference: widget.minMaxZoomPreference != null
+            ? widget.minMaxZoomPreference.googleMapsZoomPreference
+            : MinMaxZoomPreference.googleMapsUnboundedZoomPreference,
       );
     } else if (Platform.isIOS) {
       return appleMaps.AppleMap(
@@ -196,9 +190,9 @@ class _PlatformMapState extends State<PlatformMap> {
         onTap: widget.onTap,
         onLongPress: widget.onLongPress,
         trafficEnabled: widget.trafficEnabled,
-        minMaxZoomPreference:
-            widget.minMaxZoomPreference.appleMapsZoomPreference ??
-                MinMaxZoomPreference.unbounded,
+        minMaxZoomPreference: widget.minMaxZoomPreference != null
+            ? widget.minMaxZoomPreference.appleMapsZoomPreference
+            : MinMaxZoomPreference.appleMapsUnboundedZoomPreference,
       );
     } else {
       return Text("Platform not yet implemented");
@@ -206,11 +200,15 @@ class _PlatformMapState extends State<PlatformMap> {
   }
 
   _onGoogleMapCreated(googleMaps.GoogleMapController controller) {
-    widget.onMapCreated(PlatformMapController(controller));
+    if (widget.onMapCreated != null) {
+      widget.onMapCreated(PlatformMapController(controller));
+    }
   }
 
   _onAppleMapCreated(appleMaps.AppleMapController controller) {
-    widget.onMapCreated(PlatformMapController(controller));
+    if (widget.onMapCreated != null) {
+      widget.onMapCreated(PlatformMapController(controller));
+    }
   }
 
   appleMaps.MapType _getAppleMapType() {

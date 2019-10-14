@@ -8,9 +8,18 @@ This package combines the [google_maps_flutter]("https://pub.dev/packages/google
 
 # Screenshots
 
-|                                               Example 1                                               |                                               Example 2                                               |
-| :---------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------: |
-| ![Example 1](https://github.com/LuisThein/apple_maps_flutter/blob/master/resources/example_img01.png) | ![Example 2](https://github.com/LuisThein/apple_maps_flutter/blob/master/resources/example_img02.png) |
+|                                                   Android                                                   |                                                   iOS                                                   |
+| :---------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------: |
+| ![Example 1](https://github.com/LuisThein/apple_maps_flutter/blob/master/resources/android_screenshot1.png) | ![Example 2](https://github.com/LuisThein/apple_maps_flutter/blob/master/resources/ios_screenshot1.png) |
+| ![Example 1](https://github.com/LuisThein/apple_maps_flutter/blob/master/resources/android_screenshot2.png) | ![Example 2](https://github.com/LuisThein/apple_maps_flutter/blob/master/resources/ios_screenshot2.png) |
+
+# Current functionality
+
+- Camera movement including bearing, heading, tilt (also animated)
+- Markers, including custom marker images and Info windows
+- Different map types
+- Map manipulation, enable/disable gestures, show current location, show compass ...
+
 
 # iOS
 
