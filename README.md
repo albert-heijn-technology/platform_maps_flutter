@@ -64,24 +64,25 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
-        mapType: MapType.satallite,
+        mapType: MapType.satellite,
         myLocationEnabled: true,
         myLocationButtonEnabled: true,
         onTap: (location) => print('onTap: $location'),
         onCameraMove: (location) => print('cameraMove: $location'),
         compassEnabled: true,
         onMapCreated: (controller) {
-          Future.delayed(Duration(seconds: 2)).then((_) {
-            controller.animateCamera(
-              CameraUpdate.newCameraPosition(
-                const CameraPosition(
-                  bearing: 270.0,
-                  target: LatLng(51.5160895, -0.1294527),
-                  tilt: 30.0,
-                  zoom: 18,
+          Future.delayed(Duration(seconds: 2)).then(
+            (_) {
+              controller.animateCamera(
+                CameraUpdate.newCameraPosition(
+                  const CameraPosition(
+                    bearing: 270.0,
+                    target: LatLng(51.5160895, -0.1294527),
+                    tilt: 30.0,
+                    zoom: 18,
+                  ),
                 ),
-              ),
-            );
+              );
             },
           );
         },
