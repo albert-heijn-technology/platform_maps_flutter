@@ -149,12 +149,13 @@ class PlatformMap extends StatefulWidget {
 class _PlatformMapState extends State<PlatformMap> {
   @override
   Widget build(BuildContext context) {
+    print(widget.mapType);
     if (Platform.isAndroid) {
       return googleMaps.GoogleMap(
         initialCameraPosition:
             widget.initialCameraPosition.googleMapsCameraPosition,
         compassEnabled: widget.compassEnabled,
-        mapType: widget.mapType ?? MapType.normal,
+        mapType: _getGoogleMapType(),
         markers: Marker.toGoogleMapsMarkerSet(widget.markers),
         gestureRecognizers: widget.gestureRecognizers,
         onCameraIdle: widget.onCameraIdle,
@@ -179,7 +180,7 @@ class _PlatformMapState extends State<PlatformMap> {
         initialCameraPosition:
             widget.initialCameraPosition.appleMapsCameraPosition,
         compassEnabled: widget.compassEnabled,
-        mapType: widget.mapType ?? MapType.normal,
+        mapType: _getAppleMapType(),
         annotations: Marker.toAppleMapsAnnotationSet(widget.markers),
         gestureRecognizers: widget.gestureRecognizers,
         onCameraIdle: widget.onCameraIdle,
@@ -210,5 +211,27 @@ class _PlatformMapState extends State<PlatformMap> {
 
   _onAppleMapCreated(appleMaps.AppleMapController controller) {
     widget.onMapCreated(PlatformMapController(controller));
+  }
+
+  appleMaps.MapType _getAppleMapType() {
+    if (widget.mapType == MapType.normal) {
+      return appleMaps.MapType.standard;
+    } else if (widget.mapType == MapType.satellite) {
+      return appleMaps.MapType.satellite;
+    } else if (widget.mapType == MapType.hybrid) {
+      return appleMaps.MapType.hybrid;
+    }
+    return appleMaps.MapType.standard;
+  }
+
+  googleMaps.MapType _getGoogleMapType() {
+    if (widget.mapType == MapType.normal) {
+      return googleMaps.MapType.normal;
+    } else if (widget.mapType == MapType.satellite) {
+      return googleMaps.MapType.satellite;
+    } else if (widget.mapType == MapType.hybrid) {
+      return googleMaps.MapType.hybrid;
+    }
+    return googleMaps.MapType.normal;
   }
 }
