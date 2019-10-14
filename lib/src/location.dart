@@ -25,11 +25,6 @@ class LatLng {
   @override
   String toString() => '$runtimeType($latitude, $longitude)';
 
-  @override
-  bool operator ==(Object o) {
-    return o is LatLng && o.latitude == latitude && o.longitude == longitude;
-  }
-
   appleMaps.LatLng get appleLatLng => appleMaps.LatLng(
         this.latitude,
         this.longitude,
