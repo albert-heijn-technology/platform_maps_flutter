@@ -12,4 +12,5 @@ part 'src/camera.dart';
 part 'src/platform_maps.dart';
 part 'src/location.dart';
 part 'src/marker.dart';
-part 'src/map_type.dart';
+part 'src/controller.dart';
+part 'src/ui.dart';

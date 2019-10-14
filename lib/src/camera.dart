@@ -44,7 +44,7 @@ class CameraPosition {
   /// will be silently clamped to the supported range.
   final double zoom;
 
-  appleMaps.CameraPosition appleMapsCameraPosition() {
+  appleMaps.CameraPosition get appleMapsCameraPosition {
     return appleMaps.CameraPosition(
       target: this.target.appleLatLng,
       heading: this.bearing,
@@ -53,12 +53,72 @@ class CameraPosition {
     );
   }
 
-  googleMaps.CameraPosition googleMapsCameraPosition() {
+  googleMaps.CameraPosition get googleMapsCameraPosition {
     return googleMaps.CameraPosition(
       target: this.target.googleLatLng,
       bearing: this.bearing,
       tilt: this.tilt,
       zoom: this.zoom,
     );
+  }
+}
+
+class CameraUpdate implements googleMaps.CameraUpdate, appleMaps.CameraUpdate {
+  static newCameraPosition(CameraPosition cameraPosition) {
+    if (Platform.isIOS) {
+      return appleMaps.CameraUpdate.newCameraPosition(
+          cameraPosition.appleMapsCameraPosition);
+    } else if (Platform.isAndroid) {
+      return googleMaps.CameraUpdate.newCameraPosition(
+          cameraPosition.googleMapsCameraPosition);
+    }
+  }
+
+  static newLatLng(LatLng latLng) {
+    if (Platform.isIOS) {
+      return appleMaps.CameraUpdate.newLatLng(latLng.appleLatLng);
+    } else if (Platform.isAndroid) {
+      return googleMaps.CameraUpdate.newLatLng(latLng.googleLatLng);
+    }
+  }
+
+  static newLatLngZoom(LatLng latLng, double zoom) {
+    if (Platform.isIOS) {
+      return appleMaps.CameraUpdate.newLatLngZoom(latLng.appleLatLng, zoom);
+    } else if (Platform.isAndroid) {
+      return googleMaps.CameraUpdate.newLatLngZoom(latLng.googleLatLng, zoom);
+    }
+  }
+
+  static zoomBy(double amount) {
+    if (Platform.isIOS) {
+      return appleMaps.CameraUpdate.zoomBy(amount);
+    } else if (Platform.isAndroid) {
+      return googleMaps.CameraUpdate.zoomBy(amount);
+    }
+  }
+
+  static zoomIn() {
+    if (Platform.isIOS) {
+      return appleMaps.CameraUpdate.zoomIn();
+    } else if (Platform.isAndroid) {
+      return googleMaps.CameraUpdate.zoomIn();
+    }
+  }
+
+  static zoomOut() {
+    if (Platform.isIOS) {
+      return appleMaps.CameraUpdate.zoomOut();
+    } else if (Platform.isAndroid) {
+      return googleMaps.CameraUpdate.zoomOut();
+    }
+  }
+
+  static zoomTo(double zoom) {
+    if (Platform.isIOS) {
+      return appleMaps.CameraUpdate.zoomTo(zoom);
+    } else if (Platform.isAndroid) {
+      return googleMaps.CameraUpdate.zoomTo(zoom);
+    }
   }
 }

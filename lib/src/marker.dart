@@ -1,15 +1,4 @@
-// Copyright 2018 The Chromium Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
 part of flutter_platform_maps;
-
-dynamic _offsetToJson(Offset offset) {
-  if (offset == null) {
-    return null;
-  }
-  return <dynamic>[offset.dx, offset.dy];
-}
 
 /// Text labels for a [Marker] info window.
 class InfoWindow {
@@ -142,4 +131,52 @@ class Marker {
         onTap: this.onTap,
         position: this.position.appleLatLng,
       );
+
+  googleMaps.Marker get googleMapsMarker => googleMaps.Marker(
+        markerId: this.markerId.googleMapsMarkerId,
+        alpha: this.alpha,
+        draggable: this.draggable,
+        infoWindow: this.infoWindow.googleMapsInfoWindow,
+        onTap: this.onTap,
+        position: this.position.googleLatLng,
+      );
+
+  static appleMaps.Annotation appleMapsAnnotationFromMarker(Marker marker) {
+    return appleMaps.Annotation(
+      annotationId: marker.markerId.appleMapsAnnoationId,
+      alpha: marker.alpha,
+      draggable: marker.draggable,
+      infoWindow: marker.infoWindow.appleMapsInfoWindow,
+      onTap: marker.onTap,
+      position: marker.position.appleLatLng,
+    );
+  }
+
+  static googleMaps.Marker googleMapsMarkerFromMarker(Marker marker) {
+    return googleMaps.Marker(
+      markerId: marker.markerId.googleMapsMarkerId,
+      alpha: marker.alpha,
+      draggable: marker.draggable,
+      infoWindow: marker.infoWindow.googleMapsInfoWindow,
+      onTap: marker.onTap,
+      position: marker.position.googleLatLng,
+    );
+  }
+
+  static Set<appleMaps.Annotation> toAppleMapsAnnotationSet(
+      Set<Marker> markers) {
+    Set<appleMaps.Annotation> _annotations = Set<appleMaps.Annotation>();
+    markers.forEach((marker) {
+      _annotations.add(appleMapsAnnotationFromMarker(marker));
+    });
+    return _annotations;
+  }
+
+  static Set<googleMaps.Marker> toGoogleMapsMarkerSet(Set<Marker> markers) {
+    Set<googleMaps.Marker> _markers = Set<googleMaps.Marker>();
+    markers.forEach((marker) {
+      _markers.add(googleMapsMarkerFromMarker(marker));
+    });
+    return _markers;
+  }
 }

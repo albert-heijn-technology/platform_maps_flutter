@@ -1,5 +1,7 @@
 part of flutter_platform_maps;
 
+typedef void MapCreatedCallback(PlatformMapController controller);
+
 /// A Calculator.
 class PlatformMap extends StatefulWidget {
   const PlatformMap({
@@ -23,10 +25,11 @@ class PlatformMap extends StatefulWidget {
     this.onCameraIdle,
     this.onTap,
     this.onLongPress,
+    this.minMaxZoomPreference,
   })  : assert(initialCameraPosition != null),
         super(key: key);
 
-  final Function onMapCreated;
+  final MapCreatedCallback onMapCreated;
 
   /// The initial position of the map's camera.
   final CameraPosition initialCameraPosition;
@@ -42,6 +45,11 @@ class PlatformMap extends StatefulWidget {
 
   /// The mode used to track the user location.
   // final TrackingMode trackingMode;
+
+  /// Preferred bounds for the camera zoom level.
+  ///
+  /// Actual bounds depend on map data and device.
+  final MinMaxZoomPreference minMaxZoomPreference;
 
   /// True if the map view should respond to rotate gestures.
   final bool rotateGesturesEnabled;
@@ -144,9 +152,10 @@ class _PlatformMapState extends State<PlatformMap> {
     if (Platform.isAndroid) {
       return googleMaps.GoogleMap(
         initialCameraPosition:
-            widget.initialCameraPosition.googleMapsCameraPosition(),
+            widget.initialCameraPosition.googleMapsCameraPosition,
         compassEnabled: widget.compassEnabled,
         mapType: widget.mapType ?? MapType.normal,
+        markers: Marker.toGoogleMapsMarkerSet(widget.markers),
         gestureRecognizers: widget.gestureRecognizers,
         onCameraIdle: widget.onCameraIdle,
         myLocationButtonEnabled: widget.myLocationButtonEnabled,
@@ -156,18 +165,22 @@ class _PlatformMapState extends State<PlatformMap> {
         rotateGesturesEnabled: widget.rotateGesturesEnabled,
         zoomGesturesEnabled: widget.zoomGesturesEnabled,
         scrollGesturesEnabled: widget.scrollGesturesEnabled,
-        onMapCreated: widget.onMapCreated,
+        onMapCreated: _onGoogleMapCreated,
         onCameraMove: widget.onCameraMove,
         onTap: widget.onTap,
         onLongPress: widget.onLongPress,
         trafficEnabled: widget.trafficEnabled,
+        minMaxZoomPreference:
+            widget.minMaxZoomPreference.googleMapsZoomPreference ??
+                MinMaxZoomPreference.unbounded,
       );
     } else if (Platform.isIOS) {
       return appleMaps.AppleMap(
         initialCameraPosition:
-            widget.initialCameraPosition.appleMapsCameraPosition(),
+            widget.initialCameraPosition.appleMapsCameraPosition,
         compassEnabled: widget.compassEnabled,
         mapType: widget.mapType ?? MapType.normal,
+        annotations: Marker.toAppleMapsAnnotationSet(widget.markers),
         gestureRecognizers: widget.gestureRecognizers,
         onCameraIdle: widget.onCameraIdle,
         myLocationButtonEnabled: widget.myLocationButtonEnabled,
@@ -177,14 +190,25 @@ class _PlatformMapState extends State<PlatformMap> {
         rotateGesturesEnabled: widget.rotateGesturesEnabled,
         zoomGesturesEnabled: widget.zoomGesturesEnabled,
         scrollGesturesEnabled: widget.scrollGesturesEnabled,
-        onMapCreated: widget.onMapCreated,
+        onMapCreated: _onAppleMapCreated,
         onCameraMove: widget.onCameraMove,
         onTap: widget.onTap,
         onLongPress: widget.onLongPress,
         trafficEnabled: widget.trafficEnabled,
+        minMaxZoomPreference:
+            widget.minMaxZoomPreference.appleMapsZoomPreference ??
+                MinMaxZoomPreference.unbounded,
       );
     } else {
       return Text("Platform not yet implemented");
     }
+  }
+
+  _onGoogleMapCreated(googleMaps.GoogleMapController controller) {
+    widget.onMapCreated(PlatformMapController(controller));
+  }
+
+  _onAppleMapCreated(appleMaps.AppleMapController controller) {
+    widget.onMapCreated(PlatformMapController(controller));
   }
 }

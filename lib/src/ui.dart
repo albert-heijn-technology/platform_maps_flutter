@@ -5,24 +5,37 @@
 part of flutter_platform_maps;
 
 /// Type of map tiles to display.
-// Enum constants must be indexed to match the corresponding int constants of
-// the Android platform API, see
-// <https://developers.google.com/android/reference/com/google/android/gms/maps/GoogleMap.html#MAP_TYPE_NORMAL>
-enum MapType {
-  /// Normal tiles (traffic and labels, subtle terrain information).
-  normal,
+class MapType {
+  static get normal {
+    if (Platform.isIOS) {
+      return appleMaps.MapType.standard;
+    } else if (Platform.isAndroid) {
+      return googleMaps.MapType.normal;
+    }
+  }
 
-  /// Satellite imaging tiles (aerial photos)
-  satellite,
+  static get satallite {
+    if (Platform.isIOS) {
+      return appleMaps.MapType.satellite;
+    } else if (Platform.isAndroid) {
+      return googleMaps.MapType.satellite;
+    }
+  }
 
-  /// Hybrid tiles (satellite images with some labels/overlays)
-  hybrid,
+  static get hybrid {
+    if (Platform.isIOS) {
+      return appleMaps.MapType.hybrid;
+    } else if (Platform.isAndroid) {
+      return googleMaps.MapType.hybrid;
+    }
+  }
 }
 
 // Used with [GoogleMapOptions] to wrap min and max zoom. This allows
 // distinguishing between specifying unbounded zooming (null `minZoom` and
 // `maxZoom`) from not specifying anything (null `MinMaxZoomPreference`).
-class MinMaxZoomPreference {
+class MinMaxZoomPreference
+    implements appleMaps.MinMaxZoomPreference, googleMaps.MinMaxZoomPreference {
   const MinMaxZoomPreference(this.minZoom, this.maxZoom)
       : assert(minZoom == null || maxZoom == null || minZoom <= maxZoom);
 
@@ -33,31 +46,18 @@ class MinMaxZoomPreference {
   final double maxZoom;
 
   /// Unbounded zooming.
-  static const MinMaxZoomPreference unbounded =
-      MinMaxZoomPreference(null, null);
-
-  dynamic _toJson() => <dynamic>[minZoom, maxZoom];
-
-  @override
-  bool operator ==(dynamic other) {
-    if (identical(this, other)) return true;
-    if (runtimeType != other.runtimeType) return false;
-    final MinMaxZoomPreference typedOther = other;
-    return minZoom == typedOther.minZoom && maxZoom == typedOther.maxZoom;
+  static MinMaxZoomPreference get unbounded {
+    if (Platform.isIOS) {
+      return appleMaps.MinMaxZoomPreference.unbounded;
+    } else if (Platform.isAndroid) {
+      return googleMaps.MinMaxZoomPreference.unbounded;
+    }
+    return null;
   }
 
-  @override
-  String toString() {
-    return 'MinMaxZoomPreference(minZoom: $minZoom, maxZoom: $maxZoom)';
-  }
-}
+  appleMaps.MinMaxZoomPreference get appleMapsZoomPreference =>
+      appleMaps.MinMaxZoomPreference(this.maxZoom, this.maxZoom);
 
-/// Exception when a map style is invalid or was unable to be set.
-///
-/// See also: `setStyle` on [GoogleMapController] for why this exception
-/// might be thrown.
-class MapStyleException implements Exception {
-  const MapStyleException(this.cause);
-
-  final String cause;
+  googleMaps.MinMaxZoomPreference get googleMapsZoomPreference =>
+      googleMaps.MinMaxZoomPreference(this.maxZoom, this.maxZoom);
 }
