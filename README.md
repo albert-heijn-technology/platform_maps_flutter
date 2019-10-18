@@ -51,12 +51,12 @@ class HomePage extends StatelessWidget {
         markers: Set<Marker>.of(
           [
             Marker(
-              markerId: MarkerId('hi'),
+              markerId: MarkerId('marker_1'),
               position: LatLng(47.6, 8.8796),
               consumeTapEvents: true,
               infoWindow: InfoWindow(
                 title: 'PlatformMarker',
-                snippet: 'Hi im a Platform Marker',
+                snippet: "Hi I'm a Platform Marker",
               ),
               onTap: () {
                 print("Marker tapped");
@@ -64,11 +64,10 @@ class HomePage extends StatelessWidget {
             ),
           ],
         ),
-        mapType: MapType.satellite,
         myLocationEnabled: true,
         myLocationButtonEnabled: true,
         onTap: (location) => print('onTap: $location'),
-        onCameraMove: (location) => print('cameraMove: $location'),
+        onCameraMove: (cameraUpdate) => print('onCameraMove: $cameraUpdate'),
         compassEnabled: true,
         onMapCreated: (controller) {
           Future.delayed(Duration(seconds: 2)).then(

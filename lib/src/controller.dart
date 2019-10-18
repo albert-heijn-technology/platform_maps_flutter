@@ -35,4 +35,19 @@ class PlatformMapController {
       return this.googleController.moveCamera(cameraUpdate);
     }
   }
+
+  /// Return [LatLngBounds] defining the region that is visible in a map.
+  Future<LatLngBounds> getVisibleRegion() async {
+    LatLngBounds _bounds;
+    if (Platform.isIOS) {
+      appleMaps.LatLngBounds appleBounds =
+          await this.appleController.getVisibleRegion();
+      _bounds = LatLngBounds._fromAppleLatLngBounds(appleBounds);
+    } else if (Platform.isAndroid) {
+      googleMaps.LatLngBounds googleBounds =
+          await this.googleController.getVisibleRegion();
+      _bounds = LatLngBounds._fromGoogleLatLngBounds(googleBounds);
+    }
+    return _bounds;
+  }
 }

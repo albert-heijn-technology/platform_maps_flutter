@@ -1,16 +1,54 @@
-# flutter_platform_maps_example
+## Sample Usage
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```dart
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: PlatformMap(
+        initialCameraPosition: CameraPosition(
+          target: const LatLng(47.6, 8.8796),
+          zoom: 16.0,
+        ),
+        markers: Set<Marker>.of(
+          [
+            Marker(
+              markerId: MarkerId('marker_1'),
+              position: LatLng(47.6, 8.8796),
+              consumeTapEvents: true,
+              infoWindow: InfoWindow(
+                title: 'PlatformMarker',
+                snippet: "Hi I'm a Platform Marker",
+              ),
+              onTap: () {
+                print("Marker tapped");
+              },
+            ),
+          ],
+        ),
+        myLocationEnabled: true,
+        myLocationButtonEnabled: true,
+        onTap: (location) => print('onTap: $location'),
+        onCameraMove: (cameraUpdate) => print('onCameraMove: $cameraUpdate'),
+        compassEnabled: true,
+        onMapCreated: (controller) {
+          Future.delayed(Duration(seconds: 2)).then(
+            (_) {
+              controller.animateCamera(
+                CameraUpdate.newCameraPosition(
+                  const CameraPosition(
+                    bearing: 270.0,
+                    target: LatLng(51.5160895, -0.1294527),
+                    tilt: 30.0,
+                    zoom: 18,
+                  ),
+                ),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+```
