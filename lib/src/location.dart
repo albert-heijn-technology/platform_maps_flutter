@@ -40,6 +40,23 @@ class LatLng {
         this.latitude,
         this.longitude,
       );
+
+  static List<googleMaps.LatLng> googleMapsLatLngsFromList(
+      List<LatLng> latlngs) {
+    List<googleMaps.LatLng> googleMapsLatLngs = List();
+    latlngs.forEach((LatLng latlng) {
+      googleMapsLatLngs.add(latlng.googleLatLng);
+    });
+    return googleMapsLatLngs;
+  }
+
+  static List<appleMaps.LatLng> appleMapsLatLngsFromList(List<LatLng> latlngs) {
+    List<appleMaps.LatLng> appleMapsLatLngs = List();
+    latlngs.forEach((LatLng latlng) {
+      appleMapsLatLngs.add(latlng.appleLatLng);
+    });
+    return appleMapsLatLngs;
+  }
 }
 
 class LatLngBounds {

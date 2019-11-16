@@ -2,7 +2,6 @@ part of flutter_platform_maps;
 
 typedef void MapCreatedCallback(PlatformMapController controller);
 
-/// A Calculator.
 class PlatformMap extends StatefulWidget {
   const PlatformMap({
     Key key,
@@ -19,6 +18,7 @@ class PlatformMap extends StatefulWidget {
     this.myLocationEnabled = false,
     this.myLocationButtonEnabled = true,
     this.markers,
+    this.polylines,
     this.onCameraMoveStarted,
     this.onCameraMove,
     this.onCameraIdle,
@@ -61,6 +61,9 @@ class PlatformMap extends StatefulWidget {
 
   /// Markers to be placed on the map.
   final Set<Marker> markers;
+
+  /// Polylines to be placed on the map.
+  final Set<Polyline> polylines;
 
   /// Called when the camera starts moving.
   ///
@@ -150,7 +153,12 @@ class _PlatformMapState extends State<PlatformMap> {
             widget.initialCameraPosition.googleMapsCameraPosition,
         compassEnabled: widget.compassEnabled,
         mapType: _getGoogleMapType(),
-        markers: Marker.toGoogleMapsMarkerSet(widget.markers),
+        markers: widget.markers != null
+            ? Marker.toGoogleMapsMarkerSet(widget.markers)
+            : widget.markers,
+        polylines: widget.polylines != null
+            ? Polyline.toGoogleMapsPolylines(widget.polylines)
+            : widget.polylines,
         gestureRecognizers: widget.gestureRecognizers,
         onCameraIdle: widget.onCameraIdle,
         myLocationButtonEnabled: widget.myLocationButtonEnabled,
@@ -175,7 +183,12 @@ class _PlatformMapState extends State<PlatformMap> {
             widget.initialCameraPosition.appleMapsCameraPosition,
         compassEnabled: widget.compassEnabled,
         mapType: _getAppleMapType(),
-        annotations: Marker.toAppleMapsAnnotationSet(widget.markers),
+        annotations: widget.markers != null
+            ? Marker.toAppleMapsAnnotationSet(widget.markers)
+            : widget.markers,
+        polylines: widget.polylines != null
+            ? Polyline.toAppleMapsPolylines(widget.polylines)
+            : widget.polylines,
         gestureRecognizers: widget.gestureRecognizers,
         onCameraIdle: widget.onCameraIdle,
         myLocationButtonEnabled: widget.myLocationButtonEnabled,

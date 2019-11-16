@@ -11,9 +11,9 @@ dependencies:
   flutter:
     sdk: flutter
   
-  google_maps_flutter: 0.5.21+7
+  google_maps_flutter: ^0.5.21+7
 
-  apple_maps_flutter: 0.0.4
+  apple_maps_flutter: ^0.0.5
 
 dev_dependencies:
   flutter_test:
