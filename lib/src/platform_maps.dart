@@ -11,6 +11,7 @@ class PlatformMap extends StatefulWidget {
     this.compassEnabled = true,
     this.trafficEnabled = false,
     this.mapType,
+    this.padding,
     this.rotateGesturesEnabled = true,
     this.scrollGesturesEnabled = true,
     this.zoomGesturesEnabled = true,
@@ -92,6 +93,12 @@ class PlatformMap extends StatefulWidget {
   /// Called every time a [AppleMap] is long pressed.
   final Function onLongPress;
 
+  /// The padding used on the map
+  ///
+  /// The amount of additional space (measured in screen points) used for padding for the
+  /// native controls.
+  final EdgeInsets padding;
+
   /// True if a "My Location" layer should be shown on the map.
   ///
   /// This layer includes a location indicator at the current device location,
@@ -153,6 +160,7 @@ class _PlatformMapState extends State<PlatformMap> {
             widget.initialCameraPosition.googleMapsCameraPosition,
         compassEnabled: widget.compassEnabled,
         mapType: _getGoogleMapType(),
+        padding: widget.padding,
         markers: widget.markers != null
             ? Marker.toGoogleMapsMarkerSet(widget.markers)
             : widget.markers,
@@ -183,6 +191,7 @@ class _PlatformMapState extends State<PlatformMap> {
             widget.initialCameraPosition.appleMapsCameraPosition,
         compassEnabled: widget.compassEnabled,
         mapType: _getAppleMapType(),
+        padding: widget.padding,
         annotations: widget.markers != null
             ? Marker.toAppleMapsAnnotationSet(widget.markers)
             : widget.markers,

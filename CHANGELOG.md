@@ -1,3 +1,8 @@
+## 0.1.4
+
+* Added ability to place polylines.
+* Added ability to set padding to the map.
+
 ## 0.1.3
 
 * Updated apple_maps_flutter dependency, to fix a Marker Bug on iOS.
