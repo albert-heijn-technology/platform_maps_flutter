@@ -27,7 +27,6 @@ class _Cap {
   }
 
   static appleMaps.Cap applePolylineCap(Cap cap) {
-    print('Cap: ${cap}');
     return appleMapsCaps[cap];
   }
 }

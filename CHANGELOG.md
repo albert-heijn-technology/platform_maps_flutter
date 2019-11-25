@@ -1,3 +1,7 @@
+## 0.1.4+1
+
+* Fixed Marker icon Bug
+
 ## 0.1.4
 
 * Added ability to place polylines.

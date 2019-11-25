@@ -28,7 +28,7 @@ class PlatformMapController {
   ///
   /// The returned [Future] completes after the change has been made on the
   /// platform side.
-  Future<void> moveCamera(CameraUpdate cameraUpdate) async {
+  Future<void> moveCamera(cameraUpdate) async {
     if (Platform.isIOS) {
       return this.appleController.moveCamera(cameraUpdate);
     } else if (Platform.isAndroid) {

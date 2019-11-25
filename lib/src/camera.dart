@@ -57,6 +57,26 @@ class CameraPosition {
       zoom: this.zoom,
     );
   }
+
+  static CameraPosition fromAppleMapCameraPosition(
+      appleMaps.CameraPosition cameraPosition) {
+    return CameraPosition(
+      target: LatLng._fromAppleLatLng(cameraPosition.target),
+      bearing: cameraPosition.heading,
+      tilt: cameraPosition.pitch,
+      zoom: cameraPosition.zoom,
+    );
+  }
+
+  static CameraPosition fromGoogleMapCameraPosition(
+      googleMaps.CameraPosition cameraPosition) {
+    return CameraPosition(
+      target: LatLng._fromGoogleLatLng(cameraPosition.target),
+      bearing: cameraPosition.bearing,
+      tilt: cameraPosition.tilt,
+      zoom: cameraPosition.zoom,
+    );
+  }
 }
 
 class CameraUpdate implements googleMaps.CameraUpdate, appleMaps.CameraUpdate {

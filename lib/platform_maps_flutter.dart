@@ -6,9 +6,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as googleMaps;
 import 'package:apple_maps_flutter/apple_maps_flutter.dart' as appleMaps;
 
+part 'src/bitmap.dart';
 part 'src/camera.dart';
 part 'src/platform_maps.dart';
 part 'src/location.dart';

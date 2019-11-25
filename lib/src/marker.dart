@@ -37,6 +37,20 @@ class InfoWindow {
         snippet: this.snippet,
         title: this.title,
       );
+
+  /// Creates a new [InfoWindow] object whose values are the same as this instance,
+  /// unless overwritten by the specified parameters.
+  InfoWindow copyWith({
+    String titleParam,
+    String snippetParam,
+    VoidCallback onTapParam,
+  }) {
+    return InfoWindow(
+      title: titleParam ?? title,
+      snippet: snippetParam ?? snippet,
+      onTap: onTapParam ?? onTap,
+    );
+  }
 }
 
 /// Uniquely identifies a [Marker] among [GoogleMap] markers.
@@ -71,15 +85,11 @@ class Marker {
   ///
   /// Specifies a marker that
   /// * is fully opaque; [alpha] is 1.0
-  /// * uses icon bottom center to indicate map position; [anchor] is (0.5, 1.0)
   /// * has default tap handling; [consumeTapEvents] is false
   /// * is stationary; [draggable] is false
-  /// * is drawn against the screen, not the map; [flat] is false
   /// * has a default icon; [icon] is `BitmapDescriptor.defaultMarker`
-  /// * anchors the info window at top center; [infoWindowAnchor] is (0.5, 0.0)
   /// * has no info window text; [infoWindowText] is `InfoWindowText.noText`
   /// * is positioned at 0, 0; [position] is `LatLng(0.0, 0.0)`
-  /// * has an axis-aligned icon; [rotation] is 0.0
   /// * is visible; [visible] is true
   /// * is placed at the base of the drawing order; [zIndex] is 0.0
   const Marker({
@@ -87,10 +97,12 @@ class Marker {
     this.alpha = 1.0,
     this.consumeTapEvents = false,
     this.draggable = false,
-    // this.icon = BitmapDescriptor.defaultMarker,
+    this.icon,
     this.infoWindow = InfoWindow.noText,
     this.position = const LatLng(0.0, 0.0),
     this.onTap,
+    this.visible = true,
+    this.onDragEnd,
   }) : assert(alpha == null || (0.0 <= alpha && alpha <= 1.0));
 
   /// Uniquely identifies a [Marker].
@@ -110,7 +122,7 @@ class Marker {
   final bool draggable;
 
   /// A description of the bitmap used to draw the marker icon.
-  // final BitmapDescriptor icon;
+  final dynamic icon;
 
   /// A Google Maps InfoWindow.
   ///
@@ -123,12 +135,23 @@ class Marker {
   /// Callbacks to receive tap events for markers placed on this map.
   final VoidCallback onTap;
 
+  /// True if the annotation is visible.
+  final bool visible;
+
+  final ValueChanged<LatLng> onDragEnd;
+
   appleMaps.Annotation get appleMapsAnnotation => appleMaps.Annotation(
         annotationId: this.markerId.appleMapsAnnoationId,
         alpha: this.alpha,
         draggable: this.draggable,
         infoWindow: this.infoWindow.appleMapsInfoWindow,
         onTap: this.onTap,
+        icon: this.icon ?? BitmapDescriptor.defaultMarker,
+        visible: this.visible,
+        onDragEnd: this.onDragEnd != null
+            ? (appleMaps.LatLng latLng) =>
+                _onAppleAnnotationDragEnd(latLng, this.onDragEnd)
+            : null,
         position: this.position.appleLatLng,
       );
 
@@ -138,45 +161,97 @@ class Marker {
         draggable: this.draggable,
         infoWindow: this.infoWindow.googleMapsInfoWindow,
         onTap: this.onTap,
+        icon: this.icon ?? BitmapDescriptor.defaultMarker,
+        visible: this.visible,
+        onDragEnd: this.onDragEnd != null
+            ? (googleMaps.LatLng latLng) =>
+                _onGoogleMarkerDragEnd(latLng, this.onDragEnd)
+            : null,
         position: this.position.googleLatLng,
       );
 
-  static appleMaps.Annotation appleMapsAnnotationFromMarker(Marker marker) {
-    return appleMaps.Annotation(
-      annotationId: marker.markerId.appleMapsAnnoationId,
-      alpha: marker.alpha,
-      draggable: marker.draggable,
-      infoWindow: marker.infoWindow.appleMapsInfoWindow,
-      onTap: marker.onTap,
-      position: marker.position.appleLatLng,
-    );
-  }
+  static appleMaps.Annotation appleMapsAnnotationFromMarker(Marker marker) =>
+      appleMaps.Annotation(
+        annotationId: marker.markerId.appleMapsAnnoationId,
+        alpha: marker.alpha,
+        draggable: marker.draggable,
+        infoWindow: marker.infoWindow.appleMapsInfoWindow,
+        onTap: marker.onTap,
+        icon: marker.icon ?? BitmapDescriptor.defaultMarker,
+        visible: marker.visible,
+        onDragEnd: marker.onDragEnd != null
+            ? (appleMaps.LatLng latLng) =>
+                _onAppleAnnotationDragEnd(latLng, marker.onDragEnd)
+            : null,
+        position: marker.position.appleLatLng,
+      );
 
-  static googleMaps.Marker googleMapsMarkerFromMarker(Marker marker) {
-    return googleMaps.Marker(
-      markerId: marker.markerId.googleMapsMarkerId,
-      alpha: marker.alpha,
-      draggable: marker.draggable,
-      infoWindow: marker.infoWindow.googleMapsInfoWindow,
-      onTap: marker.onTap,
-      position: marker.position.googleLatLng,
-    );
-  }
+  static googleMaps.Marker googleMapsMarkerFromMarker(Marker marker) =>
+      googleMaps.Marker(
+        markerId: marker.markerId.googleMapsMarkerId,
+        alpha: marker.alpha,
+        draggable: marker.draggable,
+        infoWindow: marker.infoWindow.googleMapsInfoWindow,
+        onTap: marker.onTap,
+        icon: marker.icon ?? BitmapDescriptor.defaultMarker,
+        visible: marker.visible,
+        onDragEnd: marker.onDragEnd != null
+            ? (googleMaps.LatLng latLng) =>
+                _onGoogleMarkerDragEnd(latLng, marker.onDragEnd)
+            : null,
+        position: marker.position.googleLatLng,
+      );
 
   static Set<appleMaps.Annotation> toAppleMapsAnnotationSet(
       Set<Marker> markers) {
-    Set<appleMaps.Annotation> _annotations = Set<appleMaps.Annotation>();
-    markers.forEach((marker) {
+    List<appleMaps.Annotation> _annotations = List<appleMaps.Annotation>();
+    for (Marker marker in markers) {
       _annotations.add(appleMapsAnnotationFromMarker(marker));
-    });
-    return _annotations;
+    }
+    return Set.from(_annotations);
   }
 
   static Set<googleMaps.Marker> toGoogleMapsMarkerSet(Set<Marker> markers) {
-    Set<googleMaps.Marker> _markers = Set<googleMaps.Marker>();
-    markers.forEach((marker) {
+    List<googleMaps.Marker> _markers = List<googleMaps.Marker>();
+    for (Marker marker in markers) {
       _markers.add(googleMapsMarkerFromMarker(marker));
-    });
-    return _markers;
+    }
+    return Set.from(_markers);
+  }
+
+  Marker copyWith({
+    double alphaParam,
+    bool consumeTapEventsParam,
+    bool draggableParam,
+    dynamic iconParam,
+    InfoWindow infoWindowParam,
+    LatLng positionParam,
+    bool visibleParam,
+    VoidCallback onTapParam,
+  }) {
+    return Marker(
+      markerId: markerId,
+      alpha: alphaParam ?? alpha,
+      consumeTapEvents: consumeTapEventsParam ?? consumeTapEvents,
+      draggable: draggableParam ?? draggable,
+      icon: iconParam ?? icon,
+      infoWindow: infoWindowParam ?? infoWindow,
+      position: positionParam ?? position,
+      visible: visibleParam ?? visible,
+      onTap: onTapParam ?? onTap,
+    );
+  }
+
+  static _onGoogleMarkerDragEnd(googleMaps.LatLng latLng, Function onDragEnd) {
+    if (onDragEnd != null) {
+      onDragEnd(LatLng._fromGoogleLatLng(latLng));
+    }
+  }
+
+  static _onAppleAnnotationDragEnd(
+      appleMaps.LatLng latLng, Function onDragEnd) {
+    if (onDragEnd != null) {
+      onDragEnd(LatLng._fromAppleLatLng(latLng));
+    }
   }
 }

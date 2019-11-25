@@ -2,6 +2,8 @@ part of flutter_platform_maps;
 
 typedef void MapCreatedCallback(PlatformMapController controller);
 
+typedef void CameraPositionCallback(CameraPosition position);
+
 class PlatformMap extends StatefulWidget {
   const PlatformMap({
     Key key,
@@ -81,16 +83,16 @@ class PlatformMap extends StatefulWidget {
   ///
   /// This may be called as often as once every frame and should
   /// not perform expensive operations.
-  final Function onCameraMove;
+  final CameraPositionCallback onCameraMove;
 
   /// Called when camera movement has ended, there are no pending
   /// animations and the user has stopped interacting with the map.
   final VoidCallback onCameraIdle;
 
-  /// Called every time a [AppleMap] is tapped.
+  /// Called every time a [PlatformMap] is tapped.
   final Function onTap;
 
-  /// Called every time a [AppleMap] is long pressed.
+  /// Called every time a [PlatformMap] is long pressed.
   final Function onLongPress;
 
   /// The padding used on the map
@@ -153,14 +155,13 @@ class PlatformMap extends StatefulWidget {
 class _PlatformMapState extends State<PlatformMap> {
   @override
   Widget build(BuildContext context) {
-    print(widget.mapType);
     if (Platform.isAndroid) {
       return googleMaps.GoogleMap(
         initialCameraPosition:
             widget.initialCameraPosition.googleMapsCameraPosition,
         compassEnabled: widget.compassEnabled,
         mapType: _getGoogleMapType(),
-        padding: widget.padding,
+        padding: widget.padding ?? EdgeInsets.zero,
         markers: widget.markers != null
             ? Marker.toGoogleMapsMarkerSet(widget.markers)
             : widget.markers,
@@ -176,14 +177,14 @@ class _PlatformMapState extends State<PlatformMap> {
         rotateGesturesEnabled: widget.rotateGesturesEnabled,
         zoomGesturesEnabled: widget.zoomGesturesEnabled,
         scrollGesturesEnabled: widget.scrollGesturesEnabled,
-        onMapCreated: _onGoogleMapCreated,
-        onCameraMove: widget.onCameraMove,
-        onTap: widget.onTap,
-        onLongPress: widget.onLongPress,
+        onMapCreated: _onMapCreated,
+        onCameraMove: _onCameraMove,
+        onTap: _onTap,
+        onLongPress: _onLongPress,
         trafficEnabled: widget.trafficEnabled,
         minMaxZoomPreference: widget.minMaxZoomPreference != null
             ? widget.minMaxZoomPreference.googleMapsZoomPreference
-            : MinMaxZoomPreference.googleMapsUnboundedZoomPreference,
+            : MinMaxZoomPreference.unbounded.googleMapsZoomPreference,
       );
     } else if (Platform.isIOS) {
       return appleMaps.AppleMap(
@@ -191,7 +192,7 @@ class _PlatformMapState extends State<PlatformMap> {
             widget.initialCameraPosition.appleMapsCameraPosition,
         compassEnabled: widget.compassEnabled,
         mapType: _getAppleMapType(),
-        padding: widget.padding,
+        padding: widget.padding ?? EdgeInsets.zero,
         annotations: widget.markers != null
             ? Marker.toAppleMapsAnnotationSet(widget.markers)
             : widget.markers,
@@ -207,29 +208,63 @@ class _PlatformMapState extends State<PlatformMap> {
         rotateGesturesEnabled: widget.rotateGesturesEnabled,
         zoomGesturesEnabled: widget.zoomGesturesEnabled,
         scrollGesturesEnabled: widget.scrollGesturesEnabled,
-        onMapCreated: _onAppleMapCreated,
-        onCameraMove: widget.onCameraMove,
-        onTap: widget.onTap,
-        onLongPress: widget.onLongPress,
+        onMapCreated: _onMapCreated,
+        onCameraMove: _onCameraMove,
+        onTap: _onTap,
+        onLongPress: _onLongPress,
         trafficEnabled: widget.trafficEnabled,
         minMaxZoomPreference: widget.minMaxZoomPreference != null
             ? widget.minMaxZoomPreference.appleMapsZoomPreference
-            : MinMaxZoomPreference.appleMapsUnboundedZoomPreference,
+            : MinMaxZoomPreference.unbounded.appleMapsZoomPreference,
       );
     } else {
       return Text("Platform not yet implemented");
     }
   }
 
-  _onGoogleMapCreated(googleMaps.GoogleMapController controller) {
+  void _onMapCreated(dynamic controller) {
     if (widget.onMapCreated != null) {
       widget.onMapCreated(PlatformMapController(controller));
     }
   }
 
-  _onAppleMapCreated(appleMaps.AppleMapController controller) {
-    if (widget.onMapCreated != null) {
-      widget.onMapCreated(PlatformMapController(controller));
+  void _onCameraMove(dynamic cameraPosition) {
+    if (widget.onCameraMove != null) {
+      if (Platform.isIOS) {
+        widget.onCameraMove(
+          CameraPosition.fromAppleMapCameraPosition(
+            cameraPosition as appleMaps.CameraPosition,
+          ),
+        );
+      } else if (Platform.isAndroid) {
+        widget.onCameraMove(
+          CameraPosition.fromGoogleMapCameraPosition(
+            cameraPosition as googleMaps.CameraPosition,
+          ),
+        );
+      }
+    }
+  }
+
+  void _onTap(dynamic position) {
+    if (widget.onTap != null) {
+      if (Platform.isIOS) {
+        widget.onTap(LatLng._fromAppleLatLng(position as appleMaps.LatLng));
+      } else if (Platform.isAndroid) {
+        widget.onTap(LatLng._fromGoogleLatLng(position as googleMaps.LatLng));
+      }
+    }
+  }
+
+  void _onLongPress(dynamic position) {
+    if (widget.onLongPress != null) {
+      if (Platform.isIOS) {
+        widget
+            .onLongPress(LatLng._fromAppleLatLng(position as appleMaps.LatLng));
+      } else if (Platform.isAndroid) {
+        widget.onLongPress(
+            LatLng._fromGoogleLatLng(position as googleMaps.LatLng));
+      }
     }
   }
 

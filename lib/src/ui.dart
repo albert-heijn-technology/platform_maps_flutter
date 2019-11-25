@@ -16,13 +16,15 @@ enum MapType {
   hybrid,
 }
 
-// Used with [GoogleMapOptions] to wrap min and max zoom. This allows
+// Used with [PlatformMapOptions] to wrap min and max zoom. This allows
 // distinguishing between specifying unbounded zooming (null `minZoom` and
 // `maxZoom`) from not specifying anything (null `MinMaxZoomPreference`).
 class MinMaxZoomPreference
     implements appleMaps.MinMaxZoomPreference, googleMaps.MinMaxZoomPreference {
   const MinMaxZoomPreference(this.minZoom, this.maxZoom)
       : assert(minZoom == null || maxZoom == null || minZoom <= maxZoom);
+
+  static const unbounded = MinMaxZoomPreference(null, null);
 
   /// The preferred minimum zoom level or null, if unbounded from below.
   final double minZoom;
@@ -35,11 +37,4 @@ class MinMaxZoomPreference
 
   googleMaps.MinMaxZoomPreference get googleMapsZoomPreference =>
       googleMaps.MinMaxZoomPreference(this.maxZoom, this.maxZoom);
-
-  static appleMaps.MinMaxZoomPreference get appleMapsUnboundedZoomPreference =>
-      appleMaps.MinMaxZoomPreference.unbounded;
-
-  static googleMaps.MinMaxZoomPreference
-      get googleMapsUnboundedZoomPreference =>
-          googleMaps.MinMaxZoomPreference.unbounded;
 }
