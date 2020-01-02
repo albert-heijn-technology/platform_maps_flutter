@@ -122,7 +122,7 @@ class Marker {
   final bool draggable;
 
   /// A description of the bitmap used to draw the marker icon.
-  final dynamic icon;
+  final BitmapDescriptor icon;
 
   /// A Google Maps InfoWindow.
   ///
@@ -146,7 +146,8 @@ class Marker {
         draggable: this.draggable,
         infoWindow: this.infoWindow.appleMapsInfoWindow,
         onTap: this.onTap,
-        icon: this.icon ?? BitmapDescriptor.defaultMarker,
+        icon: this.icon.bitmapDescriptor ??
+            BitmapDescriptor.defaultMarker.bitmapDescriptor,
         visible: this.visible,
         onDragEnd: this.onDragEnd != null
             ? (appleMaps.LatLng latLng) =>
@@ -161,7 +162,8 @@ class Marker {
         draggable: this.draggable,
         infoWindow: this.infoWindow.googleMapsInfoWindow,
         onTap: this.onTap,
-        icon: this.icon ?? BitmapDescriptor.defaultMarker,
+        icon: this.icon.bitmapDescriptor ??
+            BitmapDescriptor.defaultMarker.bitmapDescriptor,
         visible: this.visible,
         onDragEnd: this.onDragEnd != null
             ? (googleMaps.LatLng latLng) =>
@@ -177,7 +179,8 @@ class Marker {
         draggable: marker.draggable,
         infoWindow: marker.infoWindow.appleMapsInfoWindow,
         onTap: marker.onTap,
-        icon: marker.icon ?? BitmapDescriptor.defaultMarker,
+        icon: marker.icon?.bitmapDescriptor ??
+            BitmapDescriptor.defaultMarker.bitmapDescriptor,
         visible: marker.visible,
         onDragEnd: marker.onDragEnd != null
             ? (appleMaps.LatLng latLng) =>
@@ -193,7 +196,8 @@ class Marker {
         draggable: marker.draggable,
         infoWindow: marker.infoWindow.googleMapsInfoWindow,
         onTap: marker.onTap,
-        icon: marker.icon ?? BitmapDescriptor.defaultMarker,
+        icon: marker.icon?.bitmapDescriptor ??
+            BitmapDescriptor.defaultMarker.bitmapDescriptor,
         visible: marker.visible,
         onDragEnd: marker.onDragEnd != null
             ? (googleMaps.LatLng latLng) =>
@@ -223,7 +227,7 @@ class Marker {
     double alphaParam,
     bool consumeTapEventsParam,
     bool draggableParam,
-    dynamic iconParam,
+    BitmapDescriptor iconParam,
     InfoWindow infoWindowParam,
     LatLng positionParam,
     bool visibleParam,

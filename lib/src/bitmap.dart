@@ -5,36 +5,42 @@ part of flutter_platform_maps;
 /// image to place on the surface of the earth.
 
 class BitmapDescriptor {
+  final dynamic bitmapDescriptor;
+
+  BitmapDescriptor._(this.bitmapDescriptor);
+
   /// Creates a BitmapDescriptor that refers to the default marker image.
-  static dynamic get defaultMarker {
+  static BitmapDescriptor get defaultMarker {
     if (Platform.isIOS) {
-      return appleMaps.BitmapDescriptor.defaultAnnotation;
+      return BitmapDescriptor._(appleMaps.BitmapDescriptor.defaultAnnotation);
     } else if (Platform.isAndroid) {
-      return googleMaps.BitmapDescriptor.defaultMarker;
+      return BitmapDescriptor._(googleMaps.BitmapDescriptor.defaultMarker);
     }
     return null;
   }
 
-  static dynamic fromAssetImage(
+  static Future<BitmapDescriptor> fromAssetImage(
     ImageConfiguration configuration,
     String assetName, {
     AssetBundle bundle,
     String package,
-  }) {
+  }) async {
+    dynamic bitmap;
     if (Platform.isIOS) {
-      return appleMaps.BitmapDescriptor.fromAssetImage(
+      bitmap = await appleMaps.BitmapDescriptor.fromAssetImage(
         configuration,
         assetName,
         bundle: bundle,
         package: package,
       );
     } else if (Platform.isAndroid) {
-      return googleMaps.BitmapDescriptor.fromAssetImage(
+      bitmap = googleMaps.BitmapDescriptor.fromAssetImage(
         configuration,
         assetName,
         bundle: bundle,
         package: package,
       );
     }
+    return BitmapDescriptor._(bitmap);
   }
 }
