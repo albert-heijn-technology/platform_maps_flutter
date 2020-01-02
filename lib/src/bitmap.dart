@@ -19,6 +19,12 @@ class BitmapDescriptor {
     return null;
   }
 
+  /// Creates a [BitmapDescriptor] from an asset image.
+  /// Asset images in flutter are stored per: https://flutter.dev/docs/development/ui/assets-and-images#declaring-resolution-aware-image-assets
+  ///
+  /// This method takes into consideration various asset resolutions and scales the images to the right resolution depending on the dpi.
+  ///
+  /// Don't forget to rebuild the map with the new Icons if it was already build.
   static Future<BitmapDescriptor> fromAssetImage(
     ImageConfiguration configuration,
     String assetName, {
@@ -34,7 +40,7 @@ class BitmapDescriptor {
         package: package,
       );
     } else if (Platform.isAndroid) {
-      bitmap = googleMaps.BitmapDescriptor.fromAssetImage(
+      bitmap = await googleMaps.BitmapDescriptor.fromAssetImage(
         configuration,
         assetName,
         bundle: bundle,

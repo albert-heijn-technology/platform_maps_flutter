@@ -1,6 +1,10 @@
+## 0.1.4+2
+
+* Fixed Marker icon types.
+
 ## 0.1.4+1
 
-* Fixed Marker icon Bug
+* Fixed Marker icon Bug.
 
 ## 0.1.4
 
