@@ -8,10 +8,10 @@ This package combines the [google_maps_flutter]("https://pub.dev/packages/google
 
 # Screenshots
 
-|                                                    Android                                                     |                                                    iOS                                                     |
-| :------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------: |
-| ![Example 1](https://github.com/LuisThein/flutter_platform_maps/blob/master/resources/android_screenshot1.png) | ![Example 2](https://github.com/LuisThein/flutter_platform_maps/blob/master/resources/ios_screenshot1.png) |
-| ![Example 1](https://github.com/LuisThein/flutter_platform_maps/blob/master/resources/android_screenshot2.png) | ![Example 2](https://github.com/LuisThein/flutter_platform_maps/blob/master/resources/ios_screenshot2.png) |
+|                                           Android                                           |                                           iOS                                           |
+| :-----------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------: |
+| ![Example 1](https://luisthein.de/flutter-platform-maps-images/android_screenshot1-min.png) | ![Example 2](https://luisthein.de/flutter-platform-maps-images/ios_screenshot1-min.png) |
+| ![Example 1](https://luisthein.de/flutter-platform-maps-images/android_screenshot2-min.png) | ![Example 2](https://luisthein.de/flutter-platform-maps-images/ios_screenshot2-min.png) |
 
 # Current functionality
 
