@@ -1,3 +1,7 @@
+## 0.1.4+3
+
+* Updated image resource of README.md.
+
 ## 0.1.4+2
 
 * Fixed Marker icon types.
