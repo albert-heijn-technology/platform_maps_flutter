@@ -1,4 +1,4 @@
-# apple_maps_flutter
+# platform_maps_flutter
 
 A Flutter package that provides a native map to both Android and iOS devices.
 
