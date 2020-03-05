@@ -50,8 +50,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
           mapType: MapType.satellite,
-          myLocationEnabled: true,
-          myLocationButtonEnabled: true,
           onTap: (location) => print('onTap: $location'),
           onCameraMove: (cameraUpdate) => print('onCameraMove: $cameraUpdate'),
           compassEnabled: true,

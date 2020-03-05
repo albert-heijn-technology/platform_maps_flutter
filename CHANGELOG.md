@@ -1,3 +1,7 @@
+## 0.1.4+4
+
+* Fixed various build issues on android and iOS.
+
 ## 0.1.4+3
 
 * Updated image resource of README.md.

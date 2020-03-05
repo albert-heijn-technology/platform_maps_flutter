@@ -19,7 +19,7 @@ class PlatformMap extends StatefulWidget {
     this.zoomGesturesEnabled = true,
     this.tiltGestureEnabled = true,
     this.myLocationEnabled = false,
-    this.myLocationButtonEnabled = true,
+    this.myLocationButtonEnabled = false,
     this.markers,
     this.polylines,
     this.onCameraMoveStarted,
