@@ -1,3 +1,7 @@
+## 0.1.4+5
+
+* Updated apple_maps_flutter version.
+
 ## 0.1.4+4
 
 * Fixed various build issues on android and iOS.
