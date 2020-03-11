@@ -1,3 +1,7 @@
+## 0.1.5
+
+* Added ability to place polygons
+
 ## 0.1.4+5
 
 * Updated apple_maps_flutter version.
