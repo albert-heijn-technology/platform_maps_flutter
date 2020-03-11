@@ -1,4 +1,4 @@
-library flutter_platform_maps;
+library platform_maps_flutter;
 
 import 'dart:io';
 
@@ -16,6 +16,7 @@ part 'src/platform_maps.dart';
 part 'src/location.dart';
 part 'src/marker.dart';
 part 'src/polyline.dart';
+part 'src/polygon.dart';
 part 'src/cap.dart';
 part 'src/joint_type.dart';
 part 'src/pattern_item.dart';

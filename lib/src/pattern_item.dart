@@ -1,4 +1,4 @@
-part of flutter_platform_maps;
+part of platform_maps_flutter;
 
 /// Item used in the stroke pattern for a Polyline.
 @immutable

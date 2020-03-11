@@ -1,5 +1,5 @@
 // Copyright 2019 The Chromium Authors. All rights reserved.
-part of flutter_platform_maps;
+part of platform_maps_flutter;
 
 enum Cap {
   buttCap,

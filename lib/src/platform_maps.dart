@@ -1,4 +1,4 @@
-part of flutter_platform_maps;
+part of platform_maps_flutter;
 
 typedef void MapCreatedCallback(PlatformMapController controller);
 
@@ -22,6 +22,7 @@ class PlatformMap extends StatefulWidget {
     this.myLocationButtonEnabled = false,
     this.markers,
     this.polylines,
+    this.polygons,
     this.onCameraMoveStarted,
     this.onCameraMove,
     this.onCameraIdle,
@@ -67,6 +68,9 @@ class PlatformMap extends StatefulWidget {
 
   /// Polylines to be placed on the map.
   final Set<Polyline> polylines;
+
+  /// Polygons to be placed on the map.
+  final Set<Polygon> polygons;
 
   /// Called when the camera starts moving.
   ///
@@ -168,6 +172,9 @@ class _PlatformMapState extends State<PlatformMap> {
         polylines: widget.polylines != null
             ? Polyline.toGoogleMapsPolylines(widget.polylines)
             : widget.polylines,
+        polygons: widget.polygons != null
+            ? Polygon.toGoogleMapsPolygonSet(widget.polygons)
+            : widget.polygons,
         gestureRecognizers: widget.gestureRecognizers,
         onCameraIdle: widget.onCameraIdle,
         myLocationButtonEnabled: widget.myLocationButtonEnabled,
@@ -199,6 +206,9 @@ class _PlatformMapState extends State<PlatformMap> {
         polylines: widget.polylines != null
             ? Polyline.toAppleMapsPolylines(widget.polylines)
             : widget.polylines,
+        polygons: widget.polygons != null
+            ? Polygon.toAppleMapsPolygonSet(widget.polygons)
+            : widget.polygons,
         gestureRecognizers: widget.gestureRecognizers,
         onCameraIdle: widget.onCameraIdle,
         myLocationButtonEnabled: widget.myLocationButtonEnabled,

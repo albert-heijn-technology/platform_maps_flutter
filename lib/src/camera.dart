@@ -1,4 +1,4 @@
-part of flutter_platform_maps;
+part of platform_maps_flutter;
 
 /// The position of the map "camera", the view point from which the world is
 /// shown in the map view. Aggregates the camera's [target] geographical

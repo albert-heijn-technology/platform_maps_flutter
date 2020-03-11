@@ -1,4 +1,4 @@
-part of flutter_platform_maps;
+part of platform_maps_flutter;
 
 /// A pair of latitude and longitude coordinates, stored as degrees.
 class LatLng {
