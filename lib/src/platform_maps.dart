@@ -23,6 +23,7 @@ class PlatformMap extends StatefulWidget {
     this.markers,
     this.polylines,
     this.polygons,
+    this.circles,
     this.onCameraMoveStarted,
     this.onCameraMove,
     this.onCameraIdle,
@@ -71,6 +72,9 @@ class PlatformMap extends StatefulWidget {
 
   /// Polygons to be placed on the map.
   final Set<Polygon> polygons;
+
+  /// Polygons to be placed on the map.
+  final Set<Circle> circles;
 
   /// Called when the camera starts moving.
   ///
@@ -175,6 +179,9 @@ class _PlatformMapState extends State<PlatformMap> {
         polygons: widget.polygons != null
             ? Polygon.toGoogleMapsPolygonSet(widget.polygons)
             : widget.polygons,
+        circles: widget.circles != null
+            ? Circle.toGoogleMapsCircleSet(widget.circles)
+            : widget.circles,
         gestureRecognizers: widget.gestureRecognizers,
         onCameraIdle: widget.onCameraIdle,
         myLocationButtonEnabled: widget.myLocationButtonEnabled,
@@ -209,6 +216,9 @@ class _PlatformMapState extends State<PlatformMap> {
         polygons: widget.polygons != null
             ? Polygon.toAppleMapsPolygonSet(widget.polygons)
             : widget.polygons,
+        circles: widget.circles != null
+            ? Circle.toAppleMapsCircleSet(widget.circles)
+            : widget.circles,
         gestureRecognizers: widget.gestureRecognizers,
         onCameraIdle: widget.onCameraIdle,
         myLocationButtonEnabled: widget.myLocationButtonEnabled,

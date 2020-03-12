@@ -18,6 +18,7 @@ part 'src/marker.dart';
 part 'src/polyline.dart';
 part 'src/polygon.dart';
 part 'src/cap.dart';
+part 'src/circle.dart';
 part 'src/joint_type.dart';
 part 'src/pattern_item.dart';
 part 'src/controller.dart';
