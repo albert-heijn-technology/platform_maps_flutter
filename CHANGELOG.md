@@ -1,6 +1,10 @@
+## 0.1.6
+
+* Added ability to place circles.
+
 ## 0.1.5
 
-* Added ability to place polygons
+* Added ability to place polygons.
 
 ## 0.1.4+5
 
