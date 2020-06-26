@@ -80,6 +80,8 @@ class CameraPosition {
 }
 
 class CameraUpdate {
+  CameraUpdate._(this._json);
+
   static newCameraPosition(CameraPosition cameraPosition) {
     if (Platform.isIOS) {
       return appleMaps.CameraUpdate.newCameraPosition(
@@ -137,4 +139,9 @@ class CameraUpdate {
       return googleMaps.CameraUpdate.zoomTo(zoom);
     }
   }
+
+  final dynamic _json;
+
+  /// Converts this object to something serializable in JSON.
+  dynamic toJson() => _json;
 }

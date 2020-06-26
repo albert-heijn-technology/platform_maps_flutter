@@ -80,8 +80,8 @@ packages:
       name: google_maps_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.27"
-  google_maps_flutter_platform_interface:
+    version: "0.5.28+1"
+  image:
     dependency: transitive
     description:
       name: google_maps_flutter_platform_interface
