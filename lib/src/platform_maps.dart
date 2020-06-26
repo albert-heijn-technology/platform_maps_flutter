@@ -16,6 +16,7 @@ class PlatformMap extends StatefulWidget {
     this.padding,
     this.rotateGesturesEnabled = true,
     this.scrollGesturesEnabled = true,
+    this.zoomControlsEnabled = true,
     this.zoomGesturesEnabled = true,
     this.tiltGestureEnabled = true,
     this.myLocationEnabled = false,
@@ -57,6 +58,12 @@ class PlatformMap extends StatefulWidget {
 
   /// True if the map view should respond to scroll gestures.
   final bool scrollGesturesEnabled;
+
+  /// True if the map view should show zoom controls. This includes two buttons
+  /// to zoom in and zoom out. The default value is to show zoom controls.
+  ///
+  /// This is only supported on Android. And this field is silently ignored on iOS.
+  final bool zoomControlsEnabled;
 
   /// True if the map view should respond to zoom gestures.
   final bool zoomGesturesEnabled;
@@ -189,6 +196,7 @@ class _PlatformMapState extends State<PlatformMap> {
         onCameraMoveStarted: widget.onCameraMoveStarted,
         tiltGesturesEnabled: widget.tiltGestureEnabled,
         rotateGesturesEnabled: widget.rotateGesturesEnabled,
+        zoomControlsEnabled: widget.zoomControlsEnabled,
         zoomGesturesEnabled: widget.zoomGesturesEnabled,
         scrollGesturesEnabled: widget.scrollGesturesEnabled,
         onMapCreated: _onMapCreated,
