@@ -19,8 +19,7 @@ enum MapType {
 // Used with [PlatformMapOptions] to wrap min and max zoom. This allows
 // distinguishing between specifying unbounded zooming (null `minZoom` and
 // `maxZoom`) from not specifying anything (null `MinMaxZoomPreference`).
-class MinMaxZoomPreference
-    implements appleMaps.MinMaxZoomPreference, googleMaps.MinMaxZoomPreference {
+class MinMaxZoomPreference {
   const MinMaxZoomPreference(this.minZoom, this.maxZoom)
       : assert(minZoom == null || maxZoom == null || minZoom <= maxZoom);
 

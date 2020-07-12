@@ -79,7 +79,7 @@ class CameraPosition {
   }
 }
 
-class CameraUpdate implements googleMaps.CameraUpdate, appleMaps.CameraUpdate {
+class CameraUpdate {
   static newCameraPosition(CameraPosition cameraPosition) {
     if (Platform.isIOS) {
       return appleMaps.CameraUpdate.newCameraPosition(

@@ -1,3 +1,7 @@
+## 0.1.7
+
+* Fixed minor bugs
+
 ## 0.1.6
 
 * Added ability to place circles.
