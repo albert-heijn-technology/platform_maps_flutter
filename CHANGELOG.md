@@ -1,3 +1,7 @@
+## 0.1.8
+
+* Added zoomControlsEnabled flag for Google Maps
+  
 ## 0.1.7
 
 * Fixed minor bugs
