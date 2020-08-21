@@ -1,3 +1,7 @@
+## 0.1.8+1
+
+* Updated apple_maps_flutter to solve issue #8 which caused an unresponsive map on iOS after calling setState.
+
 ## 0.1.8
 
 * Added zoomControlsEnabled flag for Google Maps
