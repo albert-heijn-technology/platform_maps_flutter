@@ -14,7 +14,7 @@ dependencies:
   
   google_maps_flutter: ^0.5.28+1
 
-  apple_maps_flutter: ^0.1.1+1
+  apple_maps_flutter: ^0.1.1+2
 
 
 dev_dependencies:

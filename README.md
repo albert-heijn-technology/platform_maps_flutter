@@ -4,7 +4,7 @@ A Flutter package that provides a native map to both Android and iOS devices.
 
 The plugin relies on Flutter's mechanism for embedding Android and iOS views. As that mechanism is currently in a developers preview, this plugin should also be considered a developers preview.
 
-This package combines the [google_maps_flutter]("https://pub.dev/packages/google_maps_flutter") plugin with [apple_maps_flutter]("https://pub.dev/packages/apple_maps_flutter") to create a cross platform implementation of native maps for Android/iOS.
+This package combines the `google_maps_flutter` plugin with `apple_maps_flutter` to create a cross platform implementation of native maps for Android/iOS.
 
 # Screenshots
 
