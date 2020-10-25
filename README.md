@@ -29,7 +29,7 @@ To use this plugin on iOS you need to opt-in for the embedded views preview by a
 
 Specify your API key in the application manifest android/app/src/main/AndroidManifest.xml:
 
-```xml 
+```xml
 <manifest ...
   <application ...
     <meta-data android:name="com.google.android.geo.API_KEY"
@@ -92,5 +92,3 @@ class HomePage extends StatelessWidget {
 ```
 
 Suggestions and PR's to make this plugin better are always welcome. Please notice that the features provided by this package depend on the apple_maps_flutter plugin, which will improve in the future.
-
-

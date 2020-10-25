@@ -1,3 +1,10 @@
+## 0.1.9
+
+* The Annotation rework of [commit](https://github.com/LuisThein/apple_maps_flutter/commit/01e3ea4f4a4274d4d2d2636fd863ba1e3283420d) from apple_maps_flutter was implemented
+* The methods showMarkerInfoWindow, hideMarkerInfoWindow and isMarkerInfoWindowShown were added
+* Scaling of custom markers now works the same way for ios and android
+* The method BitmapDescriptor.fromBytes was added
+
 ## 0.1.8+1
 
 * Updated apple_maps_flutter to solve issue #8 which caused an unresponsive map on iOS after calling setState.
@@ -5,7 +12,7 @@
 ## 0.1.8
 
 * Added zoomControlsEnabled flag for Google Maps
-  
+
 ## 0.1.7
 
 * Fixed minor bugs
