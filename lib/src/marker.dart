@@ -53,7 +53,7 @@ class InfoWindow {
   }
 }
 
-/// Uniquely identifies a [Marker] among [GoogleMap] markers.
+/// Uniquely identifies a [Marker] among [PlatformMaps] markers.
 ///
 /// This does not have to be globally unique, only unique among the list.
 @immutable

@@ -1,6 +1,7 @@
 library platform_maps_flutter;
 
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';

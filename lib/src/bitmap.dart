@@ -49,4 +49,13 @@ class BitmapDescriptor {
     }
     return BitmapDescriptor._(bitmap);
   }
+
+  /// Creates a BitmapDescriptor using an array of bytes that must be encoded
+  /// as PNG.
+  static BitmapDescriptor fromBytes(Uint8List byteData) {
+    var bitmap = Platform.isAndroid
+        ? googleMaps.BitmapDescriptor.fromBytes(byteData)
+        : appleMaps.BitmapDescriptor.fromBytes(byteData);
+    return BitmapDescriptor._(bitmap);
+  }
 }

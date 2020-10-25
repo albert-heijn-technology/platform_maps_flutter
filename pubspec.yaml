@@ -11,10 +11,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
+
   google_maps_flutter: ^0.5.28+1
 
-  apple_maps_flutter: ^0.1.1+2
+  apple_maps_flutter: ^0.1.2+1
 
 
 dev_dependencies:
