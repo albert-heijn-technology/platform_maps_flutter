@@ -1,3 +1,7 @@
+## 0.1.9+3
+
+* InfoWindow anchor is now configurable
+
 ## 0.1.9+2
 
 * Fixed placement of custom Markers
