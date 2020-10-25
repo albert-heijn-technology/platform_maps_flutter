@@ -1,3 +1,7 @@
+## 0.1.9+2
+
+* Fixed placement of custom Markers
+
 ## 0.1.9+1
 
 * Updated apple_maps_flutter to fix infoWindow onTap
