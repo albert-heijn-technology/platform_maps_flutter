@@ -1,3 +1,7 @@
+## 0.1.9+1
+
+* Updated apple_maps_flutter to fix infoWindow onTap
+
 ## 0.1.9
 
 * The Annotation rework of [commit](https://github.com/LuisThein/apple_maps_flutter/commit/01e3ea4f4a4274d4d2d2636fd863ba1e3283420d) from apple_maps_flutter was implemented
