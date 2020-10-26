@@ -1,3 +1,7 @@
+## 0.1.9+4
+
+* Fixed build failure
+
 ## 0.1.9+3
 
 * InfoWindow anchor is now configurable

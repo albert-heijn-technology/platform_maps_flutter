@@ -182,6 +182,7 @@ class Marker {
       appleMaps.Annotation(
         annotationId: marker.markerId.appleMapsAnnoationId,
         alpha: marker.alpha,
+        anchor: Offset(0.5, 1.0),
         draggable: marker.draggable,
         infoWindow: marker.infoWindow.appleMapsInfoWindow,
         onTap: marker.onTap,
@@ -199,6 +200,7 @@ class Marker {
       googleMaps.Marker(
         markerId: marker.markerId.googleMapsMarkerId,
         alpha: marker.alpha,
+        anchor: Offset(0.5, 1.0),
         draggable: marker.draggable,
         infoWindow: marker.infoWindow.googleMapsInfoWindow,
         onTap: marker.onTap,
