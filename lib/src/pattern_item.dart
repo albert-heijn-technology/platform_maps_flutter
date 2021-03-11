@@ -46,7 +46,7 @@ class PatternItem {
 
   static List<googleMaps.PatternItem> getGoogleMapsPatternItemList(
       List<PatternItem> patternItems) {
-    List<googleMaps.PatternItem> googleMapsPatternItems = List();
+    List<googleMaps.PatternItem> googleMapsPatternItems = [];
     patternItems.forEach((PatternItem patternItem) {
       googleMapsPatternItems.add(
         _googleMapsPatternItem(patternItem),
@@ -57,7 +57,7 @@ class PatternItem {
 
   static List<appleMaps.PatternItem> getAppleMapsPatternItemList(
       List<PatternItem> patternItems) {
-    List<appleMaps.PatternItem> appleMapsPatternItems = List();
+    List<appleMaps.PatternItem> appleMapsPatternItems = [];
     patternItems.forEach((PatternItem patternItem) {
       appleMapsPatternItems.add(
         _appleMapsPatternItem(patternItem),

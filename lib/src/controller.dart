@@ -1,8 +1,8 @@
 part of platform_maps_flutter;
 
 class PlatformMapController {
-  appleMaps.AppleMapController appleController;
-  googleMaps.GoogleMapController googleController;
+  late appleMaps.AppleMapController appleController;
+  late googleMaps.GoogleMapController googleController;
 
   PlatformMapController(dynamic controller) {
     if (controller.runtimeType == googleMaps.GoogleMapController) {
@@ -21,7 +21,6 @@ class PlatformMapController {
   ///   * [hideMarkerInfoWindow] to hide the Info Window.
   ///   * [isMarkerInfoWindowShown] to check if the Info Window is showing.
   Future<void> showMarkerInfoWindow(MarkerId markerId) {
-    assert(markerId != null);
     if (Platform.isAndroid) {
       return googleController.showMarkerInfoWindow(markerId.googleMapsMarkerId);
     } else if (Platform.isIOS) {
@@ -40,7 +39,6 @@ class PlatformMapController {
   ///   * [showMarkerInfoWindow] to show the Info Window.
   ///   * [isMarkerInfoWindowShown] to check if the Info Window is showing.
   Future<void> hideMarkerInfoWindow(MarkerId markerId) {
-    assert(markerId != null);
     if (Platform.isAndroid) {
       return googleController.hideMarkerInfoWindow(markerId.googleMapsMarkerId);
     } else if (Platform.isIOS) {
@@ -59,7 +57,6 @@ class PlatformMapController {
   ///   * [showMarkerInfoWindow] to show the Info Window.
   ///   * [hideMarkerInfoWindow] to hide the Info Window.
   Future<bool> isMarkerInfoWindowShown(MarkerId markerId) {
-    assert(markerId != null);
     if (Platform.isAndroid) {
       return googleController
           .isMarkerInfoWindowShown(markerId.googleMapsMarkerId);
@@ -97,7 +94,7 @@ class PlatformMapController {
 
   /// Return [LatLngBounds] defining the region that is visible in a map.
   Future<LatLngBounds> getVisibleRegion() async {
-    LatLngBounds _bounds;
+    late LatLngBounds _bounds;
     if (Platform.isIOS) {
       appleMaps.LatLngBounds appleBounds =
           await this.appleController.getVisibleRegion();

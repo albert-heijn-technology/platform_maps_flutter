@@ -10,9 +10,7 @@ class LatLng {
   /// The longitude is normalized to the half-open interval from -180.0
   /// (inclusive) to +180.0 (exclusive)
   const LatLng(double latitude, double longitude)
-      : assert(latitude != null),
-        assert(longitude != null),
-        latitude =
+      : latitude =
             (latitude < -90.0 ? -90.0 : (90.0 < latitude ? 90.0 : latitude)),
         longitude = (longitude + 180.0) % 360.0 - 180.0;
 
@@ -43,7 +41,7 @@ class LatLng {
 
   static List<googleMaps.LatLng> googleMapsLatLngsFromList(
       List<LatLng> latlngs) {
-    List<googleMaps.LatLng> googleMapsLatLngs = List();
+    List<googleMaps.LatLng> googleMapsLatLngs = [];
     latlngs.forEach((LatLng latlng) {
       googleMapsLatLngs.add(latlng.googleLatLng);
     });
@@ -51,7 +49,7 @@ class LatLng {
   }
 
   static List<appleMaps.LatLng> appleMapsLatLngsFromList(List<LatLng> latlngs) {
-    List<appleMaps.LatLng> appleMapsLatLngs = List();
+    List<appleMaps.LatLng> appleMapsLatLngs = [];
     latlngs.forEach((LatLng latlng) {
       appleMapsLatLngs.add(latlng.appleLatLng);
     });
@@ -64,10 +62,8 @@ class LatLngBounds {
   ///
   /// The latitude of the southwest corner cannot be larger than the
   /// latitude of the northeast corner.
-  LatLngBounds({@required this.southwest, @required this.northeast})
-      : assert(southwest != null),
-        assert(northeast != null),
-        assert(southwest.latitude <= northeast.latitude);
+  LatLngBounds({required this.southwest, required this.northeast})
+      : assert(southwest.latitude <= northeast.latitude);
 
   static LatLngBounds _fromAppleLatLngBounds(appleMaps.LatLngBounds bounds) =>
       LatLngBounds(
