@@ -1,6 +1,6 @@
 ## 1.0.0
 
-* Adds null safety. Refresh example app.
+* Adds null safety. Refresh example app (Tanks to @jonbhanson).
 
 ## 0.1.9+4
 
