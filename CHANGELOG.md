@@ -1,3 +1,7 @@
+## 1.0.1
+
+* Adds `newLatLngBounds` to PlatformMapController
+
 ## 1.0.0
 
 * Adds null safety. Refresh example app (Tanks to @jonbhanson).
