@@ -5,14 +5,11 @@ part of platform_maps_flutter;
 /// location, its [zoom] level, [pitch] angle, and [heading].
 class CameraPosition {
   const CameraPosition({
-    @required this.target,
+    required this.target,
     this.bearing = 0.0,
     this.tilt = 0.0,
     this.zoom = 0,
-  })  : assert(target != null),
-        assert(bearing != null),
-        assert(tilt != null),
-        assert(zoom != null);
+  });
 
   /// The camera's bearing in degrees, measured clockwise from north.
   ///

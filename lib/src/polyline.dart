@@ -5,7 +5,7 @@ part of platform_maps_flutter;
 /// This does not have to be globally unique, only unique among the list.
 @immutable
 class PolylineId {
-  PolylineId(this.value) : assert(value != null);
+  PolylineId(this.value);
 
   /// value of the [PolylineId].
   final String value;
@@ -27,7 +27,7 @@ class PolylineId {
 @immutable
 class Polyline {
   const Polyline({
-    @required this.polylineId,
+    required this.polylineId,
     this.consumeTapEvents = false,
     this.color = Colors.black,
     this.polylineCap = Cap.buttCap,
@@ -104,7 +104,7 @@ class Polyline {
   final int zIndex;
 
   /// Callbacks to receive tap events for polyline placed on this map.
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   static Set<googleMaps.Polyline> toGoogleMapsPolylines(
       Set<Polyline> polylines) {
@@ -115,22 +115,12 @@ class Polyline {
           polylineId: polyline.polylineId.googleMapsPolylineId(),
           color: polyline.color,
           consumeTapEvents: polyline.consumeTapEvents,
-          endCap: polyline.polylineCap != null
-              ? _Cap.googlePolylineCap(polyline.polylineCap)
-              : polyline.polylineCap,
-          jointType: polyline.jointType != null
-              ? JointType.getGoogleMapsJointType(polyline.jointType)
-              : polyline.jointType,
+          endCap: _Cap.googlePolylineCap(polyline.polylineCap),
+          jointType: JointType.getGoogleMapsJointType(polyline.jointType),
           onTap: polyline.onTap,
-          patterns: polyline.patterns != null
-              ? PatternItem.getGoogleMapsPatternItemList(polyline.patterns)
-              : polyline.patterns,
-          points: polyline.points != null
-              ? LatLng.googleMapsLatLngsFromList(polyline.points)
-              : polyline.points,
-          startCap: polyline.polylineCap != null
-              ? _Cap.googlePolylineCap(polyline.polylineCap)
-              : polyline.polylineCap,
+          patterns: PatternItem.getGoogleMapsPatternItemList(polyline.patterns),
+          points: LatLng.googleMapsLatLngsFromList(polyline.points),
+          startCap: _Cap.googlePolylineCap(polyline.polylineCap),
           visible: polyline.visible,
           width: polyline.width,
         ),
@@ -147,19 +137,11 @@ class Polyline {
           polylineId: polyline.polylineId.appleMapsPolylineId(),
           color: polyline.color,
           consumeTapEvents: polyline.consumeTapEvents,
-          polylineCap: polyline.polylineCap != null
-              ? _Cap.applePolylineCap(polyline.polylineCap)
-              : polyline.polylineCap,
-          jointType: polyline.jointType != null
-              ? JointType.getAppleMapsJointType(polyline.jointType)
-              : polyline.jointType,
+          polylineCap: _Cap.applePolylineCap(polyline.polylineCap),
+          jointType: JointType.getAppleMapsJointType(polyline.jointType),
           onTap: polyline.onTap,
-          patterns: polyline.patterns != null
-              ? PatternItem.getAppleMapsPatternItemList(polyline.patterns)
-              : polyline.patterns,
-          points: polyline.points != null
-              ? LatLng.appleMapsLatLngsFromList(polyline.points)
-              : polyline.points,
+          patterns: PatternItem.getAppleMapsPatternItemList(polyline.patterns),
+          points: LatLng.appleMapsLatLngsFromList(polyline.points),
           visible: polyline.visible,
           width: polyline.width,
         ),
@@ -169,16 +151,16 @@ class Polyline {
   }
 
   Polyline copyWith({
-    Color colorParam,
-    bool consumeTapEventsParam,
-    Cap polylineCapParam,
-    JointType jointTypeParam,
-    List<PatternItem> patternsParam,
-    List<LatLng> pointsParam,
-    bool visibleParam,
-    int widthParam,
-    int zIndexParam,
-    VoidCallback onTapParam,
+    Color? colorParam,
+    bool? consumeTapEventsParam,
+    Cap? polylineCapParam,
+    JointType? jointTypeParam,
+    List<PatternItem>? patternsParam,
+    List<LatLng>? pointsParam,
+    bool? visibleParam,
+    int? widthParam,
+    int? zIndexParam,
+    VoidCallback? onTapParam,
   }) {
     return Polyline(
       polylineId: polylineId,
@@ -198,7 +180,7 @@ class Polyline {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    if (other.runtimeType != runtimeType) return false;
+    if (other is! Polyline) return false;
     final Polyline typedOther = other;
     return polylineId == typedOther.polylineId;
   }
