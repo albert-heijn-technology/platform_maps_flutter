@@ -79,6 +79,7 @@ class CameraPosition {
 class CameraUpdate {
   CameraUpdate._(this._json);
 
+  /// Returns a camera update that moves the camera to the specified position.
   static newCameraPosition(CameraPosition cameraPosition) {
     if (Platform.isIOS) {
       return appleMaps.CameraUpdate.newCameraPosition(
@@ -89,6 +90,7 @@ class CameraUpdate {
     }
   }
 
+  /// Returns a camera update that moves the camera target to the specified geographical location.
   static newLatLng(LatLng latLng) {
     if (Platform.isIOS) {
       return appleMaps.CameraUpdate.newLatLng(latLng.appleLatLng);
@@ -97,6 +99,7 @@ class CameraUpdate {
     }
   }
 
+  /// Returns a camera update that moves the camera target to the specified geographical location and zoom level.
   static newLatLngZoom(LatLng latLng, double zoom) {
     if (Platform.isIOS) {
       return appleMaps.CameraUpdate.newLatLngZoom(latLng.appleLatLng, zoom);
@@ -105,6 +108,24 @@ class CameraUpdate {
     }
   }
 
+  /// Returns a camera update that transforms the camera so that
+  /// the specified geographical bounding box is centered in the map
+  /// view at the greatest possible zoom level.
+  /// A non-zero [padding] insets the bounding box from the map view's edges.
+  /// The camera's new tilt and bearing will both be 0.0.
+  static newLatLngBounds(LatLngBounds bounds, double padding) {
+    if (Platform.isIOS) {
+      return appleMaps.CameraUpdate.newLatLngBounds(
+          bounds.appleLatLngBounds, padding);
+    } else if (Platform.isAndroid) {
+      return googleMaps.CameraUpdate.newLatLngBounds(
+          bounds.googleLatLngBounds, padding);
+    }
+  }
+
+  /// Returns a camera update that modifies the camera zoom level by the specified amount.
+  /// The optional [focus] is a screen point whose underlying geographical location
+  /// should be invariant, if possible, by the movement.
   static zoomBy(double amount) {
     if (Platform.isIOS) {
       return appleMaps.CameraUpdate.zoomBy(amount);
@@ -113,6 +134,10 @@ class CameraUpdate {
     }
   }
 
+  /// Returns a camera update that zooms the camera in,
+  ///  bringing the camera closer to the surface of the Earth.
+  ///
+  /// Equivalent to the result of calling zoomBy(1.0).
   static zoomIn() {
     if (Platform.isIOS) {
       return appleMaps.CameraUpdate.zoomIn();
@@ -121,6 +146,10 @@ class CameraUpdate {
     }
   }
 
+  /// Returns a camera update that zooms the camera out,
+  /// bringing the camera further away from the surface of the Earth.
+  ///
+  /// Equivalent to the result of calling zoomBy(-1.0).
   static zoomOut() {
     if (Platform.isIOS) {
       return appleMaps.CameraUpdate.zoomOut();
@@ -129,6 +158,7 @@ class CameraUpdate {
     }
   }
 
+  /// Returns a camera update that sets the camera zoom level.
   static zoomTo(double zoom) {
     if (Platform.isIOS) {
       return appleMaps.CameraUpdate.zoomTo(zoom);
