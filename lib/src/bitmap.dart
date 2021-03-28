@@ -10,7 +10,7 @@ class BitmapDescriptor {
   BitmapDescriptor._(this.bitmapDescriptor);
 
   /// Creates a BitmapDescriptor that refers to the default marker image.
-  static BitmapDescriptor get defaultMarker {
+  static BitmapDescriptor? get defaultMarker {
     if (Platform.isIOS) {
       return BitmapDescriptor._(appleMaps.BitmapDescriptor.defaultAnnotation);
     } else if (Platform.isAndroid) {
@@ -28,8 +28,8 @@ class BitmapDescriptor {
   static Future<BitmapDescriptor> fromAssetImage(
     ImageConfiguration configuration,
     String assetName, {
-    AssetBundle bundle,
-    String package,
+    AssetBundle? bundle,
+    String? package,
   }) async {
     dynamic bitmap;
     if (Platform.isIOS) {

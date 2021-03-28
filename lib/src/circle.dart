@@ -10,7 +10,7 @@ part of platform_maps_flutter;
 @immutable
 class CircleId {
   /// Creates an immutable identifier for a [Circle].
-  CircleId(this.value) : assert(value != null);
+  CircleId(this.value);
 
   /// value of the [CircleId].
   final String value;
@@ -18,7 +18,7 @@ class CircleId {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    if (other.runtimeType != runtimeType) return false;
+    if (other is! CircleId) return false;
     final CircleId typedOther = other;
     return value == typedOther.value;
   }
@@ -37,7 +37,7 @@ class CircleId {
 class Circle {
   /// Creates an immutable representation of a [Circle] to draw on [PlatformMap].
   const Circle({
-    @required this.circleId,
+    required this.circleId,
     this.consumeTapEvents = false,
     this.fillColor = Colors.transparent,
     this.center = const LatLng(0.0, 0.0),
@@ -79,19 +79,19 @@ class Circle {
   final bool visible;
 
   /// Callbacks to receive tap events for circle placed on this map.
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   /// Creates a new [Circle] object whose values are the same as this instance,
   /// unless overwritten by the specified parameters.
   Circle copyWith({
-    bool consumeTapEventsParam,
-    Color fillColorParam,
-    LatLng centerParam,
-    double radiusParam,
-    Color strokeColorParam,
-    int strokeWidthParam,
-    bool visibleParam,
-    VoidCallback onTapParam,
+    bool? consumeTapEventsParam,
+    Color? fillColorParam,
+    LatLng? centerParam,
+    double? radiusParam,
+    Color? strokeColorParam,
+    int? strokeWidthParam,
+    bool? visibleParam,
+    VoidCallback? onTapParam,
   }) {
     return Circle(
       circleId: circleId,
@@ -112,7 +112,7 @@ class Circle {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    if (other.runtimeType != runtimeType) return false;
+    if (other is! Circle) return false;
     final Circle typedOther = other;
     return circleId == typedOther.circleId &&
         consumeTapEvents == typedOther.consumeTapEvents &&
@@ -126,7 +126,7 @@ class Circle {
   }
 
   static Set<googleMaps.Circle> toGoogleMapsCircleSet(Set<Circle> circles) {
-    List<googleMaps.Circle> _circles = [];
+    List<googleMaps.Circle> _circles = <googleMaps.Circle>[];
     for (Circle circle in circles) {
       _circles.add(circle.googleMapsCircle);
     }
@@ -134,7 +134,7 @@ class Circle {
   }
 
   static Set<appleMaps.Circle> toAppleMapsCircleSet(Set<Circle> circles) {
-    List<appleMaps.Circle> _circles = [];
+    List<appleMaps.Circle> _circles = <appleMaps.Circle>[];
     for (Circle circle in circles) {
       _circles.add(circle.appleMapsCircle);
     }

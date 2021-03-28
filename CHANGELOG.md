@@ -1,3 +1,7 @@
+## 1.0.0
+
+* Adds null safety. Refresh example app.
+
 ## 0.1.9+4
 
 * Fixed build failure

@@ -23,10 +23,10 @@ class _Cap {
   };
 
   static googleMaps.Cap googlePolylineCap(Cap cap) {
-    return googleMapsCaps[cap];
+    return googleMapsCaps[cap]!;
   }
 
   static appleMaps.Cap applePolylineCap(Cap cap) {
-    return appleMapsCaps[cap];
+    return appleMapsCaps[cap]!;
   }
 }

@@ -6,35 +6,37 @@ typedef void CameraPositionCallback(CameraPosition position);
 
 class PlatformMap extends StatefulWidget {
   const PlatformMap({
-    Key key,
-    @required this.initialCameraPosition,
+    Key? key,
+    required this.initialCameraPosition,
     this.onMapCreated,
-    this.gestureRecognizers,
+    this.gestureRecognizers = const <Factory<OneSequenceGestureRecognizer>>{},
     this.compassEnabled = true,
-    this.trafficEnabled = false,
-    this.mapType,
-    this.padding,
+    this.mapType = MapType.normal,
+    this.minMaxZoomPreference = MinMaxZoomPreference.unbounded,
     this.rotateGesturesEnabled = true,
     this.scrollGesturesEnabled = true,
     this.zoomControlsEnabled = true,
     this.zoomGesturesEnabled = true,
-    this.tiltGestureEnabled = true,
+    this.tiltGesturesEnabled = true,
     this.myLocationEnabled = false,
     this.myLocationButtonEnabled = false,
-    this.markers,
-    this.polylines,
-    this.polygons,
-    this.circles,
+    this.padding = const EdgeInsets.all(0),
+    this.trafficEnabled = false,
+    this.markers = const <Marker>{},
+    this.polygons = const <Polygon>{},
+    this.polylines = const <Polyline>{},
+    this.circles = const <Circle>{},
     this.onCameraMoveStarted,
     this.onCameraMove,
     this.onCameraIdle,
     this.onTap,
     this.onLongPress,
-    this.minMaxZoomPreference,
-  })  : assert(initialCameraPosition != null),
-        super(key: key);
+  }) : super(key: key);
 
-  final MapCreatedCallback onMapCreated;
+  /// Callback method for when the map is ready to be used.
+  ///
+  /// Used to receive a [GoogleMapController] for this [GoogleMap].
+  final MapCreatedCallback? onMapCreated;
 
   /// The initial position of the map's camera.
   final CameraPosition initialCameraPosition;
@@ -44,9 +46,6 @@ class PlatformMap extends StatefulWidget {
 
   /// Type of map tiles to be rendered.
   final MapType mapType;
-
-  /// True if the map should display the current traffic.
-  final bool trafficEnabled;
 
   /// Preferred bounds for the camera zoom level.
   ///
@@ -69,18 +68,21 @@ class PlatformMap extends StatefulWidget {
   final bool zoomGesturesEnabled;
 
   /// True if the map view should respond to tilt gestures.
-  final bool tiltGestureEnabled;
+  final bool tiltGesturesEnabled;
+
+  /// Padding to be set on map. See https://developers.google.com/maps/documentation/android-sdk/map#map_padding for more details.
+  final EdgeInsets padding;
 
   /// Markers to be placed on the map.
   final Set<Marker> markers;
 
-  /// Polylines to be placed on the map.
-  final Set<Polyline> polylines;
-
   /// Polygons to be placed on the map.
   final Set<Polygon> polygons;
 
-  /// Polygons to be placed on the map.
+  /// Polylines to be placed on the map.
+  final Set<Polyline> polylines;
+
+  /// Circles to be placed on the map.
   final Set<Circle> circles;
 
   /// Called when the camera starts moving.
@@ -91,30 +93,24 @@ class PlatformMap extends StatefulWidget {
   /// 2. Programmatically initiated animation.
   /// 3. Camera motion initiated in response to user gestures on the map.
   ///    For example: pan, tilt, pinch to zoom, or rotate.
-  final VoidCallback onCameraMoveStarted;
+  final VoidCallback? onCameraMoveStarted;
 
   /// Called repeatedly as the camera continues to move after an
   /// onCameraMoveStarted call.
   ///
   /// This may be called as often as once every frame and should
   /// not perform expensive operations.
-  final CameraPositionCallback onCameraMove;
+  final CameraPositionCallback? onCameraMove;
 
   /// Called when camera movement has ended, there are no pending
   /// animations and the user has stopped interacting with the map.
-  final VoidCallback onCameraIdle;
+  final VoidCallback? onCameraIdle;
 
-  /// Called every time a [PlatformMap] is tapped.
-  final Function onTap;
+  /// Called every time a [GoogleMap] is tapped.
+  final ArgumentCallback<LatLng>? onTap;
 
-  /// Called every time a [PlatformMap] is long pressed.
-  final Function onLongPress;
-
-  /// The padding used on the map
-  ///
-  /// The amount of additional space (measured in screen points) used for padding for the
-  /// native controls.
-  final EdgeInsets padding;
+  /// Called every time a [GoogleMap] is long pressed.
+  final ArgumentCallback<LatLng>? onLongPress;
 
   /// True if a "My Location" layer should be shown on the map.
   ///
@@ -150,7 +146,12 @@ class PlatformMap extends StatefulWidget {
   /// By default, the my-location button is enabled (and hence shown when the
   /// my-location layer is enabled).
   ///
+  /// See also:
+  ///   * [myLocationEnabled] parameter.
   final bool myLocationButtonEnabled;
+
+  /// Enables or disables the traffic layer of the map
+  final bool trafficEnabled;
 
   /// Which gestures should be consumed by the map.
   ///
@@ -159,10 +160,9 @@ class PlatformMap extends StatefulWidget {
   /// vertical drags. The map will claim gestures that are recognized by any of the
   /// recognizers on this list.
   ///
-  /// When this set is empty or null, the map will only handle pointer events for gestures that
+  /// When this set is empty, the map will only handle pointer events for gestures that
   /// were not claimed by any other gesture recognizer.
   final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers;
-
   @override
   _PlatformMapState createState() => _PlatformMapState();
 }
@@ -176,25 +176,17 @@ class _PlatformMapState extends State<PlatformMap> {
             widget.initialCameraPosition.googleMapsCameraPosition,
         compassEnabled: widget.compassEnabled,
         mapType: _getGoogleMapType(),
-        padding: widget.padding ?? EdgeInsets.zero,
-        markers: widget.markers != null
-            ? Marker.toGoogleMapsMarkerSet(widget.markers)
-            : {},
-        polylines: widget.polylines != null
-            ? Polyline.toGoogleMapsPolylines(widget.polylines)
-            : {},
-        polygons: widget.polygons != null
-            ? Polygon.toGoogleMapsPolygonSet(widget.polygons)
-            : {},
-        circles: widget.circles != null
-            ? Circle.toGoogleMapsCircleSet(widget.circles)
-            : {},
+        padding: widget.padding,
+        markers: Marker.toGoogleMapsMarkerSet(widget.markers),
+        polylines: Polyline.toGoogleMapsPolylines(widget.polylines),
+        polygons: Polygon.toGoogleMapsPolygonSet(widget.polygons),
+        circles: Circle.toGoogleMapsCircleSet(widget.circles),
         gestureRecognizers: widget.gestureRecognizers,
         onCameraIdle: widget.onCameraIdle,
         myLocationButtonEnabled: widget.myLocationButtonEnabled,
         myLocationEnabled: widget.myLocationEnabled,
         onCameraMoveStarted: widget.onCameraMoveStarted,
-        tiltGesturesEnabled: widget.tiltGestureEnabled,
+        tiltGesturesEnabled: widget.tiltGesturesEnabled,
         rotateGesturesEnabled: widget.rotateGesturesEnabled,
         zoomControlsEnabled: widget.zoomControlsEnabled,
         zoomGesturesEnabled: widget.zoomGesturesEnabled,
@@ -204,9 +196,8 @@ class _PlatformMapState extends State<PlatformMap> {
         onTap: _onTap,
         onLongPress: _onLongPress,
         trafficEnabled: widget.trafficEnabled,
-        minMaxZoomPreference: widget.minMaxZoomPreference != null
-            ? widget.minMaxZoomPreference.googleMapsZoomPreference
-            : MinMaxZoomPreference.unbounded.googleMapsZoomPreference,
+        minMaxZoomPreference:
+            widget.minMaxZoomPreference.googleMapsZoomPreference,
       );
     } else if (Platform.isIOS) {
       return appleMaps.AppleMap(
@@ -214,25 +205,17 @@ class _PlatformMapState extends State<PlatformMap> {
             widget.initialCameraPosition.appleMapsCameraPosition,
         compassEnabled: widget.compassEnabled,
         mapType: _getAppleMapType(),
-        padding: widget.padding ?? EdgeInsets.zero,
-        annotations: widget.markers != null
-            ? Marker.toAppleMapsAnnotationSet(widget.markers)
-            : widget.markers,
-        polylines: widget.polylines != null
-            ? Polyline.toAppleMapsPolylines(widget.polylines)
-            : widget.polylines,
-        polygons: widget.polygons != null
-            ? Polygon.toAppleMapsPolygonSet(widget.polygons)
-            : widget.polygons,
-        circles: widget.circles != null
-            ? Circle.toAppleMapsCircleSet(widget.circles)
-            : widget.circles,
+        padding: widget.padding,
+        annotations: Marker.toAppleMapsAnnotationSet(widget.markers),
+        polylines: Polyline.toAppleMapsPolylines(widget.polylines),
+        polygons: Polygon.toAppleMapsPolygonSet(widget.polygons),
+        circles: Circle.toAppleMapsCircleSet(widget.circles),
         gestureRecognizers: widget.gestureRecognizers,
         onCameraIdle: widget.onCameraIdle,
         myLocationButtonEnabled: widget.myLocationButtonEnabled,
         myLocationEnabled: widget.myLocationEnabled,
         onCameraMoveStarted: widget.onCameraMoveStarted,
-        pitchGesturesEnabled: widget.tiltGestureEnabled,
+        pitchGesturesEnabled: widget.tiltGesturesEnabled,
         rotateGesturesEnabled: widget.rotateGesturesEnabled,
         zoomGesturesEnabled: widget.zoomGesturesEnabled,
         scrollGesturesEnabled: widget.scrollGesturesEnabled,
@@ -241,9 +224,8 @@ class _PlatformMapState extends State<PlatformMap> {
         onTap: _onTap,
         onLongPress: _onLongPress,
         trafficEnabled: widget.trafficEnabled,
-        minMaxZoomPreference: widget.minMaxZoomPreference != null
-            ? widget.minMaxZoomPreference.appleMapsZoomPreference
-            : MinMaxZoomPreference.unbounded.appleMapsZoomPreference,
+        minMaxZoomPreference:
+            widget.minMaxZoomPreference.appleMapsZoomPreference,
       );
     } else {
       return Text("Platform not yet implemented");
@@ -251,48 +233,41 @@ class _PlatformMapState extends State<PlatformMap> {
   }
 
   void _onMapCreated(dynamic controller) {
-    if (widget.onMapCreated != null) {
-      widget.onMapCreated(PlatformMapController(controller));
-    }
+    widget.onMapCreated?.call(PlatformMapController(controller));
   }
 
   void _onCameraMove(dynamic cameraPosition) {
-    if (widget.onCameraMove != null) {
-      if (Platform.isIOS) {
-        widget.onCameraMove(
-          CameraPosition.fromAppleMapCameraPosition(
-            cameraPosition as appleMaps.CameraPosition,
-          ),
-        );
-      } else if (Platform.isAndroid) {
-        widget.onCameraMove(
-          CameraPosition.fromGoogleMapCameraPosition(
-            cameraPosition as googleMaps.CameraPosition,
-          ),
-        );
-      }
+    if (Platform.isIOS) {
+      widget.onCameraMove?.call(
+        CameraPosition.fromAppleMapCameraPosition(
+          cameraPosition as appleMaps.CameraPosition,
+        ),
+      );
+    } else if (Platform.isAndroid) {
+      widget.onCameraMove?.call(
+        CameraPosition.fromGoogleMapCameraPosition(
+          cameraPosition as googleMaps.CameraPosition,
+        ),
+      );
     }
   }
 
   void _onTap(dynamic position) {
-    if (widget.onTap != null) {
-      if (Platform.isIOS) {
-        widget.onTap(LatLng._fromAppleLatLng(position as appleMaps.LatLng));
-      } else if (Platform.isAndroid) {
-        widget.onTap(LatLng._fromGoogleLatLng(position as googleMaps.LatLng));
-      }
+    if (Platform.isIOS) {
+      widget.onTap?.call(LatLng._fromAppleLatLng(position as appleMaps.LatLng));
+    } else if (Platform.isAndroid) {
+      widget.onTap
+          ?.call(LatLng._fromGoogleLatLng(position as googleMaps.LatLng));
     }
   }
 
   void _onLongPress(dynamic position) {
-    if (widget.onLongPress != null) {
-      if (Platform.isIOS) {
-        widget
-            .onLongPress(LatLng._fromAppleLatLng(position as appleMaps.LatLng));
-      } else if (Platform.isAndroid) {
-        widget.onLongPress(
-            LatLng._fromGoogleLatLng(position as googleMaps.LatLng));
-      }
+    if (Platform.isIOS) {
+      widget.onLongPress
+          ?.call(LatLng._fromAppleLatLng(position as appleMaps.LatLng));
+    } else if (Platform.isAndroid) {
+      widget.onLongPress
+          ?.call(LatLng._fromGoogleLatLng(position as googleMaps.LatLng));
     }
   }
 
