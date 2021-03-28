@@ -1,8 +1,8 @@
 part of platform_maps_flutter;
 
 class PlatformMapController {
-   appleMaps.AppleMapController? appleController;
-   googleMaps.GoogleMapController? googleController;
+  appleMaps.AppleMapController? appleController;
+  googleMaps.GoogleMapController? googleController;
 
   PlatformMapController(dynamic controller) {
     if (controller.runtimeType == googleMaps.GoogleMapController) {
@@ -22,7 +22,8 @@ class PlatformMapController {
   ///   * [isMarkerInfoWindowShown] to check if the Info Window is showing.
   Future<void> showMarkerInfoWindow(MarkerId markerId) {
     if (Platform.isAndroid) {
-      return googleController!.showMarkerInfoWindow(markerId.googleMapsMarkerId);
+      return googleController!
+          .showMarkerInfoWindow(markerId.googleMapsMarkerId);
     } else if (Platform.isIOS) {
       return appleController!
           .showMarkerInfoWindow(markerId.appleMapsAnnoationId);
@@ -40,7 +41,8 @@ class PlatformMapController {
   ///   * [isMarkerInfoWindowShown] to check if the Info Window is showing.
   Future<void> hideMarkerInfoWindow(MarkerId markerId) {
     if (Platform.isAndroid) {
-      return googleController!.hideMarkerInfoWindow(markerId.googleMapsMarkerId);
+      return googleController!
+          .hideMarkerInfoWindow(markerId.googleMapsMarkerId);
     } else if (Platform.isIOS) {
       return appleController!
           .hideMarkerInfoWindow(markerId.appleMapsAnnoationId);
@@ -56,13 +58,14 @@ class PlatformMapController {
   /// * See also:
   ///   * [showMarkerInfoWindow] to show the Info Window.
   ///   * [hideMarkerInfoWindow] to hide the Info Window.
-  Future<bool> isMarkerInfoWindowShown(MarkerId markerId) {
+  Future<bool> isMarkerInfoWindowShown(MarkerId markerId) async {
     if (Platform.isAndroid) {
       return googleController!
           .isMarkerInfoWindowShown(markerId.googleMapsMarkerId);
     } else if (Platform.isIOS) {
-      return appleController!
-          .isMarkerInfoWindowShown(markerId.appleMapsAnnoationId);
+      return await appleController!
+              .isMarkerInfoWindowShown(markerId.appleMapsAnnoationId) ??
+          false;
     }
     throw ('Platform not supported.');
   }
