@@ -216,7 +216,7 @@ class Marker {
 
   static Set<appleMaps.Annotation> toAppleMapsAnnotationSet(
       Set<Marker> markers) {
-    List<appleMaps.Annotation> _annotations = List<appleMaps.Annotation>();
+    List<appleMaps.Annotation> _annotations = [];
     for (Marker marker in markers) {
       _annotations.add(appleMapsAnnotationFromMarker(marker));
     }
@@ -224,7 +224,7 @@ class Marker {
   }
 
   static Set<googleMaps.Marker> toGoogleMapsMarkerSet(Set<Marker> markers) {
-    List<googleMaps.Marker> _markers = List<googleMaps.Marker>();
+    List<googleMaps.Marker> _markers = [];
     for (Marker marker in markers) {
       _markers.add(googleMapsMarkerFromMarker(marker));
     }

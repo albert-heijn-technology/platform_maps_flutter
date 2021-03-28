@@ -43,7 +43,7 @@ class LatLng {
 
   static List<googleMaps.LatLng> googleMapsLatLngsFromList(
       List<LatLng> latlngs) {
-    List<googleMaps.LatLng> googleMapsLatLngs = List();
+    List<googleMaps.LatLng> googleMapsLatLngs = [];
     latlngs.forEach((LatLng latlng) {
       googleMapsLatLngs.add(latlng.googleLatLng);
     });
@@ -51,7 +51,7 @@ class LatLng {
   }
 
   static List<appleMaps.LatLng> appleMapsLatLngsFromList(List<LatLng> latlngs) {
-    List<appleMaps.LatLng> appleMapsLatLngs = List();
+    List<appleMaps.LatLng> appleMapsLatLngs = [];
     latlngs.forEach((LatLng latlng) {
       appleMapsLatLngs.add(latlng.appleLatLng);
     });

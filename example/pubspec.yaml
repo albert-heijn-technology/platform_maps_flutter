@@ -1,5 +1,6 @@
 name: flutter_platform_maps_example
 description: Example usage of flutter_platform_maps.
+publish_to: none
 version: 1.0.0
 
 environment:

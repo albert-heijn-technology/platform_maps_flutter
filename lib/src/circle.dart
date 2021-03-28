@@ -126,7 +126,7 @@ class Circle {
   }
 
   static Set<googleMaps.Circle> toGoogleMapsCircleSet(Set<Circle> circles) {
-    List<googleMaps.Circle> _circles = List<googleMaps.Circle>();
+    List<googleMaps.Circle> _circles = [];
     for (Circle circle in circles) {
       _circles.add(circle.googleMapsCircle);
     }
@@ -134,7 +134,7 @@ class Circle {
   }
 
   static Set<appleMaps.Circle> toAppleMapsCircleSet(Set<Circle> circles) {
-    List<appleMaps.Circle> _circles = List<appleMaps.Circle>();
+    List<appleMaps.Circle> _circles = [];
     for (Circle circle in circles) {
       _circles.add(circle.appleMapsCircle);
     }

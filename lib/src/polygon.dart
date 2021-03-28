@@ -126,7 +126,7 @@ class Polygon {
   int get hashCode => polygonId.hashCode;
 
   static Set<googleMaps.Polygon> toGoogleMapsPolygonSet(Set<Polygon> polygons) {
-    List<googleMaps.Polygon> _polygons = List<googleMaps.Polygon>();
+    List<googleMaps.Polygon> _polygons = [];
     for (Polygon polygon in polygons) {
       _polygons.add(polygon.googleMapsPolygon);
     }
@@ -134,7 +134,7 @@ class Polygon {
   }
 
   static Set<appleMaps.Polygon> toAppleMapsPolygonSet(Set<Polygon> polygons) {
-    List<appleMaps.Polygon> _polygons = List<appleMaps.Polygon>();
+    List<appleMaps.Polygon> _polygons = [];
     for (Polygon polygon in polygons) {
       _polygons.add(polygon.appleMapsPolygon);
     }
