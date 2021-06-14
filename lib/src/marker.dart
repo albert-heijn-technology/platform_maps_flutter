@@ -101,6 +101,7 @@ class Marker {
   const Marker({
     required this.markerId,
     this.alpha = 1.0,
+    this.anchor = const Offset(0.5, 1.0),
     this.consumeTapEvents = false,
     this.draggable = false,
     this.icon,
@@ -118,6 +119,13 @@ class Marker {
   ///
   /// 0.0 means fully transparent, 1.0 means fully opaque.
   final double alpha;
+
+  /// The icon image point that will be placed at the [position] of the marker.
+  ///
+  /// The image point is specified in normalized coordinates: An anchor of
+  /// (0.0, 0.0) means the top left corner of the image. An anchor
+  /// of (1.0, 1.0) means the bottom right corner of the image.
+  final Offset anchor;
 
   /// True if the marker icon consumes tap events. If not, the map will perform
   /// default tap handling by centering the map on the marker and displaying its
@@ -149,6 +157,7 @@ class Marker {
   appleMaps.Annotation get appleMapsAnnotation => appleMaps.Annotation(
         annotationId: this.markerId.appleMapsAnnoationId,
         alpha: this.alpha,
+        anchor: this.anchor,
         draggable: this.draggable,
         infoWindow: this.infoWindow.appleMapsInfoWindow,
         onTap: this.onTap,
@@ -165,6 +174,7 @@ class Marker {
   googleMaps.Marker get googleMapsMarker => googleMaps.Marker(
         markerId: this.markerId.googleMapsMarkerId,
         alpha: this.alpha,
+        anchor: this.anchor,
         draggable: this.draggable,
         infoWindow: this.infoWindow.googleMapsInfoWindow,
         onTap: this.onTap,
@@ -182,7 +192,7 @@ class Marker {
       appleMaps.Annotation(
         annotationId: marker.markerId.appleMapsAnnoationId,
         alpha: marker.alpha,
-        anchor: Offset(0.5, 1.0),
+        anchor: marker.anchor,
         draggable: marker.draggable,
         infoWindow: marker.infoWindow.appleMapsInfoWindow,
         onTap: marker.onTap,
@@ -200,7 +210,7 @@ class Marker {
       googleMaps.Marker(
         markerId: marker.markerId.googleMapsMarkerId,
         alpha: marker.alpha,
-        anchor: Offset(0.5, 1.0),
+        anchor: marker.anchor,
         draggable: marker.draggable,
         infoWindow: marker.infoWindow.googleMapsInfoWindow,
         onTap: marker.onTap,
@@ -233,6 +243,7 @@ class Marker {
 
   Marker copyWith({
     double? alphaParam,
+    Offset? anchorParam,
     bool? consumeTapEventsParam,
     bool? draggableParam,
     BitmapDescriptor? iconParam,
@@ -244,6 +255,7 @@ class Marker {
     return Marker(
       markerId: markerId,
       alpha: alphaParam ?? alpha,
+      anchor: anchorParam ?? anchor,
       consumeTapEvents: consumeTapEventsParam ?? consumeTapEvents,
       draggable: draggableParam ?? draggable,
       icon: iconParam ?? icon,
