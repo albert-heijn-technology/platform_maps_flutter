@@ -1,3 +1,8 @@
+## 1.0.2
+
+* Updates apple_maps_flutter to apply memory leak fix
+* makes it possible to take snapshots of the map
+
 ## 1.0.1
 
 * Adds `newLatLngBounds` to PlatformMapController

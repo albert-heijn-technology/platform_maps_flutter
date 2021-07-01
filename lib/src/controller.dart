@@ -109,4 +109,13 @@ class PlatformMapController {
     }
     return _bounds;
   }
+
+  /// Returns the image bytes of the map
+  Future<Uint8List?> takeSnapshot() async {
+    if (Platform.isIOS) {
+      return this.appleController!.takeSnapshot();
+    } else if (Platform.isAndroid) {
+      return this.googleController!.takeSnapshot();
+    }
+  }
 }
