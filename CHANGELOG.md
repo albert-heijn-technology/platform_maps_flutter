@@ -1,6 +1,6 @@
 ## 1.0.3
 
-* Add `trackingMode` to Apple Maps
+* Adds `trackingMode` to Apple Maps
 * Adds `liteModeEnabled` to Google Maps
 
 ## 1.0.2
