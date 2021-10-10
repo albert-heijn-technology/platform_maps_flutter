@@ -1,3 +1,8 @@
+## 1.0.3
+
+* Add `trackingMode` to Apple Maps
+* Adds `liteMode` to Google Maps
+
 ## 1.0.2
 
 * Updates apple_maps_flutter to apply memory leak fix
