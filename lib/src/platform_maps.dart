@@ -12,6 +12,8 @@ class PlatformMap extends StatefulWidget {
     this.gestureRecognizers = const <Factory<OneSequenceGestureRecognizer>>{},
     this.compassEnabled = true,
     this.mapType = MapType.normal,
+    this.liteModeEnabled = false,
+    this.trackingMode = appleMaps.TrackingMode.none,
     this.minMaxZoomPreference = MinMaxZoomPreference.unbounded,
     this.rotateGesturesEnabled = true,
     this.scrollGesturesEnabled = true,
@@ -46,6 +48,14 @@ class PlatformMap extends StatefulWidget {
 
   /// Type of map tiles to be rendered.
   final MapType mapType;
+
+  /// True if the map view should be in lite mode. Google Maps only.
+  ///
+  /// See https://developers.google.com/maps/documentation/android-sdk/lite#overview_of_lite_mode for more details.
+  final bool liteModeEnabled;
+
+  /// The mode used to track the user location. Apple maps only.
+  final appleMaps.TrackingMode trackingMode;
 
   /// Preferred bounds for the camera zoom level.
   ///
@@ -191,6 +201,7 @@ class _PlatformMapState extends State<PlatformMap> {
         zoomControlsEnabled: widget.zoomControlsEnabled,
         zoomGesturesEnabled: widget.zoomGesturesEnabled,
         scrollGesturesEnabled: widget.scrollGesturesEnabled,
+        liteModeEnabled: widget.liteModeEnabled,
         onMapCreated: _onMapCreated,
         onCameraMove: _onCameraMove,
         onTap: _onTap,
@@ -214,6 +225,7 @@ class _PlatformMapState extends State<PlatformMap> {
         onCameraIdle: widget.onCameraIdle,
         myLocationButtonEnabled: widget.myLocationButtonEnabled,
         myLocationEnabled: widget.myLocationEnabled,
+        trackingMode: widget.trackingMode,
         onCameraMoveStarted: widget.onCameraMoveStarted,
         pitchGesturesEnabled: widget.tiltGesturesEnabled,
         rotateGesturesEnabled: widget.rotateGesturesEnabled,
