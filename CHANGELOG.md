@@ -2,6 +2,7 @@
 
 * Adds `trackingMode` to Apple Maps
 * Adds `liteModeEnabled` to Google Maps
+* Adds `mapToolbarEnabled` to Google Maps
 
 ## 1.0.2
 

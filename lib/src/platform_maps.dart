@@ -14,6 +14,7 @@ class PlatformMap extends StatefulWidget {
     this.mapType = MapType.normal,
     this.liteModeEnabled = false,
     this.trackingMode = TrackingMode.none,
+    this.mapToolbarEnabled = true,
     this.minMaxZoomPreference = MinMaxZoomPreference.unbounded,
     this.rotateGesturesEnabled = true,
     this.scrollGesturesEnabled = true,
@@ -56,6 +57,9 @@ class PlatformMap extends StatefulWidget {
 
   /// The mode used to track the user location. Apple maps only.
   final TrackingMode trackingMode;
+
+  /// True if the toolbar for google maps should show.
+  final bool mapToolbarEnabled;
 
   /// Preferred bounds for the camera zoom level.
   ///
