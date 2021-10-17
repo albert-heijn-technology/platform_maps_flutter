@@ -213,6 +213,7 @@ class _PlatformMapState extends State<PlatformMap> {
         trafficEnabled: widget.trafficEnabled,
         minMaxZoomPreference:
             widget.minMaxZoomPreference.googleMapsZoomPreference,
+        mapToolbarEnabled: widget.mapToolbarEnabled,
       );
     } else if (Platform.isIOS) {
       return appleMaps.AppleMap(
