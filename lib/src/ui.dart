@@ -16,6 +16,17 @@ enum MapType {
   hybrid,
 }
 
+enum TrackingMode {
+  // the user's location is not followed
+  none,
+
+  // the map follows the user's location
+  follow,
+
+  // the map follows the user's location and heading
+  followWithHeading,
+}
+
 // Used with [PlatformMapOptions] to wrap min and max zoom. This allows
 // distinguishing between specifying unbounded zooming (null `minZoom` and
 // `maxZoom`) from not specifying anything (null `MinMaxZoomPreference`).

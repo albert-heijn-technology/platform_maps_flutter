@@ -12,6 +12,9 @@ class PlatformMap extends StatefulWidget {
     this.gestureRecognizers = const <Factory<OneSequenceGestureRecognizer>>{},
     this.compassEnabled = true,
     this.mapType = MapType.normal,
+    this.liteModeEnabled = false,
+    this.trackingMode = TrackingMode.none,
+    this.mapToolbarEnabled = true,
     this.minMaxZoomPreference = MinMaxZoomPreference.unbounded,
     this.rotateGesturesEnabled = true,
     this.scrollGesturesEnabled = true,
@@ -46,6 +49,17 @@ class PlatformMap extends StatefulWidget {
 
   /// Type of map tiles to be rendered.
   final MapType mapType;
+
+  /// True if the map view should be in lite mode. Google Maps only.
+  ///
+  /// See https://developers.google.com/maps/documentation/android-sdk/lite#overview_of_lite_mode for more details.
+  final bool liteModeEnabled;
+
+  /// The mode used to track the user location. Apple maps only.
+  final TrackingMode trackingMode;
+
+  /// True if the toolbar for google maps should show.
+  final bool mapToolbarEnabled;
 
   /// Preferred bounds for the camera zoom level.
   ///
@@ -191,6 +205,7 @@ class _PlatformMapState extends State<PlatformMap> {
         zoomControlsEnabled: widget.zoomControlsEnabled,
         zoomGesturesEnabled: widget.zoomGesturesEnabled,
         scrollGesturesEnabled: widget.scrollGesturesEnabled,
+        liteModeEnabled: widget.liteModeEnabled,
         onMapCreated: _onMapCreated,
         onCameraMove: _onCameraMove,
         onTap: _onTap,
@@ -198,6 +213,7 @@ class _PlatformMapState extends State<PlatformMap> {
         trafficEnabled: widget.trafficEnabled,
         minMaxZoomPreference:
             widget.minMaxZoomPreference.googleMapsZoomPreference,
+        mapToolbarEnabled: widget.mapToolbarEnabled,
       );
     } else if (Platform.isIOS) {
       return appleMaps.AppleMap(
@@ -214,6 +230,7 @@ class _PlatformMapState extends State<PlatformMap> {
         onCameraIdle: widget.onCameraIdle,
         myLocationButtonEnabled: widget.myLocationButtonEnabled,
         myLocationEnabled: widget.myLocationEnabled,
+        trackingMode: _getAppleMapTrackingMode(),
         onCameraMoveStarted: widget.onCameraMoveStarted,
         pitchGesturesEnabled: widget.tiltGesturesEnabled,
         rotateGesturesEnabled: widget.rotateGesturesEnabled,
@@ -291,5 +308,16 @@ class _PlatformMapState extends State<PlatformMap> {
       return googleMaps.MapType.hybrid;
     }
     return googleMaps.MapType.normal;
+  }
+
+  appleMaps.TrackingMode _getAppleMapTrackingMode() {
+    if (widget.trackingMode == TrackingMode.none) {
+      return appleMaps.TrackingMode.none;
+    } else if (widget.trackingMode == TrackingMode.follow) {
+      return appleMaps.TrackingMode.follow;
+    } else if (widget.trackingMode == TrackingMode.followWithHeading) {
+      return appleMaps.TrackingMode.followWithHeading;
+    }
+    return appleMaps.TrackingMode.none;
   }
 }
