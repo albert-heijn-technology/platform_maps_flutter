@@ -12,9 +12,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  google_maps_flutter: ^2.0.1
-  google_maps_flutter_platform_interface: ^2.0.3
-  apple_maps_flutter: ^1.0.1
+  google_maps_flutter: ^2.1.2
+  google_maps_flutter_platform_interface: ^2.1.5
+  apple_maps_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
