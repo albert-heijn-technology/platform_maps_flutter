@@ -110,6 +110,7 @@ class Marker {
     this.onTap,
     this.visible = true,
     this.onDragEnd,
+    this.zIndex,
   }) : assert((0.0 <= alpha && alpha <= 1.0));
 
   /// Uniquely identifies a [Marker].
@@ -152,6 +153,9 @@ class Marker {
   /// True if the annotation is visible.
   final bool visible;
 
+  /// zIndex value for the marker.
+  final double? zIndex;
+
   final ValueChanged<LatLng>? onDragEnd;
 
   appleMaps.Annotation get appleMapsAnnotation => appleMaps.Annotation(
@@ -169,6 +173,7 @@ class Marker {
                 _onAppleAnnotationDragEnd(latLng, this.onDragEnd)
             : null,
         position: this.position.appleLatLng,
+        zIndex: this.zIndex ?? -1,
       );
 
   googleMaps.Marker get googleMapsMarker => googleMaps.Marker(
@@ -186,6 +191,7 @@ class Marker {
                 _onGoogleMarkerDragEnd(latLng, this.onDragEnd)
             : null,
         position: this.position.googleLatLng,
+        zIndex: this.zIndex ?? 0.0,
       );
 
   static appleMaps.Annotation appleMapsAnnotationFromMarker(Marker marker) =>
@@ -204,6 +210,7 @@ class Marker {
                 _onAppleAnnotationDragEnd(latLng, marker.onDragEnd)
             : null,
         position: marker.position.appleLatLng,
+        zIndex: marker.zIndex ?? -1,
       );
 
   static googleMaps.Marker googleMapsMarkerFromMarker(Marker marker) =>
@@ -222,6 +229,7 @@ class Marker {
                 _onGoogleMarkerDragEnd(latLng, marker.onDragEnd)
             : null,
         position: marker.position.googleLatLng,
+        zIndex: marker.zIndex ?? 0.0,
       );
 
   static Set<appleMaps.Annotation> toAppleMapsAnnotationSet(
@@ -251,6 +259,7 @@ class Marker {
     LatLng? positionParam,
     bool? visibleParam,
     VoidCallback? onTapParam,
+    double? zIndexParam,
   }) {
     return Marker(
       markerId: markerId,
@@ -263,6 +272,7 @@ class Marker {
       position: positionParam ?? position,
       visible: visibleParam ?? visible,
       onTap: onTapParam ?? onTap,
+      zIndex: zIndexParam ?? zIndex,
     );
   }
 
