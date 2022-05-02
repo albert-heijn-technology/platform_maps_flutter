@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Updates apple_maps_flutter to build on Flutter >=2.10
+
 ## 1.0.2
 
 * Updates apple_maps_flutter to apply memory leak fix
