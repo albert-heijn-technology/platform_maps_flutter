@@ -31,6 +31,7 @@ class PlatformMap extends StatefulWidget {
     this.onCameraIdle,
     this.onTap,
     this.onLongPress,
+    this.cloudMapId,
   }) : super(key: key);
 
   /// Callback method for when the map is ready to be used.
@@ -163,6 +164,10 @@ class PlatformMap extends StatefulWidget {
   /// When this set is empty, the map will only handle pointer events for gestures that
   /// were not claimed by any other gesture recognizer.
   final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers;
+
+  //Only for google map
+  final String? cloudMapId;
+
   @override
   _PlatformMapState createState() => _PlatformMapState();
 }
@@ -198,6 +203,7 @@ class _PlatformMapState extends State<PlatformMap> {
         trafficEnabled: widget.trafficEnabled,
         minMaxZoomPreference:
             widget.minMaxZoomPreference.googleMapsZoomPreference,
+        cloudMapId: widget.cloudMapId,
       );
     } else if (Platform.isIOS) {
       return appleMaps.AppleMap(

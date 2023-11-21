@@ -110,6 +110,7 @@ class Marker {
     this.onTap,
     this.visible = true,
     this.onDragEnd,
+    this.zIndex = 0.0,
   }) : assert((0.0 <= alpha && alpha <= 1.0));
 
   /// Uniquely identifies a [Marker].
@@ -154,6 +155,9 @@ class Marker {
 
   final ValueChanged<LatLng>? onDragEnd;
 
+  //Only for google map
+  final double zIndex;
+
   appleMaps.Annotation get appleMapsAnnotation => appleMaps.Annotation(
         annotationId: this.markerId.appleMapsAnnoationId,
         alpha: this.alpha,
@@ -185,6 +189,7 @@ class Marker {
             ? (googleMaps.LatLng latLng) =>
                 _onGoogleMarkerDragEnd(latLng, this.onDragEnd)
             : null,
+        zIndex: this.zIndex,
         position: this.position.googleLatLng,
       );
 
