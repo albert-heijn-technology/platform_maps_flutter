@@ -155,7 +155,6 @@ class Marker {
 
   final ValueChanged<LatLng>? onDragEnd;
 
-  //Only for google map
   final double zIndex;
 
   appleMaps.Annotation get appleMapsAnnotation => appleMaps.Annotation(
@@ -173,6 +172,7 @@ class Marker {
                 _onAppleAnnotationDragEnd(latLng, this.onDragEnd)
             : null,
         position: this.position.appleLatLng,
+        zIndex: zIndex,
       );
 
   googleMaps.Marker get googleMapsMarker => googleMaps.Marker(
@@ -209,6 +209,7 @@ class Marker {
                 _onAppleAnnotationDragEnd(latLng, marker.onDragEnd)
             : null,
         position: marker.position.appleLatLng,
+        zIndex: marker.zIndex,
       );
 
   static googleMaps.Marker googleMapsMarkerFromMarker(Marker marker) =>
@@ -227,6 +228,7 @@ class Marker {
                 _onGoogleMarkerDragEnd(latLng, marker.onDragEnd)
             : null,
         position: marker.position.googleLatLng,
+        zIndex: marker.zIndex,
       );
 
   static Set<appleMaps.Annotation> toAppleMapsAnnotationSet(
@@ -256,6 +258,7 @@ class Marker {
     LatLng? positionParam,
     bool? visibleParam,
     VoidCallback? onTapParam,
+    double? zIndexParam,
   }) {
     return Marker(
       markerId: markerId,
@@ -268,6 +271,7 @@ class Marker {
       position: positionParam ?? position,
       visible: visibleParam ?? visible,
       onTap: onTapParam ?? onTap,
+      zIndex: zIndexParam ?? zIndex,
     );
   }
 
