@@ -32,7 +32,23 @@ class PlatformMap extends StatefulWidget {
     this.onTap,
     this.onLongPress,
     this.cloudMapId,
+    this.isUseFlutterMapForAndroid = false,
+    this.isUseFlutterMapForIos = false,
+    this.flutterMapUrlTemplate,
+    this.flutterMapMarkers,
+    this.flutterMapPolylines,
   }) : super(key: key);
+
+  /// Pass this param if use flutter_map.
+  final bool isUseFlutterMapForAndroid;
+
+  final bool isUseFlutterMapForIos;
+
+  final String? flutterMapUrlTemplate;
+
+  final List<flutterMaps.Marker>? flutterMapMarkers;
+
+  final List<flutterMaps.Polyline>? flutterMapPolylines;
 
   /// Callback method for when the map is ready to be used.
   ///
@@ -173,66 +189,111 @@ class PlatformMap extends StatefulWidget {
 }
 
 class _PlatformMapState extends State<PlatformMap> {
+  flutterMaps.MapController mapController = flutterMaps.MapController();
+  Widget _buildFlutterMap() {
+    return flutterMaps.FlutterMap(
+      options: flutterMaps.MapOptions(
+        onMapReady: () => _onMapCreated(mapController),
+        onMapEvent: (event) {
+          if (event is flutterMaps.MapEventMove) {
+            _onCameraMove(event.camera.center);
+          }
+        },
+        // onTap: _onTap,
+        // onLongPress: _onLongPress,
+        minZoom: widget.minMaxZoomPreference.minZoom,
+        maxZoom: widget.minMaxZoomPreference.maxZoom,
+        initialCenter: latlong2.LatLng(
+            widget.initialCameraPosition.target.googleLatLng.latitude,
+            widget.initialCameraPosition.target.googleLatLng.longitude),
+      ),
+      children: [
+        flutterMaps.TileLayer(
+          urlTemplate: widget.flutterMapUrlTemplate!,
+          // tileProvider: CachedTileProvider(
+          //   maxStale: const Duration(days: 120),
+          //   store: HiveCacheStore(
+          //     null,
+          //     hiveBoxName: 'HiveCacheStore',
+          //   ),
+          // ),
+        ),
+        flutterMaps.MarkerLayer(
+          markers: widget.flutterMapMarkers ?? [],
+        ),
+        flutterMaps.PolylineLayer(
+          polylines: widget.flutterMapPolylines ?? [],
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (Platform.isAndroid) {
-      return googleMaps.GoogleMap(
-        initialCameraPosition:
-            widget.initialCameraPosition.googleMapsCameraPosition,
-        compassEnabled: widget.compassEnabled,
-        mapType: _getGoogleMapType(),
-        padding: widget.padding,
-        markers: Marker.toGoogleMapsMarkerSet(widget.markers),
-        polylines: Polyline.toGoogleMapsPolylines(widget.polylines),
-        polygons: Polygon.toGoogleMapsPolygonSet(widget.polygons),
-        circles: Circle.toGoogleMapsCircleSet(widget.circles),
-        gestureRecognizers: widget.gestureRecognizers,
-        onCameraIdle: widget.onCameraIdle,
-        myLocationButtonEnabled: widget.myLocationButtonEnabled,
-        myLocationEnabled: widget.myLocationEnabled,
-        onCameraMoveStarted: widget.onCameraMoveStarted,
-        tiltGesturesEnabled: widget.tiltGesturesEnabled,
-        rotateGesturesEnabled: widget.rotateGesturesEnabled,
-        zoomControlsEnabled: widget.zoomControlsEnabled,
-        zoomGesturesEnabled: widget.zoomGesturesEnabled,
-        scrollGesturesEnabled: widget.scrollGesturesEnabled,
-        onMapCreated: _onMapCreated,
-        onCameraMove: _onCameraMove,
-        onTap: _onTap,
-        onLongPress: _onLongPress,
-        trafficEnabled: widget.trafficEnabled,
-        minMaxZoomPreference:
-            widget.minMaxZoomPreference.googleMapsZoomPreference,
-        cloudMapId: widget.cloudMapId,
-      );
+      if (widget.isUseFlutterMapForAndroid)
+        return _buildFlutterMap();
+      else
+        return googleMaps.GoogleMap(
+          initialCameraPosition:
+              widget.initialCameraPosition.googleMapsCameraPosition,
+          compassEnabled: widget.compassEnabled,
+          mapType: _getGoogleMapType(),
+          padding: widget.padding,
+          markers: Marker.toGoogleMapsMarkerSet(widget.markers),
+          polylines: Polyline.toGoogleMapsPolylines(widget.polylines),
+          polygons: Polygon.toGoogleMapsPolygonSet(widget.polygons),
+          circles: Circle.toGoogleMapsCircleSet(widget.circles),
+          gestureRecognizers: widget.gestureRecognizers,
+          onCameraIdle: widget.onCameraIdle,
+          myLocationButtonEnabled: widget.myLocationButtonEnabled,
+          myLocationEnabled: widget.myLocationEnabled,
+          onCameraMoveStarted: widget.onCameraMoveStarted,
+          tiltGesturesEnabled: widget.tiltGesturesEnabled,
+          rotateGesturesEnabled: widget.rotateGesturesEnabled,
+          zoomControlsEnabled: widget.zoomControlsEnabled,
+          zoomGesturesEnabled: widget.zoomGesturesEnabled,
+          scrollGesturesEnabled: widget.scrollGesturesEnabled,
+          onMapCreated: _onMapCreated,
+          onCameraMove: _onCameraMove,
+          onTap: _onTap,
+          onLongPress: _onLongPress,
+          trafficEnabled: widget.trafficEnabled,
+          minMaxZoomPreference:
+              widget.minMaxZoomPreference.googleMapsZoomPreference,
+          cloudMapId: widget.cloudMapId,
+        );
     } else if (Platform.isIOS) {
-      return appleMaps.AppleMap(
-        initialCameraPosition:
-            widget.initialCameraPosition.appleMapsCameraPosition,
-        compassEnabled: widget.compassEnabled,
-        mapType: _getAppleMapType(),
-        padding: widget.padding,
-        annotations: Marker.toAppleMapsAnnotationSet(widget.markers),
-        polylines: Polyline.toAppleMapsPolylines(widget.polylines),
-        polygons: Polygon.toAppleMapsPolygonSet(widget.polygons),
-        circles: Circle.toAppleMapsCircleSet(widget.circles),
-        gestureRecognizers: widget.gestureRecognizers,
-        onCameraIdle: widget.onCameraIdle,
-        myLocationButtonEnabled: widget.myLocationButtonEnabled,
-        myLocationEnabled: widget.myLocationEnabled,
-        onCameraMoveStarted: widget.onCameraMoveStarted,
-        pitchGesturesEnabled: widget.tiltGesturesEnabled,
-        rotateGesturesEnabled: widget.rotateGesturesEnabled,
-        zoomGesturesEnabled: widget.zoomGesturesEnabled,
-        scrollGesturesEnabled: widget.scrollGesturesEnabled,
-        onMapCreated: _onMapCreated,
-        onCameraMove: _onCameraMove,
-        onTap: _onTap,
-        onLongPress: _onLongPress,
-        trafficEnabled: widget.trafficEnabled,
-        minMaxZoomPreference:
-            widget.minMaxZoomPreference.appleMapsZoomPreference,
-      );
+      if (widget.isUseFlutterMapForIos)
+        return _buildFlutterMap();
+      else
+        return appleMaps.AppleMap(
+          initialCameraPosition:
+              widget.initialCameraPosition.appleMapsCameraPosition,
+          compassEnabled: widget.compassEnabled,
+          mapType: _getAppleMapType(),
+          padding: widget.padding,
+          annotations: Marker.toAppleMapsAnnotationSet(widget.markers),
+          polylines: Polyline.toAppleMapsPolylines(widget.polylines),
+          polygons: Polygon.toAppleMapsPolygonSet(widget.polygons),
+          circles: Circle.toAppleMapsCircleSet(widget.circles),
+          gestureRecognizers: widget.gestureRecognizers,
+          onCameraIdle: widget.onCameraIdle,
+          myLocationButtonEnabled: widget.myLocationButtonEnabled,
+          myLocationEnabled: widget.myLocationEnabled,
+          onCameraMoveStarted: widget.onCameraMoveStarted,
+          pitchGesturesEnabled: widget.tiltGesturesEnabled,
+          rotateGesturesEnabled: widget.rotateGesturesEnabled,
+          zoomGesturesEnabled: widget.zoomGesturesEnabled,
+          scrollGesturesEnabled: widget.scrollGesturesEnabled,
+          onMapCreated: _onMapCreated,
+          onCameraMove: _onCameraMove,
+          onTap: _onTap,
+          onLongPress: _onLongPress,
+          trafficEnabled: widget.trafficEnabled,
+          minMaxZoomPreference:
+              widget.minMaxZoomPreference.appleMapsZoomPreference,
+        );
     } else {
       return Text("Platform not yet implemented");
     }
@@ -250,11 +311,19 @@ class _PlatformMapState extends State<PlatformMap> {
         ),
       );
     } else if (Platform.isAndroid) {
-      widget.onCameraMove?.call(
-        CameraPosition.fromGoogleMapCameraPosition(
-          cameraPosition as googleMaps.CameraPosition,
-        ),
-      );
+      if (widget.isUseFlutterMapForAndroid)
+        widget.onCameraMove?.call(
+          CameraPosition(
+            target:
+                LatLng._fromFlutterLatLng(cameraPosition as latlong2.LatLng),
+          ),
+        );
+      else
+        widget.onCameraMove?.call(
+          CameraPosition.fromGoogleMapCameraPosition(
+            cameraPosition as googleMaps.CameraPosition,
+          ),
+        );
     }
   }
 
