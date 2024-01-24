@@ -304,26 +304,24 @@ class _PlatformMapState extends State<PlatformMap> {
   }
 
   void _onCameraMove(dynamic cameraPosition) {
-    if (Platform.isIOS) {
+    if (widget.isUseFlutterMapForIos || widget.isUseFlutterMapForAndroid)
+      widget.onCameraMove?.call(
+        CameraPosition(
+          target: LatLng._fromFlutterLatLng(cameraPosition as latlong2.LatLng),
+        ),
+      );
+    else if (Platform.isIOS) {
       widget.onCameraMove?.call(
         CameraPosition.fromAppleMapCameraPosition(
           cameraPosition as appleMaps.CameraPosition,
         ),
       );
     } else if (Platform.isAndroid) {
-      if (widget.isUseFlutterMapForAndroid)
-        widget.onCameraMove?.call(
-          CameraPosition(
-            target:
-                LatLng._fromFlutterLatLng(cameraPosition as latlong2.LatLng),
-          ),
-        );
-      else
-        widget.onCameraMove?.call(
-          CameraPosition.fromGoogleMapCameraPosition(
-            cameraPosition as googleMaps.CameraPosition,
-          ),
-        );
+      widget.onCameraMove?.call(
+        CameraPosition.fromGoogleMapCameraPosition(
+          cameraPosition as googleMaps.CameraPosition,
+        ),
+      );
     }
   }
 
