@@ -79,10 +79,11 @@ class LatLngBounds {
         southwest: LatLng._fromGoogleLatLng(bounds.southwest),
         northeast: LatLng._fromGoogleLatLng(bounds.northeast),
       );
-  static LatLngBounds _fromFlutterLatLngBounds(flutterMaps.LatLngBounds bounds) =>
+  static LatLngBounds _fromFlutterLatLngBounds(
+          flutterMaps.LatLngBounds bounds) =>
       LatLngBounds(
-        southwest: LatLng._fromGoogleLatLng(bounds.southWest),
-        northeast: LatLng._fromGoogleLatLng(bounds.northeast),
+        southwest: LatLng._fromFlutterLatLng(bounds.southWest),
+        northeast: LatLng._fromFlutterLatLng(bounds.northEast),
       );
 
   /// The southwest corner of the rectangle.

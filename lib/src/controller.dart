@@ -10,7 +10,8 @@ class PlatformMapController {
       this.googleController = controller;
     } else if (controller.runtimeType == appleMaps.AppleMapController) {
       this.appleController = controller;
-    } else if (controller.runtimeType == flutterMaps.MapController) {
+    } else if (controller.runtimeType == flutterMaps.MapController ||
+        controller.runtimeType == flutterMaps.MapControllerImpl) {
       this.flutterController = controller;
     }
   }

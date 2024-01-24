@@ -22,10 +22,10 @@ class PlatformMap extends StatefulWidget {
     this.myLocationButtonEnabled = false,
     this.padding = const EdgeInsets.all(0),
     this.trafficEnabled = false,
-    this.markers = const <Marker>{},
-    this.polygons = const <Polygon>{},
-    this.polylines = const <Polyline>{},
-    this.circles = const <Circle>{},
+    this.markers = const {},
+    this.polygons = const {},
+    this.polylines = const {},
+    this.circles = const {},
     this.onCameraMoveStarted,
     this.onCameraMove,
     this.onCameraIdle,
@@ -35,8 +35,6 @@ class PlatformMap extends StatefulWidget {
     this.isUseFlutterMapForAndroid = false,
     this.isUseFlutterMapForIos = false,
     this.flutterMapUrlTemplate,
-    this.flutterMapMarkers,
-    this.flutterMapPolylines,
   }) : super(key: key);
 
   /// Pass this param if use flutter_map.
@@ -45,10 +43,6 @@ class PlatformMap extends StatefulWidget {
   final bool isUseFlutterMapForIos;
 
   final String? flutterMapUrlTemplate;
-
-  final List<flutterMaps.Marker>? flutterMapMarkers;
-
-  final List<flutterMaps.Polyline>? flutterMapPolylines;
 
   /// Callback method for when the map is ready to be used.
   ///
@@ -91,16 +85,16 @@ class PlatformMap extends StatefulWidget {
   final EdgeInsets padding;
 
   /// Markers to be placed on the map.
-  final Set<Marker> markers;
+  final Set markers;
 
   /// Polygons to be placed on the map.
-  final Set<Polygon> polygons;
+  final Set polygons;
 
   /// Polylines to be placed on the map.
-  final Set<Polyline> polylines;
+  final Set polylines;
 
   /// Circles to be placed on the map.
-  final Set<Circle> circles;
+  final Set circles;
 
   /// Called when the camera starts moving.
   ///
@@ -192,6 +186,7 @@ class _PlatformMapState extends State<PlatformMap> {
   flutterMaps.MapController mapController = flutterMaps.MapController();
   Widget _buildFlutterMap() {
     return flutterMaps.FlutterMap(
+      mapController: mapController,
       options: flutterMaps.MapOptions(
         onMapReady: () => _onMapCreated(mapController),
         onMapEvent: (event) {
@@ -219,10 +214,10 @@ class _PlatformMapState extends State<PlatformMap> {
           // ),
         ),
         flutterMaps.MarkerLayer(
-          markers: widget.flutterMapMarkers ?? [],
+          markers: (widget.markers.cast<flutterMaps.Marker>()).toList(),
         ),
         flutterMaps.PolylineLayer(
-          polylines: widget.flutterMapPolylines ?? [],
+          polylines: (widget.polylines.cast<flutterMaps.Polyline>()).toList(),
         ),
       ],
     );
@@ -240,10 +235,12 @@ class _PlatformMapState extends State<PlatformMap> {
           compassEnabled: widget.compassEnabled,
           mapType: _getGoogleMapType(),
           padding: widget.padding,
-          markers: Marker.toGoogleMapsMarkerSet(widget.markers),
-          polylines: Polyline.toGoogleMapsPolylines(widget.polylines),
-          polygons: Polygon.toGoogleMapsPolygonSet(widget.polygons),
-          circles: Circle.toGoogleMapsCircleSet(widget.circles),
+          markers: Marker.toGoogleMapsMarkerSet(widget.markers.cast<Marker>()),
+          polylines:
+              Polyline.toGoogleMapsPolylines(widget.polylines.cast<Polyline>()),
+          polygons:
+              Polygon.toGoogleMapsPolygonSet(widget.polygons.cast<Polygon>()),
+          circles: Circle.toGoogleMapsCircleSet(widget.circles.cast<Circle>()),
           gestureRecognizers: widget.gestureRecognizers,
           onCameraIdle: widget.onCameraIdle,
           myLocationButtonEnabled: widget.myLocationButtonEnabled,
@@ -273,10 +270,13 @@ class _PlatformMapState extends State<PlatformMap> {
           compassEnabled: widget.compassEnabled,
           mapType: _getAppleMapType(),
           padding: widget.padding,
-          annotations: Marker.toAppleMapsAnnotationSet(widget.markers),
-          polylines: Polyline.toAppleMapsPolylines(widget.polylines),
-          polygons: Polygon.toAppleMapsPolygonSet(widget.polygons),
-          circles: Circle.toAppleMapsCircleSet(widget.circles),
+          annotations:
+              Marker.toAppleMapsAnnotationSet((widget.markers.cast<Marker>())),
+          polylines: Polyline.toAppleMapsPolylines(
+              (widget.polylines.cast<Polyline>())),
+          polygons:
+              Polygon.toAppleMapsPolygonSet((widget.polygons.cast<Polygon>())),
+          circles: Circle.toAppleMapsCircleSet((widget.circles.cast<Circle>())),
           gestureRecognizers: widget.gestureRecognizers,
           onCameraIdle: widget.onCameraIdle,
           myLocationButtonEnabled: widget.myLocationButtonEnabled,
