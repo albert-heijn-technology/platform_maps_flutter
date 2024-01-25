@@ -216,11 +216,14 @@ class _PlatformMapState extends State<PlatformMap>
           //   ),
           // ),
         ),
-        flutterMaps.MarkerLayer(
-          markers: (widget.markers.cast<flutterMaps.Marker>()).toList(),
-        ),
         flutterMaps.PolylineLayer(
           polylines: (widget.polylines.cast<flutterMaps.Polyline>()).toList(),
+        ),
+        flutterMaps.CircleLayer(
+          circles: (widget.circles.cast<flutterMaps.CircleMarker>()).toList(),
+        ),
+        flutterMaps.MarkerLayer(
+          markers: (widget.markers.cast<flutterMaps.Marker>()).toList(),
         ),
       ],
     );
