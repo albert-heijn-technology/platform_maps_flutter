@@ -182,13 +182,16 @@ class PlatformMap extends StatefulWidget {
   _PlatformMapState createState() => _PlatformMapState();
 }
 
-class _PlatformMapState extends State<PlatformMap> {
-  flutterMaps.MapController mapController = flutterMaps.MapController();
+class _PlatformMapState extends State<PlatformMap>
+    with TickerProviderStateMixin {
+  late flutterMapsAnimations.AnimatedMapController
+      flutterMapAnimationController =
+      flutterMapsAnimations.AnimatedMapController(vsync: this);
   Widget _buildFlutterMap() {
     return flutterMaps.FlutterMap(
-      mapController: mapController,
+      mapController: flutterMapAnimationController.mapController,
       options: flutterMaps.MapOptions(
-        onMapReady: () => _onMapCreated(mapController),
+        onMapReady: () => _onMapCreated(flutterMapAnimationController),
         onMapEvent: (event) {
           if (event is flutterMaps.MapEventMove) {
             _onCameraMove(event.camera.center);

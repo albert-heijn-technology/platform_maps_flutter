@@ -3,7 +3,7 @@ part of platform_maps_flutter;
 class PlatformMapController {
   appleMaps.AppleMapController? appleController;
   googleMaps.GoogleMapController? googleController;
-  flutterMaps.MapController? flutterController;
+  flutterMapsAnimations.AnimatedMapController? flutterMapAnimationController;
 
   PlatformMapController(dynamic controller) {
     if (controller.runtimeType == googleMaps.GoogleMapController) {
@@ -12,7 +12,7 @@ class PlatformMapController {
       this.appleController = controller;
     } else if (controller.runtimeType == flutterMaps.MapController ||
         controller.runtimeType == flutterMaps.MapControllerImpl) {
-      this.flutterController = controller;
+      this.flutterMapAnimationController = controller;
     }
   }
 
@@ -85,8 +85,8 @@ class PlatformMapController {
       return this.googleController!.animateCamera(cameraUpdate);
     else {
       return Future.value(this
-          .flutterController!
-          .move(cameraUpdate['latLng'], cameraUpdate['zoom']));
+          .flutterMapAnimationController!
+          .animateTo(dest: cameraUpdate['latLng'], zoom: cameraUpdate['zoom']));
     }
   }
 
@@ -101,8 +101,8 @@ class PlatformMapController {
       return this.googleController!.moveCamera(cameraUpdate);
     else {
       return Future.value(this
-          .flutterController!
-          .move(cameraUpdate['latLng'], cameraUpdate['zoom']));
+          .flutterMapAnimationController!
+          .animateTo(dest: cameraUpdate['latLng'], zoom: cameraUpdate['zoom']));
     }
   }
 
@@ -118,8 +118,11 @@ class PlatformMapController {
           await this.googleController!.getVisibleRegion();
       _bounds = LatLngBounds._fromGoogleLatLngBounds(googleBounds);
     } else {
-      _bounds = LatLngBounds._fromFlutterLatLngBounds(
-          this.flutterController!.camera.visibleBounds);
+      _bounds = LatLngBounds._fromFlutterLatLngBounds(this
+          .flutterMapAnimationController!
+          .mapController
+          .camera
+          .visibleBounds);
     }
     return _bounds;
   }
