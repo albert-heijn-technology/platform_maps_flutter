@@ -1,4 +1,4 @@
-part of platform_maps_flutter;
+part of '../platform_maps_flutter.dart';
 
 /// Item used in the stroke pattern for a Polyline.
 @immutable
@@ -23,46 +23,44 @@ class PatternItem {
     return PatternItem._(<dynamic>['gap', length]);
   }
 
-  static googleMaps.PatternItem _googleMapsPatternItem(
-      PatternItem patternItem) {
+  static google_maps.PatternItem _googleMapsPatternItem(PatternItem patternItem) {
     if (patternItem._json[0] == 'dash') {
-      return googleMaps.PatternItem.dash(patternItem._json[1]);
+      return google_maps.PatternItem.dash(patternItem._json[1]);
     } else if (patternItem._json[0] == 'gap') {
-      return googleMaps.PatternItem.gap(patternItem._json[1]);
+      return google_maps.PatternItem.gap(patternItem._json[1]);
     }
-    return googleMaps.PatternItem.dot;
+    return google_maps.PatternItem.dot;
   }
 
-  static appleMaps.PatternItem _appleMapsPatternItem(PatternItem patternItem) {
+  static apple_maps.PatternItem _appleMapsPatternItem(PatternItem patternItem) {
     if (patternItem._json[0] == 'dash') {
-      return appleMaps.PatternItem.dash(patternItem._json[1]);
+      return apple_maps.PatternItem.dash(patternItem._json[1]);
     } else if (patternItem._json[0] == 'gap') {
-      return appleMaps.PatternItem.gap(patternItem._json[1]);
+      return apple_maps.PatternItem.gap(patternItem._json[1]);
     }
-    return appleMaps.PatternItem.dot;
+    return apple_maps.PatternItem.dot;
   }
 
   final dynamic _json;
 
-  static List<googleMaps.PatternItem> getGoogleMapsPatternItemList(
+  static List<google_maps.PatternItem> getGoogleMapsPatternItemList(
       List<PatternItem> patternItems) {
-    List<googleMaps.PatternItem> googleMapsPatternItems = [];
-    patternItems.forEach((PatternItem patternItem) {
+    List<google_maps.PatternItem> googleMapsPatternItems = [];
+    for (var patternItem in patternItems) {
       googleMapsPatternItems.add(
         _googleMapsPatternItem(patternItem),
       );
-    });
+    }
     return googleMapsPatternItems;
   }
 
-  static List<appleMaps.PatternItem> getAppleMapsPatternItemList(
-      List<PatternItem> patternItems) {
-    List<appleMaps.PatternItem> appleMapsPatternItems = [];
-    patternItems.forEach((PatternItem patternItem) {
+  static List<apple_maps.PatternItem> getAppleMapsPatternItemList(List<PatternItem> patternItems) {
+    List<apple_maps.PatternItem> appleMapsPatternItems = [];
+    for (var patternItem in patternItems) {
       appleMapsPatternItems.add(
         _appleMapsPatternItem(patternItem),
       );
-    });
+    }
     return appleMapsPatternItems;
   }
 }

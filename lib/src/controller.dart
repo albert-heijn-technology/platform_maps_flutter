@@ -1,14 +1,14 @@
-part of platform_maps_flutter;
+part of '../platform_maps_flutter.dart';
 
 class PlatformMapController {
-  appleMaps.AppleMapController? appleController;
-  googleMaps.GoogleMapController? googleController;
+  apple_maps.AppleMapController? appleController;
+  google_maps.GoogleMapController? googleController;
 
   PlatformMapController(dynamic controller) {
-    if (controller.runtimeType == googleMaps.GoogleMapController) {
-      this.googleController = controller;
-    } else if (controller.runtimeType == appleMaps.AppleMapController) {
-      this.appleController = controller;
+    if (controller.runtimeType == google_maps.GoogleMapController) {
+      googleController = controller;
+    } else if (controller.runtimeType == apple_maps.AppleMapController) {
+      appleController = controller;
     }
   }
 
@@ -22,11 +22,9 @@ class PlatformMapController {
   ///   * [isMarkerInfoWindowShown] to check if the Info Window is showing.
   Future<void> showMarkerInfoWindow(MarkerId markerId) {
     if (Platform.isAndroid) {
-      return googleController!
-          .showMarkerInfoWindow(markerId.googleMapsMarkerId);
+      return googleController!.showMarkerInfoWindow(markerId.googleMapsMarkerId);
     } else if (Platform.isIOS) {
-      return appleController!
-          .showMarkerInfoWindow(markerId.appleMapsAnnoationId);
+      return appleController!.showMarkerInfoWindow(markerId.appleMapsAnnoationId);
     }
     throw ('Platform not supported.');
   }
@@ -41,11 +39,9 @@ class PlatformMapController {
   ///   * [isMarkerInfoWindowShown] to check if the Info Window is showing.
   Future<void> hideMarkerInfoWindow(MarkerId markerId) {
     if (Platform.isAndroid) {
-      return googleController!
-          .hideMarkerInfoWindow(markerId.googleMapsMarkerId);
+      return googleController!.hideMarkerInfoWindow(markerId.googleMapsMarkerId);
     } else if (Platform.isIOS) {
-      return appleController!
-          .hideMarkerInfoWindow(markerId.appleMapsAnnoationId);
+      return appleController!.hideMarkerInfoWindow(markerId.appleMapsAnnoationId);
     }
     throw ('Platform not supported.');
   }
@@ -60,12 +56,9 @@ class PlatformMapController {
   ///   * [hideMarkerInfoWindow] to hide the Info Window.
   Future<bool> isMarkerInfoWindowShown(MarkerId markerId) async {
     if (Platform.isAndroid) {
-      return googleController!
-          .isMarkerInfoWindowShown(markerId.googleMapsMarkerId);
+      return googleController!.isMarkerInfoWindowShown(markerId.googleMapsMarkerId);
     } else if (Platform.isIOS) {
-      return await appleController!
-              .isMarkerInfoWindowShown(markerId.appleMapsAnnoationId) ??
-          false;
+      return await appleController!.isMarkerInfoWindowShown(markerId.appleMapsAnnoationId) ?? false;
     }
     throw ('Platform not supported.');
   }
@@ -76,9 +69,9 @@ class PlatformMapController {
   /// platform side.
   Future<void> animateCamera(cameraUpdate) async {
     if (Platform.isIOS) {
-      return this.appleController!.animateCamera(cameraUpdate);
+      return appleController!.animateCamera(cameraUpdate);
     } else if (Platform.isAndroid) {
-      return this.googleController!.animateCamera(cameraUpdate);
+      return googleController!.animateCamera(cameraUpdate);
     }
     throw ('Platform not supported.');
   }
@@ -89,33 +82,32 @@ class PlatformMapController {
   /// platform side.
   Future<void> moveCamera(cameraUpdate) async {
     if (Platform.isIOS) {
-      return this.appleController!.moveCamera(cameraUpdate);
+      return appleController!.moveCamera(cameraUpdate);
     } else if (Platform.isAndroid) {
-      return this.googleController!.moveCamera(cameraUpdate);
+      return googleController!.moveCamera(cameraUpdate);
     }
   }
 
   /// Return [LatLngBounds] defining the region that is visible in a map.
   Future<LatLngBounds> getVisibleRegion() async {
-    late LatLngBounds _bounds;
+    late LatLngBounds bounds;
     if (Platform.isIOS) {
-      appleMaps.LatLngBounds appleBounds =
-          await this.appleController!.getVisibleRegion();
-      _bounds = LatLngBounds._fromAppleLatLngBounds(appleBounds);
+      apple_maps.LatLngBounds appleBounds = await appleController!.getVisibleRegion();
+      bounds = LatLngBounds._fromAppleLatLngBounds(appleBounds);
     } else if (Platform.isAndroid) {
-      googleMaps.LatLngBounds googleBounds =
-          await this.googleController!.getVisibleRegion();
-      _bounds = LatLngBounds._fromGoogleLatLngBounds(googleBounds);
+      google_maps.LatLngBounds googleBounds = await googleController!.getVisibleRegion();
+      bounds = LatLngBounds._fromGoogleLatLngBounds(googleBounds);
     }
-    return _bounds;
+    return bounds;
   }
 
   /// Returns the image bytes of the map
   Future<Uint8List?> takeSnapshot() async {
     if (Platform.isIOS) {
-      return this.appleController!.takeSnapshot();
+      return appleController!.takeSnapshot();
     } else if (Platform.isAndroid) {
-      return this.googleController!.takeSnapshot();
+      return googleController!.takeSnapshot();
     }
+    throw UnsupportedError('platform_maps only supports iOS and Android');
   }
 }

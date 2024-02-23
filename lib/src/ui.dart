@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-part of platform_maps_flutter;
+part of '../platform_maps_flutter.dart';
 
 /// Type of map tiles to display.
 enum MapType {
@@ -31,11 +31,11 @@ class MinMaxZoomPreference {
   /// The preferred maximum zoom level or null, if unbounded from above.
   final double? maxZoom;
 
-  appleMaps.MinMaxZoomPreference get appleMapsZoomPreference =>
-      appleMaps.MinMaxZoomPreference(this.maxZoom, this.maxZoom);
+  apple_maps.MinMaxZoomPreference get appleMapsZoomPreference =>
+      apple_maps.MinMaxZoomPreference(maxZoom, maxZoom);
 
-  googleMaps.MinMaxZoomPreference get googleMapsZoomPreference =>
-      googleMaps.MinMaxZoomPreference(this.maxZoom, this.maxZoom);
+  google_maps.MinMaxZoomPreference get googleMapsZoomPreference =>
+      google_maps.MinMaxZoomPreference(maxZoom, maxZoom);
 
   /// Converts this object to something serializable in JSON.
   dynamic toJson() => <dynamic>[minZoom, maxZoom];

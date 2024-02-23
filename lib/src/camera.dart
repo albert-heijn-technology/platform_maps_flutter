@@ -1,4 +1,4 @@
-part of platform_maps_flutter;
+part of '../platform_maps_flutter.dart';
 
 /// The position of the map "camera", the view point from which the world is
 /// shown in the map view. Aggregates the camera's [target] geographical
@@ -37,26 +37,25 @@ class CameraPosition {
   /// will be silently clamped to the supported range.
   final double zoom;
 
-  appleMaps.CameraPosition get appleMapsCameraPosition {
-    return appleMaps.CameraPosition(
-      target: this.target.appleLatLng,
-      heading: this.bearing,
-      pitch: this.tilt,
-      zoom: this.zoom,
+  apple_maps.CameraPosition get appleMapsCameraPosition {
+    return apple_maps.CameraPosition(
+      target: target.appleLatLng,
+      heading: bearing,
+      pitch: tilt,
+      zoom: zoom,
     );
   }
 
-  googleMaps.CameraPosition get googleMapsCameraPosition {
-    return googleMaps.CameraPosition(
-      target: this.target.googleLatLng,
-      bearing: this.bearing,
-      tilt: this.tilt,
-      zoom: this.zoom,
+  google_maps.CameraPosition get googleMapsCameraPosition {
+    return google_maps.CameraPosition(
+      target: target.googleLatLng,
+      bearing: bearing,
+      tilt: tilt,
+      zoom: zoom,
     );
   }
 
-  static CameraPosition fromAppleMapCameraPosition(
-      appleMaps.CameraPosition cameraPosition) {
+  static CameraPosition fromAppleMapCameraPosition(apple_maps.CameraPosition cameraPosition) {
     return CameraPosition(
       target: LatLng._fromAppleLatLng(cameraPosition.target),
       bearing: cameraPosition.heading,
@@ -65,8 +64,7 @@ class CameraPosition {
     );
   }
 
-  static CameraPosition fromGoogleMapCameraPosition(
-      googleMaps.CameraPosition cameraPosition) {
+  static CameraPosition fromGoogleMapCameraPosition(google_maps.CameraPosition cameraPosition) {
     return CameraPosition(
       target: LatLng._fromGoogleLatLng(cameraPosition.target),
       bearing: cameraPosition.bearing,
@@ -82,29 +80,27 @@ class CameraUpdate {
   /// Returns a camera update that moves the camera to the specified position.
   static newCameraPosition(CameraPosition cameraPosition) {
     if (Platform.isIOS) {
-      return appleMaps.CameraUpdate.newCameraPosition(
-          cameraPosition.appleMapsCameraPosition);
+      return apple_maps.CameraUpdate.newCameraPosition(cameraPosition.appleMapsCameraPosition);
     } else if (Platform.isAndroid) {
-      return googleMaps.CameraUpdate.newCameraPosition(
-          cameraPosition.googleMapsCameraPosition);
+      return google_maps.CameraUpdate.newCameraPosition(cameraPosition.googleMapsCameraPosition);
     }
   }
 
   /// Returns a camera update that moves the camera target to the specified geographical location.
   static newLatLng(LatLng latLng) {
     if (Platform.isIOS) {
-      return appleMaps.CameraUpdate.newLatLng(latLng.appleLatLng);
+      return apple_maps.CameraUpdate.newLatLng(latLng.appleLatLng);
     } else if (Platform.isAndroid) {
-      return googleMaps.CameraUpdate.newLatLng(latLng.googleLatLng);
+      return google_maps.CameraUpdate.newLatLng(latLng.googleLatLng);
     }
   }
 
   /// Returns a camera update that moves the camera target to the specified geographical location and zoom level.
   static newLatLngZoom(LatLng latLng, double zoom) {
     if (Platform.isIOS) {
-      return appleMaps.CameraUpdate.newLatLngZoom(latLng.appleLatLng, zoom);
+      return apple_maps.CameraUpdate.newLatLngZoom(latLng.appleLatLng, zoom);
     } else if (Platform.isAndroid) {
-      return googleMaps.CameraUpdate.newLatLngZoom(latLng.googleLatLng, zoom);
+      return google_maps.CameraUpdate.newLatLngZoom(latLng.googleLatLng, zoom);
     }
   }
 
@@ -115,11 +111,9 @@ class CameraUpdate {
   /// The camera's new tilt and bearing will both be 0.0.
   static newLatLngBounds(LatLngBounds bounds, double padding) {
     if (Platform.isIOS) {
-      return appleMaps.CameraUpdate.newLatLngBounds(
-          bounds.appleLatLngBounds, padding);
+      return apple_maps.CameraUpdate.newLatLngBounds(bounds.appleLatLngBounds, padding);
     } else if (Platform.isAndroid) {
-      return googleMaps.CameraUpdate.newLatLngBounds(
-          bounds.googleLatLngBounds, padding);
+      return google_maps.CameraUpdate.newLatLngBounds(bounds.googleLatLngBounds, padding);
     }
   }
 
@@ -128,9 +122,9 @@ class CameraUpdate {
   /// should be invariant, if possible, by the movement.
   static zoomBy(double amount) {
     if (Platform.isIOS) {
-      return appleMaps.CameraUpdate.zoomBy(amount);
+      return apple_maps.CameraUpdate.zoomBy(amount);
     } else if (Platform.isAndroid) {
-      return googleMaps.CameraUpdate.zoomBy(amount);
+      return google_maps.CameraUpdate.zoomBy(amount);
     }
   }
 
@@ -140,9 +134,9 @@ class CameraUpdate {
   /// Equivalent to the result of calling zoomBy(1.0).
   static zoomIn() {
     if (Platform.isIOS) {
-      return appleMaps.CameraUpdate.zoomIn();
+      return apple_maps.CameraUpdate.zoomIn();
     } else if (Platform.isAndroid) {
-      return googleMaps.CameraUpdate.zoomIn();
+      return google_maps.CameraUpdate.zoomIn();
     }
   }
 
@@ -152,18 +146,18 @@ class CameraUpdate {
   /// Equivalent to the result of calling zoomBy(-1.0).
   static zoomOut() {
     if (Platform.isIOS) {
-      return appleMaps.CameraUpdate.zoomOut();
+      return apple_maps.CameraUpdate.zoomOut();
     } else if (Platform.isAndroid) {
-      return googleMaps.CameraUpdate.zoomOut();
+      return google_maps.CameraUpdate.zoomOut();
     }
   }
 
   /// Returns a camera update that sets the camera zoom level.
   static zoomTo(double zoom) {
     if (Platform.isIOS) {
-      return appleMaps.CameraUpdate.zoomTo(zoom);
+      return apple_maps.CameraUpdate.zoomTo(zoom);
     } else if (Platform.isAndroid) {
-      return googleMaps.CameraUpdate.zoomTo(zoom);
+      return google_maps.CameraUpdate.zoomTo(zoom);
     }
   }
 
