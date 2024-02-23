@@ -1,5 +1,5 @@
 // Copyright 2019 The Chromium Authors. All rights reserved.
-part of platform_maps_flutter;
+part of '../platform_maps_flutter.dart';
 
 enum Cap {
   /// Cap that is squared off exactly at the start or end vertex of a [Polyline] with solid stroke pattern,
@@ -20,23 +20,23 @@ enum Cap {
 /// Cap that can be applied at the start or end vertex of a [Polyline].
 @immutable
 class _Cap {
-  static const Map<Cap, googleMaps.Cap> googleMapsCaps = {
-    Cap.buttCap: googleMaps.Cap.buttCap,
-    Cap.roundCap: googleMaps.Cap.roundCap,
-    Cap.squareCap: googleMaps.Cap.squareCap,
+  static const Map<Cap, google_maps.Cap> googleMapsCaps = {
+    Cap.buttCap: google_maps.Cap.buttCap,
+    Cap.roundCap: google_maps.Cap.roundCap,
+    Cap.squareCap: google_maps.Cap.squareCap,
   };
 
-  static const Map<Cap, appleMaps.Cap> appleMapsCaps = {
-    Cap.buttCap: appleMaps.Cap.buttCap,
-    Cap.roundCap: appleMaps.Cap.roundCap,
-    Cap.squareCap: appleMaps.Cap.squareCap,
+  static const Map<Cap, apple_maps.Cap> appleMapsCaps = {
+    Cap.buttCap: apple_maps.Cap.buttCap,
+    Cap.roundCap: apple_maps.Cap.roundCap,
+    Cap.squareCap: apple_maps.Cap.squareCap,
   };
 
-  static googleMaps.Cap googlePolylineCap(Cap cap) {
+  static google_maps.Cap googlePolylineCap(Cap cap) {
     return googleMapsCaps[cap]!;
   }
 
-  static appleMaps.Cap applePolylineCap(Cap cap) {
+  static apple_maps.Cap applePolylineCap(Cap cap) {
     return appleMapsCaps[cap]!;
   }
 }

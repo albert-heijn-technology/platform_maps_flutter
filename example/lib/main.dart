@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:platform_maps_flutter/platform_maps_flutter.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
+  const MyHomePage({Key? key}) : super(key: key);
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -25,32 +27,30 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PlatformMap(
-        initialCameraPosition: CameraPosition(
-          target: const LatLng(47.6, 8.8796),
+        initialCameraPosition: const CameraPosition(
+          target: LatLng(47.6, 8.8796),
           zoom: 16.0,
         ),
-        markers: Set<Marker>.of(
-          [
-            Marker(
-              markerId: MarkerId('marker_1'),
-              position: LatLng(47.6, 8.8796),
-              consumeTapEvents: true,
-              infoWindow: InfoWindow(
-                title: 'PlatformMarker',
-                snippet: "Hi I'm a Platform Marker",
-              ),
-              onTap: () {
-                print("Marker tapped");
-              },
+        markers: <Marker>{
+          Marker(
+            markerId: const MarkerId('marker_1'),
+            position: const LatLng(47.6, 8.8796),
+            consumeTapEvents: true,
+            infoWindow: const InfoWindow(
+              title: 'PlatformMarker',
+              snippet: "Hi I'm a Platform Marker",
             ),
-          ],
-        ),
+            onTap: () {
+              debugPrint("Marker tapped");
+            },
+          ),
+        },
         mapType: MapType.satellite,
-        onTap: (location) => print('onTap: $location'),
-        onCameraMove: (cameraUpdate) => print('onCameraMove: $cameraUpdate'),
+        onTap: (location) => debugPrint('onTap: $location'),
+        onCameraMove: (cameraUpdate) => debugPrint('onCameraMove: $cameraUpdate'),
         compassEnabled: true,
         onMapCreated: (controller) {
-          Future.delayed(Duration(seconds: 2)).then(
+          Future.delayed(const Duration(seconds: 2)).then(
             (_) {
               controller.animateCamera(
                 CameraUpdate.newCameraPosition(
@@ -64,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
               );
               controller
                   .getVisibleRegion()
-                  .then((bounds) => print("bounds: ${bounds.toString()}"));
+                  .then((bounds) => debugPrint("bounds: ${bounds.toString()}"));
             },
           );
         },

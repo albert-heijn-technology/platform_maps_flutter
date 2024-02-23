@@ -1,23 +1,23 @@
-part of platform_maps_flutter;
+part of '../platform_maps_flutter.dart';
 
 /// Uniquely identifies a [Polyline] among [AppleMap] polylines.
 ///
 /// This does not have to be globally unique, only unique among the list.
 @immutable
 class PolylineId {
-  PolylineId(this.value);
+  const PolylineId(this.value);
 
   /// value of the [PolylineId].
   final String value;
 
-  googleMaps.PolylineId googleMapsPolylineId() {
-    return googleMaps.PolylineId(
+  google_maps.PolylineId googleMapsPolylineId() {
+    return google_maps.PolylineId(
       value,
     );
   }
 
-  appleMaps.PolylineId appleMapsPolylineId() {
-    return appleMaps.PolylineId(
+  apple_maps.PolylineId appleMapsPolylineId() {
+    return apple_maps.PolylineId(
       value,
     );
   }
@@ -106,12 +106,11 @@ class Polyline {
   /// Callbacks to receive tap events for polyline placed on this map.
   final VoidCallback? onTap;
 
-  static Set<googleMaps.Polyline> toGoogleMapsPolylines(
-      Set<Polyline> polylines) {
-    Set<googleMaps.Polyline> googleMapsPolylines = Set();
-    polylines.forEach((Polyline polyline) {
+  static Set<google_maps.Polyline> toGoogleMapsPolylines(Set<Polyline> polylines) {
+    Set<google_maps.Polyline> googleMapsPolylines = {};
+    for (var polyline in polylines) {
       googleMapsPolylines.add(
-        googleMaps.Polyline(
+        google_maps.Polyline(
           polylineId: polyline.polylineId.googleMapsPolylineId(),
           color: polyline.color,
           consumeTapEvents: polyline.consumeTapEvents,
@@ -125,15 +124,15 @@ class Polyline {
           width: polyline.width,
         ),
       );
-    });
+    }
     return googleMapsPolylines;
   }
 
-  static Set<appleMaps.Polyline> toAppleMapsPolylines(Set<Polyline> polylines) {
-    Set<appleMaps.Polyline> appleMapsPolylines = Set();
-    polylines.forEach((Polyline polyline) {
+  static Set<apple_maps.Polyline> toAppleMapsPolylines(Set<Polyline> polylines) {
+    Set<apple_maps.Polyline> appleMapsPolylines = {};
+    for (var polyline in polylines) {
       appleMapsPolylines.add(
-        appleMaps.Polyline(
+        apple_maps.Polyline(
           polylineId: polyline.polylineId.appleMapsPolylineId(),
           color: polyline.color,
           consumeTapEvents: polyline.consumeTapEvents,
@@ -146,7 +145,7 @@ class Polyline {
           width: polyline.width,
         ),
       );
-    });
+    }
     return appleMapsPolylines;
   }
 
