@@ -2,12 +2,12 @@ library platform_maps_flutter;
 
 import 'dart:io';
 
-import 'package:apple_maps_flutter/apple_maps_flutter.dart' as appleMaps;
+import 'package:apple_maps_flutter/apple_maps_flutter.dart' as apple_maps;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart' as googleMaps;
+import 'package:google_maps_flutter/google_maps_flutter.dart' as google_maps;
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
 
 part 'src/bitmap.dart';

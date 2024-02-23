@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-part of platform_maps_flutter;
+part of '../platform_maps_flutter.dart';
 
 /// Uniquely identifies a [Circle] among [PlatformMap] circles.
 ///
@@ -10,7 +10,7 @@ part of platform_maps_flutter;
 @immutable
 class CircleId {
   /// Creates an immutable identifier for a [Circle].
-  CircleId(this.value);
+  const CircleId(this.value);
 
   /// value of the [CircleId].
   final String value;
@@ -125,44 +125,44 @@ class Circle {
         onTap == typedOther.onTap;
   }
 
-  static Set<googleMaps.Circle> toGoogleMapsCircleSet(Set<Circle> circles) {
-    List<googleMaps.Circle> _circles = <googleMaps.Circle>[];
+  static Set<google_maps.Circle> toGoogleMapsCircleSet(Set<Circle> circles) {
+    List<google_maps.Circle> circles0 = <google_maps.Circle>[];
     for (Circle circle in circles) {
-      _circles.add(circle.googleMapsCircle);
+      circles0.add(circle.googleMapsCircle);
     }
-    return Set.from(_circles);
+    return Set.from(circles0);
   }
 
-  static Set<appleMaps.Circle> toAppleMapsCircleSet(Set<Circle> circles) {
-    List<appleMaps.Circle> _circles = <appleMaps.Circle>[];
+  static Set<apple_maps.Circle> toAppleMapsCircleSet(Set<Circle> circles) {
+    List<apple_maps.Circle> circles0 = <apple_maps.Circle>[];
     for (Circle circle in circles) {
-      _circles.add(circle.appleMapsCircle);
+      circles0.add(circle.appleMapsCircle);
     }
-    return Set.from(_circles);
+    return Set.from(circles0);
   }
 
-  googleMaps.Circle get googleMapsCircle => googleMaps.Circle(
-        circleId: googleMaps.CircleId(this.circleId.value),
-        consumeTapEvents: this.consumeTapEvents,
-        fillColor: this.fillColor,
-        onTap: this.onTap,
-        center: this.center.googleLatLng,
-        radius: this.radius,
-        strokeColor: this.strokeColor,
-        strokeWidth: this.strokeWidth,
-        visible: this.visible,
+  google_maps.Circle get googleMapsCircle => google_maps.Circle(
+        circleId: google_maps.CircleId(circleId.value),
+        consumeTapEvents: consumeTapEvents,
+        fillColor: fillColor,
+        onTap: onTap,
+        center: center.googleLatLng,
+        radius: radius,
+        strokeColor: strokeColor,
+        strokeWidth: strokeWidth,
+        visible: visible,
       );
 
-  appleMaps.Circle get appleMapsCircle => appleMaps.Circle(
-        circleId: appleMaps.CircleId(this.circleId.value),
-        consumeTapEvents: this.consumeTapEvents,
-        fillColor: this.fillColor,
-        onTap: this.onTap,
-        center: this.center.appleLatLng,
-        radius: this.radius,
-        strokeColor: this.strokeColor,
-        strokeWidth: this.strokeWidth,
-        visible: this.visible,
+  apple_maps.Circle get appleMapsCircle => apple_maps.Circle(
+        circleId: apple_maps.CircleId(circleId.value),
+        consumeTapEvents: consumeTapEvents,
+        fillColor: fillColor,
+        onTap: onTap,
+        center: center.appleLatLng,
+        radius: radius,
+        strokeColor: strokeColor,
+        strokeWidth: strokeWidth,
+        visible: visible,
       );
 
   @override

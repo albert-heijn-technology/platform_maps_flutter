@@ -1,14 +1,14 @@
-part of platform_maps_flutter;
+part of '../platform_maps_flutter.dart';
 
 class PlatformMapController {
-  appleMaps.AppleMapController? appleController;
-  googleMaps.GoogleMapController? googleController;
+  apple_maps.AppleMapController? appleController;
+  google_maps.GoogleMapController? googleController;
 
   PlatformMapController(dynamic controller) {
-    if (controller.runtimeType == googleMaps.GoogleMapController) {
-      this.googleController = controller;
-    } else if (controller.runtimeType == appleMaps.AppleMapController) {
-      this.appleController = controller;
+    if (controller.runtimeType == google_maps.GoogleMapController) {
+      googleController = controller;
+    } else if (controller.runtimeType == apple_maps.AppleMapController) {
+      appleController = controller;
     }
   }
 
@@ -76,9 +76,9 @@ class PlatformMapController {
   /// platform side.
   Future<void> animateCamera(cameraUpdate) async {
     if (Platform.isIOS) {
-      return this.appleController!.animateCamera(cameraUpdate);
+      return appleController!.animateCamera(cameraUpdate);
     } else if (Platform.isAndroid) {
-      return this.googleController!.animateCamera(cameraUpdate);
+      return googleController!.animateCamera(cameraUpdate);
     }
     throw ('Platform not supported.');
   }
@@ -89,34 +89,34 @@ class PlatformMapController {
   /// platform side.
   Future<void> moveCamera(cameraUpdate) async {
     if (Platform.isIOS) {
-      return this.appleController!.moveCamera(cameraUpdate);
+      return appleController!.moveCamera(cameraUpdate);
     } else if (Platform.isAndroid) {
-      return this.googleController!.moveCamera(cameraUpdate);
+      return googleController!.moveCamera(cameraUpdate);
     }
   }
 
   /// Return [LatLngBounds] defining the region that is visible in a map.
   Future<LatLngBounds> getVisibleRegion() async {
-    late LatLngBounds _bounds;
+    late LatLngBounds bounds;
     if (Platform.isIOS) {
-      appleMaps.LatLngBounds appleBounds =
-          await this.appleController!.getVisibleRegion();
-      _bounds = LatLngBounds._fromAppleLatLngBounds(appleBounds);
+      apple_maps.LatLngBounds appleBounds =
+          await appleController!.getVisibleRegion();
+      bounds = LatLngBounds._fromAppleLatLngBounds(appleBounds);
     } else if (Platform.isAndroid) {
-      googleMaps.LatLngBounds googleBounds =
-          await this.googleController!.getVisibleRegion();
-      _bounds = LatLngBounds._fromGoogleLatLngBounds(googleBounds);
+      google_maps.LatLngBounds googleBounds =
+          await googleController!.getVisibleRegion();
+      bounds = LatLngBounds._fromGoogleLatLngBounds(googleBounds);
     }
-    return _bounds;
+    return bounds;
   }
 
   /// Returns the image bytes of the map
   Future<Uint8List?> takeSnapshot() async {
     if (Platform.isIOS) {
-      return this.appleController!.takeSnapshot();
+      return appleController!.takeSnapshot();
     } else if (Platform.isAndroid) {
-      return this.googleController!.takeSnapshot();
+      return googleController!.takeSnapshot();
     }
-    return null;
+    throw UnsupportedError('platform_maps only supports iOS and Android');
   }
 }

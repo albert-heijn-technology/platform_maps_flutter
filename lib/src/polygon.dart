@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-part of platform_maps_flutter;
+part of '../platform_maps_flutter.dart';
 
 /// Uniquely identifies a [Polygon] among [PlatformMap] polygons.
 ///
@@ -10,7 +10,7 @@ part of platform_maps_flutter;
 @immutable
 class PolygonId {
   /// Creates an immutable identifier for a [Polygon].
-  PolygonId(this.value);
+  const PolygonId(this.value);
 
   /// value of the [PolygonId].
   final String value;
@@ -125,41 +125,41 @@ class Polygon {
   @override
   int get hashCode => polygonId.hashCode;
 
-  static Set<googleMaps.Polygon> toGoogleMapsPolygonSet(Set<Polygon> polygons) {
-    List<googleMaps.Polygon> _polygons = <googleMaps.Polygon>[];
+  static Set<google_maps.Polygon> toGoogleMapsPolygonSet(Set<Polygon> polygons) {
+    List<google_maps.Polygon> polygons0 = <google_maps.Polygon>[];
     for (Polygon polygon in polygons) {
-      _polygons.add(polygon.googleMapsPolygon);
+      polygons0.add(polygon.googleMapsPolygon);
     }
-    return Set.from(_polygons);
+    return Set.from(polygons0);
   }
 
-  static Set<appleMaps.Polygon> toAppleMapsPolygonSet(Set<Polygon> polygons) {
-    List<appleMaps.Polygon> _polygons = <appleMaps.Polygon>[];
+  static Set<apple_maps.Polygon> toAppleMapsPolygonSet(Set<Polygon> polygons) {
+    List<apple_maps.Polygon> polygons0 = <apple_maps.Polygon>[];
     for (Polygon polygon in polygons) {
-      _polygons.add(polygon.appleMapsPolygon);
+      polygons0.add(polygon.appleMapsPolygon);
     }
-    return Set.from(_polygons);
+    return Set.from(polygons0);
   }
 
-  googleMaps.Polygon get googleMapsPolygon => googleMaps.Polygon(
-        polygonId: googleMaps.PolygonId(this.polygonId.value),
-        consumeTapEvents: this.consumeTapEvents,
-        fillColor: this.fillColor,
-        onTap: this.onTap,
-        points: LatLng.googleMapsLatLngsFromList(this.points),
-        strokeColor: this.strokeColor,
-        strokeWidth: this.strokeWidth,
-        visible: this.visible,
+  google_maps.Polygon get googleMapsPolygon => google_maps.Polygon(
+        polygonId: google_maps.PolygonId(polygonId.value),
+        consumeTapEvents: consumeTapEvents,
+        fillColor: fillColor,
+        onTap: onTap,
+        points: LatLng.googleMapsLatLngsFromList(points),
+        strokeColor: strokeColor,
+        strokeWidth: strokeWidth,
+        visible: visible,
       );
 
-  appleMaps.Polygon get appleMapsPolygon => appleMaps.Polygon(
-        polygonId: appleMaps.PolygonId(this.polygonId.value),
-        consumeTapEvents: this.consumeTapEvents,
-        fillColor: this.fillColor,
-        onTap: this.onTap,
-        points: LatLng.appleMapsLatLngsFromList(this.points),
-        strokeColor: this.strokeColor,
-        strokeWidth: this.strokeWidth,
-        visible: this.visible,
+  apple_maps.Polygon get appleMapsPolygon => apple_maps.Polygon(
+        polygonId: apple_maps.PolygonId(polygonId.value),
+        consumeTapEvents: consumeTapEvents,
+        fillColor: fillColor,
+        onTap: onTap,
+        points: LatLng.appleMapsLatLngsFromList(points),
+        strokeColor: strokeColor,
+        strokeWidth: strokeWidth,
+        visible: visible,
       );
 }

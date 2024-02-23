@@ -1,4 +1,4 @@
-part of platform_maps_flutter;
+part of '../platform_maps_flutter.dart';
 
 /// Defines a bitmap image. For a marker, this class can be used to set the
 /// image of the marker icon. For a ground overlay, it can be used to set the
@@ -12,9 +12,9 @@ class BitmapDescriptor {
   /// Creates a BitmapDescriptor that refers to the default marker image.
   static BitmapDescriptor? get defaultMarker {
     if (Platform.isIOS) {
-      return BitmapDescriptor._(appleMaps.BitmapDescriptor.defaultAnnotation);
+      return BitmapDescriptor._(apple_maps.BitmapDescriptor.defaultAnnotation);
     } else if (Platform.isAndroid) {
-      return BitmapDescriptor._(googleMaps.BitmapDescriptor.defaultMarker);
+      return BitmapDescriptor._(google_maps.BitmapDescriptor.defaultMarker);
     }
     return null;
   }
@@ -33,14 +33,14 @@ class BitmapDescriptor {
   }) async {
     dynamic bitmap;
     if (Platform.isIOS) {
-      bitmap = await appleMaps.BitmapDescriptor.fromAssetImage(
+      bitmap = await apple_maps.BitmapDescriptor.fromAssetImage(
         configuration,
         assetName,
         bundle: bundle,
         package: package,
       );
     } else if (Platform.isAndroid) {
-      bitmap = await googleMaps.BitmapDescriptor.fromAssetImage(
+      bitmap = await google_maps.BitmapDescriptor.fromAssetImage(
         configuration,
         assetName,
         bundle: bundle,
@@ -54,8 +54,8 @@ class BitmapDescriptor {
   /// as PNG.
   static BitmapDescriptor fromBytes(Uint8List byteData) {
     var bitmap = Platform.isAndroid
-        ? googleMaps.BitmapDescriptor.fromBytes(byteData)
-        : appleMaps.BitmapDescriptor.fromBytes(byteData);
+        ? google_maps.BitmapDescriptor.fromBytes(byteData)
+        : apple_maps.BitmapDescriptor.fromBytes(byteData);
     return BitmapDescriptor._(bitmap);
   }
 }
