@@ -2,7 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-part of '../platform_maps_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:platform_maps_flutter_platform_interface/src/types.dart';
 
 /// Uniquely identifies a [Circle] among [PlatformMap] circles.
 ///
@@ -124,46 +125,6 @@ class Circle {
         visible == typedOther.visible &&
         onTap == typedOther.onTap;
   }
-
-  static Set<google_maps.Circle> toGoogleMapsCircleSet(Set<Circle> circles) {
-    List<google_maps.Circle> circles0 = <google_maps.Circle>[];
-    for (Circle circle in circles) {
-      circles0.add(circle.googleMapsCircle);
-    }
-    return Set.from(circles0);
-  }
-
-  static Set<apple_maps.Circle> toAppleMapsCircleSet(Set<Circle> circles) {
-    List<apple_maps.Circle> circles0 = <apple_maps.Circle>[];
-    for (Circle circle in circles) {
-      circles0.add(circle.appleMapsCircle);
-    }
-    return Set.from(circles0);
-  }
-
-  google_maps.Circle get googleMapsCircle => google_maps.Circle(
-        circleId: google_maps.CircleId(circleId.value),
-        consumeTapEvents: consumeTapEvents,
-        fillColor: fillColor,
-        onTap: onTap,
-        center: center.googleLatLng,
-        radius: radius,
-        strokeColor: strokeColor,
-        strokeWidth: strokeWidth,
-        visible: visible,
-      );
-
-  apple_maps.Circle get appleMapsCircle => apple_maps.Circle(
-        circleId: apple_maps.CircleId(circleId.value),
-        consumeTapEvents: consumeTapEvents,
-        fillColor: fillColor,
-        onTap: onTap,
-        center: center.appleLatLng,
-        radius: radius,
-        strokeColor: strokeColor,
-        strokeWidth: strokeWidth,
-        visible: visible,
-      );
 
   @override
   int get hashCode => circleId.hashCode;

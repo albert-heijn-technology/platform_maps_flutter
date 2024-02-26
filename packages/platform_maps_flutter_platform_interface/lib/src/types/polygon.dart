@@ -2,7 +2,9 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-part of '../platform_maps_flutter.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:platform_maps_flutter_platform_interface/src/types.dart';
 
 /// Uniquely identifies a [Polygon] among [PlatformMap] polygons.
 ///
@@ -124,42 +126,4 @@ class Polygon {
 
   @override
   int get hashCode => polygonId.hashCode;
-
-  static Set<google_maps.Polygon> toGoogleMapsPolygonSet(Set<Polygon> polygons) {
-    List<google_maps.Polygon> polygons0 = <google_maps.Polygon>[];
-    for (Polygon polygon in polygons) {
-      polygons0.add(polygon.googleMapsPolygon);
-    }
-    return Set.from(polygons0);
-  }
-
-  static Set<apple_maps.Polygon> toAppleMapsPolygonSet(Set<Polygon> polygons) {
-    List<apple_maps.Polygon> polygons0 = <apple_maps.Polygon>[];
-    for (Polygon polygon in polygons) {
-      polygons0.add(polygon.appleMapsPolygon);
-    }
-    return Set.from(polygons0);
-  }
-
-  google_maps.Polygon get googleMapsPolygon => google_maps.Polygon(
-        polygonId: google_maps.PolygonId(polygonId.value),
-        consumeTapEvents: consumeTapEvents,
-        fillColor: fillColor,
-        onTap: onTap,
-        points: LatLng.googleMapsLatLngsFromList(points),
-        strokeColor: strokeColor,
-        strokeWidth: strokeWidth,
-        visible: visible,
-      );
-
-  apple_maps.Polygon get appleMapsPolygon => apple_maps.Polygon(
-        polygonId: apple_maps.PolygonId(polygonId.value),
-        consumeTapEvents: consumeTapEvents,
-        fillColor: fillColor,
-        onTap: onTap,
-        points: LatLng.appleMapsLatLngsFromList(points),
-        strokeColor: strokeColor,
-        strokeWidth: strokeWidth,
-        visible: visible,
-      );
 }

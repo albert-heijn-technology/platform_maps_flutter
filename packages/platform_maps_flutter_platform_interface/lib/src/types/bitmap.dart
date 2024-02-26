@@ -1,23 +1,16 @@
-part of '../platform_maps_flutter.dart';
+import 'dart:typed_data';
+
+import 'package:flutter/widgets.dart';
+import 'package:platform_maps_flutter_platform_interface/src/platform_bitmap_descriptor.dart';
 
 /// Defines a bitmap image. For a marker, this class can be used to set the
 /// image of the marker icon. For a ground overlay, it can be used to set the
 /// image to place on the surface of the earth.
 
-class BitmapDescriptor {
-  final dynamic bitmapDescriptor;
+class BitmapDescriptor<T> {
+  final T bitmapDescriptor;
 
   BitmapDescriptor._(this.bitmapDescriptor);
-
-  /// Creates a BitmapDescriptor that refers to the default marker image.
-  static BitmapDescriptor? get defaultMarker {
-    if (Platform.isIOS) {
-      return BitmapDescriptor._(apple_maps.BitmapDescriptor.defaultAnnotation);
-    } else if (Platform.isAndroid) {
-      return BitmapDescriptor._(google_maps.BitmapDescriptor.defaultMarker);
-    }
-    return null;
-  }
 
   /// Creates a [BitmapDescriptor] from an asset image.
   /// Asset images in flutter are stored per: https://flutter.dev/docs/development/ui/assets-and-images#declaring-resolution-aware-image-assets
@@ -31,31 +24,19 @@ class BitmapDescriptor {
     AssetBundle? bundle,
     String? package,
   }) async {
-    dynamic bitmap;
-    if (Platform.isIOS) {
-      bitmap = await apple_maps.BitmapDescriptor.fromAssetImage(
-        configuration,
-        assetName,
-        bundle: bundle,
-        package: package,
-      );
-    } else if (Platform.isAndroid) {
-      bitmap = await google_maps.BitmapDescriptor.fromAssetImage(
-        configuration,
-        assetName,
-        bundle: bundle,
-        package: package,
-      );
-    }
+    final bitmap = PlatformBitmapDescriptor().fromAssetImage(
+      configuration,
+      assetName,
+      bundle: bundle,
+      package: package,
+    );
     return BitmapDescriptor._(bitmap);
   }
 
   /// Creates a BitmapDescriptor using an array of bytes that must be encoded
   /// as PNG.
   static BitmapDescriptor fromBytes(Uint8List byteData) {
-    var bitmap = Platform.isAndroid
-        ? google_maps.BitmapDescriptor.fromBytes(byteData)
-        : apple_maps.BitmapDescriptor.fromBytes(byteData);
+    var bitmap = PlatformBitmapDescriptor().fromBytes(byteData);
     return BitmapDescriptor._(bitmap);
   }
 }

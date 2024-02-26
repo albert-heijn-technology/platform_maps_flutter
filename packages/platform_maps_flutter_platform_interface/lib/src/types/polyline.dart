@@ -1,4 +1,5 @@
-part of '../platform_maps_flutter.dart';
+import 'package:flutter/material.dart';
+import 'package:platform_maps_flutter_platform_interface/platform_maps_flutter_platform_interface.dart';
 
 /// Uniquely identifies a [Polyline] among [AppleMap] polylines.
 ///
@@ -9,18 +10,6 @@ class PolylineId {
 
   /// value of the [PolylineId].
   final String value;
-
-  google_maps.PolylineId googleMapsPolylineId() {
-    return google_maps.PolylineId(
-      value,
-    );
-  }
-
-  apple_maps.PolylineId appleMapsPolylineId() {
-    return apple_maps.PolylineId(
-      value,
-    );
-  }
 }
 
 /// Draws a line through geographical locations on the map.
@@ -105,49 +94,6 @@ class Polyline {
 
   /// Callbacks to receive tap events for polyline placed on this map.
   final VoidCallback? onTap;
-
-  static Set<google_maps.Polyline> toGoogleMapsPolylines(Set<Polyline> polylines) {
-    Set<google_maps.Polyline> googleMapsPolylines = {};
-    for (var polyline in polylines) {
-      googleMapsPolylines.add(
-        google_maps.Polyline(
-          polylineId: polyline.polylineId.googleMapsPolylineId(),
-          color: polyline.color,
-          consumeTapEvents: polyline.consumeTapEvents,
-          endCap: _Cap.googlePolylineCap(polyline.polylineCap),
-          jointType: JointType.getGoogleMapsJointType(polyline.jointType),
-          onTap: polyline.onTap,
-          patterns: PatternItem.getGoogleMapsPatternItemList(polyline.patterns),
-          points: LatLng.googleMapsLatLngsFromList(polyline.points),
-          startCap: _Cap.googlePolylineCap(polyline.polylineCap),
-          visible: polyline.visible,
-          width: polyline.width,
-        ),
-      );
-    }
-    return googleMapsPolylines;
-  }
-
-  static Set<apple_maps.Polyline> toAppleMapsPolylines(Set<Polyline> polylines) {
-    Set<apple_maps.Polyline> appleMapsPolylines = {};
-    for (var polyline in polylines) {
-      appleMapsPolylines.add(
-        apple_maps.Polyline(
-          polylineId: polyline.polylineId.appleMapsPolylineId(),
-          color: polyline.color,
-          consumeTapEvents: polyline.consumeTapEvents,
-          polylineCap: _Cap.applePolylineCap(polyline.polylineCap),
-          jointType: JointType.getAppleMapsJointType(polyline.jointType),
-          onTap: polyline.onTap,
-          patterns: PatternItem.getAppleMapsPatternItemList(polyline.patterns),
-          points: LatLng.appleMapsLatLngsFromList(polyline.points),
-          visible: polyline.visible,
-          width: polyline.width,
-        ),
-      );
-    }
-    return appleMapsPolylines;
-  }
 
   Polyline copyWith({
     Color? colorParam,
