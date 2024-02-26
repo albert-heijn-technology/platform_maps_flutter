@@ -1,0 +1,18 @@
+name: platform_maps_flutter_platform_interface
+description: platform interface for platform_maps_flutter package
+version: 1.0.0
+# NOTE: We strongly prefer non-breaking changes, even at the expense of a
+# less-clean API. See https://flutter.dev/go/platform-interface-breaking-changes
+
+environment:
+  sdk: ^3.2.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  plugin_platform_interface: ^2.1.8
+
+dev_dependencies:
+  flutter_lints: ^3.0.1
+  flutter_test:
+    sdk: flutter

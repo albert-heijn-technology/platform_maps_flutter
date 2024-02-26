@@ -1,11 +1,15 @@
-part of '../platform_maps_flutter.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
+import 'package:flutter/widgets.dart';
+
+import 'package:platform_maps_flutter_platform_interface/src/types.dart';
 
 typedef MapCreatedCallback = void Function(PlatformMapController controller);
 
 typedef CameraPositionCallback = void Function(CameraPosition position);
 
-class PlatformMap extends StatefulWidget {
-  const PlatformMap({
+class PlatformMapsPlatformWidgetCreationParams {
+  const PlatformMapsPlatformWidgetCreationParams({
     Key? key,
     required this.initialCameraPosition,
     this.onMapCreated,
@@ -31,7 +35,7 @@ class PlatformMap extends StatefulWidget {
     this.onCameraIdle,
     this.onTap,
     this.onLongPress,
-  }) : super(key: key);
+  });
 
   /// Callback method for when the map is ready to be used.
   ///
@@ -163,126 +167,4 @@ class PlatformMap extends StatefulWidget {
   /// When this set is empty, the map will only handle pointer events for gestures that
   /// were not claimed by any other gesture recognizer.
   final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers;
-  @override
-  State<PlatformMap> createState() => _PlatformMapState();
-}
-
-class _PlatformMapState extends State<PlatformMap> {
-  @override
-  Widget build(BuildContext context) {
-    if (Platform.isAndroid) {
-      return google_maps.GoogleMap(
-        initialCameraPosition: widget.initialCameraPosition.googleMapsCameraPosition,
-        compassEnabled: widget.compassEnabled,
-        mapType: _getGoogleMapType(),
-        padding: widget.padding,
-        markers: Marker.toGoogleMapsMarkerSet(widget.markers),
-        polylines: Polyline.toGoogleMapsPolylines(widget.polylines),
-        polygons: Polygon.toGoogleMapsPolygonSet(widget.polygons),
-        circles: Circle.toGoogleMapsCircleSet(widget.circles),
-        gestureRecognizers: widget.gestureRecognizers,
-        onCameraIdle: widget.onCameraIdle,
-        myLocationButtonEnabled: widget.myLocationButtonEnabled,
-        myLocationEnabled: widget.myLocationEnabled,
-        onCameraMoveStarted: widget.onCameraMoveStarted,
-        tiltGesturesEnabled: widget.tiltGesturesEnabled,
-        rotateGesturesEnabled: widget.rotateGesturesEnabled,
-        zoomControlsEnabled: widget.zoomControlsEnabled,
-        zoomGesturesEnabled: widget.zoomGesturesEnabled,
-        scrollGesturesEnabled: widget.scrollGesturesEnabled,
-        onMapCreated: _onMapCreated,
-        onCameraMove: _onCameraMove,
-        onTap: _onTap,
-        onLongPress: _onLongPress,
-        trafficEnabled: widget.trafficEnabled,
-        minMaxZoomPreference: widget.minMaxZoomPreference.googleMapsZoomPreference,
-      );
-    } else if (Platform.isIOS) {
-      return apple_maps.AppleMap(
-        initialCameraPosition: widget.initialCameraPosition.appleMapsCameraPosition,
-        compassEnabled: widget.compassEnabled,
-        mapType: _getAppleMapType(),
-        padding: widget.padding,
-        annotations: Marker.toAppleMapsAnnotationSet(widget.markers),
-        polylines: Polyline.toAppleMapsPolylines(widget.polylines),
-        polygons: Polygon.toAppleMapsPolygonSet(widget.polygons),
-        circles: Circle.toAppleMapsCircleSet(widget.circles),
-        gestureRecognizers: widget.gestureRecognizers,
-        onCameraIdle: widget.onCameraIdle,
-        myLocationButtonEnabled: widget.myLocationButtonEnabled,
-        myLocationEnabled: widget.myLocationEnabled,
-        onCameraMoveStarted: widget.onCameraMoveStarted,
-        pitchGesturesEnabled: widget.tiltGesturesEnabled,
-        rotateGesturesEnabled: widget.rotateGesturesEnabled,
-        zoomGesturesEnabled: widget.zoomGesturesEnabled,
-        scrollGesturesEnabled: widget.scrollGesturesEnabled,
-        onMapCreated: _onMapCreated,
-        onCameraMove: _onCameraMove,
-        onTap: _onTap,
-        onLongPress: _onLongPress,
-        trafficEnabled: widget.trafficEnabled,
-        minMaxZoomPreference: widget.minMaxZoomPreference.appleMapsZoomPreference,
-      );
-    } else {
-      return const Text("Platform not yet implemented");
-    }
-  }
-
-  void _onMapCreated(dynamic controller) {
-    widget.onMapCreated?.call(PlatformMapController(controller));
-  }
-
-  void _onCameraMove(dynamic cameraPosition) {
-    if (Platform.isIOS) {
-      widget.onCameraMove?.call(
-        CameraPosition.fromAppleMapCameraPosition(
-          cameraPosition as apple_maps.CameraPosition,
-        ),
-      );
-    } else if (Platform.isAndroid) {
-      widget.onCameraMove?.call(
-        CameraPosition.fromGoogleMapCameraPosition(
-          cameraPosition as google_maps.CameraPosition,
-        ),
-      );
-    }
-  }
-
-  void _onTap(dynamic position) {
-    if (Platform.isIOS) {
-      widget.onTap?.call(LatLng._fromAppleLatLng(position as apple_maps.LatLng));
-    } else if (Platform.isAndroid) {
-      widget.onTap?.call(LatLng._fromGoogleLatLng(position as google_maps.LatLng));
-    }
-  }
-
-  void _onLongPress(dynamic position) {
-    if (Platform.isIOS) {
-      widget.onLongPress?.call(LatLng._fromAppleLatLng(position as apple_maps.LatLng));
-    } else if (Platform.isAndroid) {
-      widget.onLongPress?.call(LatLng._fromGoogleLatLng(position as google_maps.LatLng));
-    }
-  }
-
-  apple_maps.MapType _getAppleMapType() {
-    if (widget.mapType == MapType.normal) {
-      return apple_maps.MapType.standard;
-    } else if (widget.mapType == MapType.satellite) {
-      return apple_maps.MapType.satellite;
-    } else if (widget.mapType == MapType.hybrid) {
-      return apple_maps.MapType.hybrid;
-    }
-    return apple_maps.MapType.standard;
-  }
-
-  google_maps.MapType _getGoogleMapType() {
-    if (widget.mapType == MapType.normal) {
-      return google_maps.MapType.normal;
-    } else if (widget.mapType == MapType.satellite) {
-      return google_maps.MapType.satellite;
-    } else if (widget.mapType == MapType.hybrid) {
-      return google_maps.MapType.hybrid;
-    }
-    return google_maps.MapType.normal;
-  }
 }
