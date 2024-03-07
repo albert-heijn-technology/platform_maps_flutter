@@ -6,21 +6,21 @@ repository: https://github.com/LuisThein/platform_maps_flutter
 issue_tracker: https://github.com/LuisThein/platform_maps_flutter/issues
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
+  sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
 
-  google_maps_flutter: ^2.5.3
-  google_maps_flutter_platform_interface: ^2.4.3
+  google_maps_flutter: ^2.6.0
+  google_maps_flutter_platform_interface: ^2.6.0
   apple_maps_flutter: ^1.3.0
   
   latlong2: ^0.9.0
   flutter_map: ^6.1.0
   flutter_map_animations: ^0.5.3
   flutter_map_cancellable_tile_provider: ^2.0.0
-  flutter_map_cache: ^1.4.1
+  flutter_map_cache: ^1.5.0
 
 dev_dependencies:
   flutter_test:

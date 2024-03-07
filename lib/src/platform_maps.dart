@@ -314,6 +314,7 @@ class _PlatformMapState extends State<PlatformMap>
       widget.onCameraMove?.call(
         CameraPosition(
           target: LatLng._fromFlutterLatLng(cameraPosition as latlong2.LatLng),
+          zoom: flutterMapAnimationController.mapController.camera.zoom,
         ),
       );
     else if (Platform.isIOS) {
