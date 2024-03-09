@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-part of platform_maps_flutter;
+part of '../platform_maps_flutter.dart';
 
 /// Joint types for [Polyline].
 @immutable
@@ -12,16 +12,16 @@ class JointType {
   /// The value representing the [JointType] on the sdk.
   final int value;
 
-  static const List<googleMaps.JointType> googleMapsJointTypes = const [
-    googleMaps.JointType.mitered,
-    googleMaps.JointType.bevel,
-    googleMaps.JointType.round,
+  static const List<google_maps.JointType> googleMapsJointTypes = [
+    google_maps.JointType.mitered,
+    google_maps.JointType.bevel,
+    google_maps.JointType.round,
   ];
 
-  static const List<appleMaps.JointType> appleMapsJointTypes = const [
-    appleMaps.JointType.mitered,
-    appleMaps.JointType.bevel,
-    appleMaps.JointType.round,
+  static const List<apple_maps.JointType> appleMapsJointTypes = [
+    apple_maps.JointType.mitered,
+    apple_maps.JointType.bevel,
+    apple_maps.JointType.round,
   ];
 
   /// Mitered joint, with fixed pointed extrusion equal to half the stroke width on the outside of the joint.
@@ -39,11 +39,11 @@ class JointType {
   /// Constant Value: 2
   static const JointType round = JointType._(2);
 
-  static googleMaps.JointType getGoogleMapsJointType(JointType jointType) {
+  static google_maps.JointType getGoogleMapsJointType(JointType jointType) {
     return googleMapsJointTypes[jointType.value];
   }
 
-  static appleMaps.JointType getAppleMapsJointType(JointType jointType) {
+  static apple_maps.JointType getAppleMapsJointType(JointType jointType) {
     return appleMapsJointTypes[jointType.value];
   }
 }

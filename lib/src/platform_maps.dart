@@ -1,12 +1,12 @@
-part of platform_maps_flutter;
+part of '../platform_maps_flutter.dart';
 
-typedef void MapCreatedCallback(PlatformMapController controller);
+typedef MapCreatedCallback = void Function(PlatformMapController controller);
 
-typedef void CameraPositionCallback(CameraPosition position);
+typedef CameraPositionCallback = void Function(CameraPosition position);
 
 class PlatformMap extends StatefulWidget {
   const PlatformMap({
-    Key? key,
+    super.key,
     required this.initialCameraPosition,
     this.onMapCreated,
     this.gestureRecognizers = const <Factory<OneSequenceGestureRecognizer>>{},
@@ -31,7 +31,7 @@ class PlatformMap extends StatefulWidget {
     this.onCameraIdle,
     this.onTap,
     this.onLongPress,
-  }) : super(key: key);
+  });
 
   /// Callback method for when the map is ready to be used.
   ///
@@ -164,14 +164,14 @@ class PlatformMap extends StatefulWidget {
   /// were not claimed by any other gesture recognizer.
   final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers;
   @override
-  _PlatformMapState createState() => _PlatformMapState();
+  State<PlatformMap> createState() => _PlatformMapState();
 }
 
 class _PlatformMapState extends State<PlatformMap> {
   @override
   Widget build(BuildContext context) {
     if (Platform.isAndroid) {
-      return googleMaps.GoogleMap(
+      return google_maps.GoogleMap(
         initialCameraPosition:
             widget.initialCameraPosition.googleMapsCameraPosition,
         compassEnabled: widget.compassEnabled,
@@ -200,7 +200,7 @@ class _PlatformMapState extends State<PlatformMap> {
             widget.minMaxZoomPreference.googleMapsZoomPreference,
       );
     } else if (Platform.isIOS) {
-      return appleMaps.AppleMap(
+      return apple_maps.AppleMap(
         initialCameraPosition:
             widget.initialCameraPosition.appleMapsCameraPosition,
         compassEnabled: widget.compassEnabled,
@@ -228,7 +228,7 @@ class _PlatformMapState extends State<PlatformMap> {
             widget.minMaxZoomPreference.appleMapsZoomPreference,
       );
     } else {
-      return Text("Platform not yet implemented");
+      return const Text("Platform not yet implemented");
     }
   }
 
@@ -240,13 +240,13 @@ class _PlatformMapState extends State<PlatformMap> {
     if (Platform.isIOS) {
       widget.onCameraMove?.call(
         CameraPosition.fromAppleMapCameraPosition(
-          cameraPosition as appleMaps.CameraPosition,
+          cameraPosition as apple_maps.CameraPosition,
         ),
       );
     } else if (Platform.isAndroid) {
       widget.onCameraMove?.call(
         CameraPosition.fromGoogleMapCameraPosition(
-          cameraPosition as googleMaps.CameraPosition,
+          cameraPosition as google_maps.CameraPosition,
         ),
       );
     }
@@ -254,42 +254,43 @@ class _PlatformMapState extends State<PlatformMap> {
 
   void _onTap(dynamic position) {
     if (Platform.isIOS) {
-      widget.onTap?.call(LatLng._fromAppleLatLng(position as appleMaps.LatLng));
+      widget.onTap
+          ?.call(LatLng._fromAppleLatLng(position as apple_maps.LatLng));
     } else if (Platform.isAndroid) {
       widget.onTap
-          ?.call(LatLng._fromGoogleLatLng(position as googleMaps.LatLng));
+          ?.call(LatLng._fromGoogleLatLng(position as google_maps.LatLng));
     }
   }
 
   void _onLongPress(dynamic position) {
     if (Platform.isIOS) {
       widget.onLongPress
-          ?.call(LatLng._fromAppleLatLng(position as appleMaps.LatLng));
+          ?.call(LatLng._fromAppleLatLng(position as apple_maps.LatLng));
     } else if (Platform.isAndroid) {
       widget.onLongPress
-          ?.call(LatLng._fromGoogleLatLng(position as googleMaps.LatLng));
+          ?.call(LatLng._fromGoogleLatLng(position as google_maps.LatLng));
     }
   }
 
-  appleMaps.MapType _getAppleMapType() {
+  apple_maps.MapType _getAppleMapType() {
     if (widget.mapType == MapType.normal) {
-      return appleMaps.MapType.standard;
+      return apple_maps.MapType.standard;
     } else if (widget.mapType == MapType.satellite) {
-      return appleMaps.MapType.satellite;
+      return apple_maps.MapType.satellite;
     } else if (widget.mapType == MapType.hybrid) {
-      return appleMaps.MapType.hybrid;
+      return apple_maps.MapType.hybrid;
     }
-    return appleMaps.MapType.standard;
+    return apple_maps.MapType.standard;
   }
 
-  googleMaps.MapType _getGoogleMapType() {
+  google_maps.MapType _getGoogleMapType() {
     if (widget.mapType == MapType.normal) {
-      return googleMaps.MapType.normal;
+      return google_maps.MapType.normal;
     } else if (widget.mapType == MapType.satellite) {
-      return googleMaps.MapType.satellite;
+      return google_maps.MapType.satellite;
     } else if (widget.mapType == MapType.hybrid) {
-      return googleMaps.MapType.hybrid;
+      return google_maps.MapType.hybrid;
     }
-    return googleMaps.MapType.normal;
+    return google_maps.MapType.normal;
   }
 }
