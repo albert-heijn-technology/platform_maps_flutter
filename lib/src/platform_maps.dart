@@ -6,7 +6,7 @@ typedef CameraPositionCallback = void Function(CameraPosition position);
 
 class PlatformMap extends StatefulWidget {
   const PlatformMap({
-    Key? key,
+    super.key,
     required this.initialCameraPosition,
     this.onMapCreated,
     this.gestureRecognizers = const <Factory<OneSequenceGestureRecognizer>>{},
@@ -31,7 +31,7 @@ class PlatformMap extends StatefulWidget {
     this.onCameraIdle,
     this.onTap,
     this.onLongPress,
-  }) : super(key: key);
+  });
 
   /// Callback method for when the map is ready to be used.
   ///
@@ -172,7 +172,8 @@ class _PlatformMapState extends State<PlatformMap> {
   Widget build(BuildContext context) {
     if (Platform.isAndroid) {
       return google_maps.GoogleMap(
-        initialCameraPosition: widget.initialCameraPosition.googleMapsCameraPosition,
+        initialCameraPosition:
+            widget.initialCameraPosition.googleMapsCameraPosition,
         compassEnabled: widget.compassEnabled,
         mapType: _getGoogleMapType(),
         padding: widget.padding,
@@ -195,11 +196,13 @@ class _PlatformMapState extends State<PlatformMap> {
         onTap: _onTap,
         onLongPress: _onLongPress,
         trafficEnabled: widget.trafficEnabled,
-        minMaxZoomPreference: widget.minMaxZoomPreference.googleMapsZoomPreference,
+        minMaxZoomPreference:
+            widget.minMaxZoomPreference.googleMapsZoomPreference,
       );
     } else if (Platform.isIOS) {
       return apple_maps.AppleMap(
-        initialCameraPosition: widget.initialCameraPosition.appleMapsCameraPosition,
+        initialCameraPosition:
+            widget.initialCameraPosition.appleMapsCameraPosition,
         compassEnabled: widget.compassEnabled,
         mapType: _getAppleMapType(),
         padding: widget.padding,
@@ -221,7 +224,8 @@ class _PlatformMapState extends State<PlatformMap> {
         onTap: _onTap,
         onLongPress: _onLongPress,
         trafficEnabled: widget.trafficEnabled,
-        minMaxZoomPreference: widget.minMaxZoomPreference.appleMapsZoomPreference,
+        minMaxZoomPreference:
+            widget.minMaxZoomPreference.appleMapsZoomPreference,
       );
     } else {
       return const Text("Platform not yet implemented");
@@ -250,17 +254,21 @@ class _PlatformMapState extends State<PlatformMap> {
 
   void _onTap(dynamic position) {
     if (Platform.isIOS) {
-      widget.onTap?.call(LatLng._fromAppleLatLng(position as apple_maps.LatLng));
+      widget.onTap
+          ?.call(LatLng._fromAppleLatLng(position as apple_maps.LatLng));
     } else if (Platform.isAndroid) {
-      widget.onTap?.call(LatLng._fromGoogleLatLng(position as google_maps.LatLng));
+      widget.onTap
+          ?.call(LatLng._fromGoogleLatLng(position as google_maps.LatLng));
     }
   }
 
   void _onLongPress(dynamic position) {
     if (Platform.isIOS) {
-      widget.onLongPress?.call(LatLng._fromAppleLatLng(position as apple_maps.LatLng));
+      widget.onLongPress
+          ?.call(LatLng._fromAppleLatLng(position as apple_maps.LatLng));
     } else if (Platform.isAndroid) {
-      widget.onLongPress?.call(LatLng._fromGoogleLatLng(position as google_maps.LatLng));
+      widget.onLongPress
+          ?.call(LatLng._fromGoogleLatLng(position as google_maps.LatLng));
     }
   }
 
