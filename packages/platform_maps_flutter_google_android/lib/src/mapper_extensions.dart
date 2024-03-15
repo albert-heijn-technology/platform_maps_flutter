@@ -1,8 +1,12 @@
 import 'dart:ui';
 
-import 'package:google_maps_flutter/google_maps_flutter.dart' as google_maps;
-import 'package:platform_maps_flutter_google/src/google_maps_platform_controller.dart';
+import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart'
+    as google_maps;
+import 'package:platform_maps_flutter_google_android/src/google_maps_platform_controller.dart';
 import 'package:platform_maps_flutter_platform_interface/platform_maps_flutter_platform_interface.dart';
+
+import 'package:platform_maps_flutter_google_android/src/google_map_original.dart'
+    as google_map_original;
 
 extension GoogleMapsLatLngMapper on google_maps.LatLng {
   LatLng get platformLatLng {
@@ -223,7 +227,7 @@ extension ZoomMapper on MinMaxZoomPreference {
   }
 }
 
-extension GoogleMapsControllerMappers on google_maps.GoogleMapController {
+extension GoogleMapsControllerMappers on google_map_original.GoogleMapController {
   PlatformMapController get platformMapController {
     return PlatformMapController(GoogleMapsPlatformController(this));
   }

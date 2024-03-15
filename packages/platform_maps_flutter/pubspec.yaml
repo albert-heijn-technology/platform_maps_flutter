@@ -13,18 +13,17 @@ flutter:
   plugin:
     platforms:
       android:
-        default_package: platform_maps_flutter_google
+        default_package: platform_maps_flutter_google_android
+      ios:
+        default_package: platform_maps_flutter_apple
 
 dependencies:
   flutter:
     sdk: flutter
 
-  google_maps_flutter: ^2.0.1
-  google_maps_flutter_platform_interface: ^2.0.3
-  apple_maps_flutter: ^1.0.1
   # replace by published version
-  platform_maps_flutter_google:
-    path: ../platform_maps_flutter_google
+  platform_maps_flutter_google_android:
+    path: ../platform_maps_flutter_google_android
   platform_maps_flutter_platform_interface:
     path: ../platform_maps_flutter_platform_interface
 

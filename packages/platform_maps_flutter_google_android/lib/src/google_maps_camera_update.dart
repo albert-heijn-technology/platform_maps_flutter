@@ -1,6 +1,7 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart' as google_maps;
+import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart'
+    as google_maps;
 import 'package:platform_maps_flutter_platform_interface/platform_maps_flutter_platform_interface.dart';
-import 'package:platform_maps_flutter_google/src/mapper_extensions.dart';
+import 'package:platform_maps_flutter_google_android/src/mapper_extensions.dart';
 
 class GoogleMapsPlatformCameraUpdate extends PlatformCameraUpdate {
   GoogleMapsPlatformCameraUpdate() : super.implementation();

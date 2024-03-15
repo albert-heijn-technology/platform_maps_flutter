@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:platform_maps_flutter_google/platform_maps_flutter_google.dart';
+import 'package:platform_maps_flutter_google_android/platform_maps_flutter_google_android.dart';
 
 void main() {
   test('adds one to input values', () {

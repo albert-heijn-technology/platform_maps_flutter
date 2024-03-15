@@ -1,13 +1,14 @@
 import 'dart:typed_data';
 
-import 'package:platform_maps_flutter_google/src/google_maps_camera_update.dart';
-import 'package:platform_maps_flutter_google/src/mapper_extensions.dart';
+import 'package:platform_maps_flutter_google_android/src/google_map_original.dart'
+    as google_map_original;
+import 'package:platform_maps_flutter_google_android/src/google_maps_camera_update.dart';
+import 'package:platform_maps_flutter_google_android/src/mapper_extensions.dart';
 import 'package:platform_maps_flutter_platform_interface/platform_maps_flutter_platform_interface.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart' as google_maps;
 
 class GoogleMapsPlatformController extends PlatformMapsPlatformController {
   GoogleMapsPlatformController(this._googleMapController);
-  final google_maps.GoogleMapController _googleMapController;
+  final google_map_original.GoogleMapController _googleMapController;
 
   @override
   Future<void> animateCamera(CameraUpdate cameraUpdate) {

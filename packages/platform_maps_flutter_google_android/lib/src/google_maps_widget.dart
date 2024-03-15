@@ -1,9 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
-import 'package:platform_maps_flutter_google/src/mapper_extensions.dart';
+import 'package:platform_maps_flutter_google_android/src/mapper_extensions.dart';
 import 'package:platform_maps_flutter_platform_interface/platform_maps_flutter_platform_interface.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart' as google_maps;
+import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart'
+    as google_maps;
+import 'package:platform_maps_flutter_google_android/src/google_map_original.dart'
+    as google_map_original;
 
 class GoogleMapsWidget extends PlatformMapsPlatformWidget {
   GoogleMapsWidget(PlatformMapsPlatformWidgetCreationParams params) : super.implementation(params);
@@ -158,7 +161,7 @@ class _PlatformMap extends StatefulWidget {
 class _PlatformMapState extends State<_PlatformMap> {
   @override
   Widget build(BuildContext context) {
-    return google_maps.GoogleMap(
+    return google_map_original.GoogleMap(
       initialCameraPosition: widget.initialCameraPosition.googleMapsCameraPosition,
       compassEnabled: widget.compassEnabled,
       mapType: _getGoogleMapType(),
@@ -186,7 +189,7 @@ class _PlatformMapState extends State<_PlatformMap> {
     );
   }
 
-  void _onMapCreated(google_maps.GoogleMapController controller) {
+  void _onMapCreated(google_map_original.GoogleMapController controller) {
     widget.onMapCreated?.call(controller.platformMapController);
   }
 

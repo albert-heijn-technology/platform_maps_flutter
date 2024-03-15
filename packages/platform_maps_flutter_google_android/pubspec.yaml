@@ -1,4 +1,4 @@
-name: platform_maps_flutter_google
+name: platform_maps_flutter_google_android
 description: "A new Flutter package project."
 version: 0.0.1
 homepage:
@@ -14,14 +14,12 @@ flutter:
       android:
         dartPluginClass: PlatformMapsPlugin
         fileName: platform_maps_flutter_google.dart
-      ios:
-        dartPluginClass: PlatformMapsPlugin
-        fileName: platform_maps_flutter_google.dart
 
 dependencies:
   flutter:
     sdk: flutter
-  google_maps_flutter: ^2.0.1
+  google_maps_flutter_android: ^2.7.0
+  google_maps_flutter_platform_interface: ^2.6.0
   # replace by published version
   platform_maps_flutter_platform_interface:
     path: ../platform_maps_flutter_platform_interface
