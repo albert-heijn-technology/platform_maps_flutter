@@ -45,10 +45,6 @@ abstract class PlatformMapsPlatform extends PlatformInterface {
     throw UnimplementedError('createBitmapDescriptor is not implemented on the current platform.');
   }
 
-  PlatformMapsPlatformController createMapsController() {
-    throw UnimplementedError('createMapsController is not implemented on the current platform.');
-  }
-
   PlatformCameraUpdate createPlatformCameraUpdate() {
     throw UnimplementedError('createCameraUpdate is not implemented on the current platform.');
   }

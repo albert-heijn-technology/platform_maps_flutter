@@ -1,0 +1,33 @@
+name: platform_maps_flutter_google
+description: "A new Flutter package project."
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: '>=3.2.4 <4.0.0'
+  flutter: ">=1.17.0"
+
+flutter:
+  plugin:
+    implements: platform_maps_flutter
+    platforms:
+      android:
+        dartPluginClass: PlatformMapsPlugin
+        fileName: platform_maps_flutter_google.dart
+      ios:
+        dartPluginClass: PlatformMapsPlugin
+        fileName: platform_maps_flutter_google.dart
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_maps_flutter: ^2.0.1
+  # replace by published version
+  platform_maps_flutter_platform_interface:
+    path: ../platform_maps_flutter_platform_interface
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+

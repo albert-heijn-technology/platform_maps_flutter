@@ -2,6 +2,8 @@ import 'package:platform_maps_flutter_platform_interface/platform_maps_flutter_p
 import 'package:platform_maps_flutter_platform_interface/src/platform_camera_update.dart';
 
 abstract class CameraUpdate {
+  const CameraUpdate();
+
   /// Returns a camera update that moves the camera to the specified position.
   static CameraUpdate newCameraPosition(CameraPosition cameraPosition) =>
       PlatformCameraUpdate().newCameraPosition(cameraPosition);
