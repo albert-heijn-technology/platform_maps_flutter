@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 
 /// Item used in the stroke pattern for a Polyline.
 @immutable
-class PatternItem {
-  const PatternItem._(this._json);
+sealed class PatternItem {
+  const PatternItem._();
 
-  static const PatternItem dot = PatternItem._(<dynamic>['dot']);
+  static const PatternItem dot = DotPatternItem();
 
   /// A dash used in the stroke pattern for a [Polyline].
   ///
   /// [length] has to be non-negative.
   static PatternItem dash(double length) {
     assert(length >= 0.0);
-    return PatternItem._(<dynamic>['dash', length]);
+    return DashPatternItem(length);
   }
 
   /// A gap used in the stroke pattern for a [Polyline].
@@ -20,9 +20,20 @@ class PatternItem {
   /// [length] has to be non-negative.
   static PatternItem gap(double length) {
     assert(length >= 0.0);
-    return PatternItem._(<dynamic>['gap', length]);
+    return GapPatternItem(length);
   }
+}
 
-  // TODO get rid of the `_json` field and migrate to sealed class
-  final dynamic _json;
+class DotPatternItem extends PatternItem {
+  const DotPatternItem() : super._();
+}
+
+class DashPatternItem extends PatternItem {
+  final double length;
+  const DashPatternItem(this.length) : super._();
+}
+
+class GapPatternItem extends PatternItem {
+  final double length;
+  const GapPatternItem(this.length) : super._();
 }

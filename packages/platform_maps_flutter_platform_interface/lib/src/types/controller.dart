@@ -3,9 +3,9 @@ import 'dart:typed_data';
 import 'package:platform_maps_flutter_platform_interface/platform_maps_flutter_platform_interface.dart';
 
 class PlatformMapController {
-  PlatformMapsPlatformController get _platformController => PlatformMapsPlatformController();
+  final PlatformMapsPlatformController platformController;
 
-  PlatformMapController();
+  PlatformMapController(this.platformController);
 
   /// Programmatically show the Info Window for a [Marker].
   ///
@@ -16,7 +16,7 @@ class PlatformMapController {
   ///   * [hideMarkerInfoWindow] to hide the Info Window.
   ///   * [isMarkerInfoWindowShown] to check if the Info Window is showing.
   Future<void> showMarkerInfoWindow(MarkerId markerId) =>
-      _platformController.showMarkerInfoWindow(markerId);
+      platformController.showMarkerInfoWindow(markerId);
 
   /// Programmatically hide the Info Window for a [Marker].
   ///
@@ -27,7 +27,7 @@ class PlatformMapController {
   ///   * [showMarkerInfoWindow] to show the Info Window.
   ///   * [isMarkerInfoWindowShown] to check if the Info Window is showing.
   Future<void> hideMarkerInfoWindow(MarkerId markerId) =>
-      _platformController.hideMarkerInfoWindow(markerId);
+      platformController.hideMarkerInfoWindow(markerId);
 
   /// Returns `true` when the [InfoWindow] is showing, `false` otherwise.
   ///
@@ -38,23 +38,23 @@ class PlatformMapController {
   ///   * [showMarkerInfoWindow] to show the Info Window.
   ///   * [hideMarkerInfoWindow] to hide the Info Window.
   Future<bool> isMarkerInfoWindowShown(MarkerId markerId) =>
-      _platformController.isMarkerInfoWindowShown(markerId);
+      platformController.isMarkerInfoWindowShown(markerId);
 
   /// Starts an animated change of the map camera position.
   ///
   /// The returned [Future] completes after the change has been started on the
   /// platform side.
-  Future<void> animateCamera(cameraUpdate) => _platformController.animateCamera(cameraUpdate);
+  Future<void> animateCamera(cameraUpdate) => platformController.animateCamera(cameraUpdate);
 
   /// Changes the map camera position.
   ///
   /// The returned [Future] completes after the change has been made on the
   /// platform side.
-  Future<void> moveCamera(cameraUpdate) => _platformController.moveCamera(cameraUpdate);
+  Future<void> moveCamera(cameraUpdate) => platformController.moveCamera(cameraUpdate);
 
   /// Return [LatLngBounds] defining the region that is visible in a map.
-  Future<LatLngBounds> getVisibleRegion() => _platformController.getVisibleRegion();
+  Future<LatLngBounds> getVisibleRegion() => platformController.getVisibleRegion();
 
   /// Returns the image bytes of the map
-  Future<Uint8List?> takeSnapshot() => _platformController.takeSnapshot();
+  Future<Uint8List?> takeSnapshot() => platformController.takeSnapshot();
 }
