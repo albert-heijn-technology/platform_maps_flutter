@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:platform_maps_flutter_platform_interface/platform_maps_flutter_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-abstract class PlatformBitmapDescriptor<T> extends PlatformInterface {
+abstract class PlatformBitmapDescriptor extends PlatformInterface {
   /// Creates a new [PlatformBitmapDescriptor]
   factory PlatformBitmapDescriptor() {
     assert(
@@ -14,7 +14,7 @@ abstract class PlatformBitmapDescriptor<T> extends PlatformInterface {
       '`PlatformMapsPlatform.instance` before use. For unit testing, '
       '`PlatformMapsPlatform.instance` can be set with your own test implementation.',
     );
-    final PlatformBitmapDescriptor<T> bitmapDescriptorDelegate =
+    final PlatformBitmapDescriptor bitmapDescriptorDelegate =
         PlatformMapsPlatform.instance!.createBitmapDescriptor();
     PlatformInterface.verify(bitmapDescriptorDelegate, _token);
     return bitmapDescriptorDelegate;
@@ -30,12 +30,12 @@ abstract class PlatformBitmapDescriptor<T> extends PlatformInterface {
 
   static final Object _token = Object();
 
-  Future<T> fromAssetImage(
+  Future<BitmapDescriptor> fromAssetImage(
     ImageConfiguration configuration,
     String assetName, {
     AssetBundle? bundle,
     String? package,
   });
 
-  T fromBytes(Uint8List byteData);
+  BitmapDescriptor fromBytes(Uint8List byteData);
 }

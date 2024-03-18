@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart'
     as google_maps;
+import 'package:platform_maps_flutter_google_android/src/google_maps_bitmap_descriptor.dart';
 import 'package:platform_maps_flutter_google_android/src/google_maps_platform_controller.dart';
 import 'package:platform_maps_flutter_platform_interface/platform_maps_flutter_platform_interface.dart';
 
@@ -51,20 +52,23 @@ extension MarkersMapper on Set<Marker> {
 }
 
 extension on Marker {
-  google_maps.Marker get googleMapsMarker => google_maps.Marker(
-        markerId: markerId.googleMapsMarkerId,
-        alpha: alpha,
-        anchor: anchor,
-        draggable: draggable,
-        infoWindow: infoWindow.googleMapsInfoWindow,
-        onTap: onTap,
-        icon: icon?.bitmapDescriptor ?? google_maps.BitmapDescriptor.defaultMarker,
-        visible: visible,
-        onDragEnd: onDragEnd != null
-            ? (google_maps.LatLng latLng) => _onGoogleMarkerDragEnd(latLng, onDragEnd)
-            : null,
-        position: position.googleMapsLatLng,
-      );
+  google_maps.Marker get googleMapsMarker {
+    return google_maps.Marker(
+      markerId: markerId.googleMapsMarkerId,
+      alpha: alpha,
+      anchor: anchor,
+      draggable: draggable,
+      infoWindow: infoWindow.googleMapsInfoWindow,
+      onTap: onTap,
+      icon: (icon as GoogleMapsBitmapDescriptor?)?.descriptor ??
+          google_maps.BitmapDescriptor.defaultMarker,
+      visible: visible,
+      onDragEnd: onDragEnd != null
+          ? (google_maps.LatLng latLng) => _onGoogleMarkerDragEnd(latLng, onDragEnd)
+          : null,
+      position: position.googleMapsLatLng,
+    );
+  }
 
   static _onGoogleMarkerDragEnd(google_maps.LatLng latLng, Function? onDragEnd) {
     onDragEnd?.call(latLng.platformLatLng);
