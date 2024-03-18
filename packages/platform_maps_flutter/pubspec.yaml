@@ -21,7 +21,9 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # replace by published version
+  # replace by published versions
+  platform_maps_flutter_apple:
+    path: ../platform_maps_flutter_apple
   platform_maps_flutter_google_android:
     path: ../platform_maps_flutter_google_android
   platform_maps_flutter_platform_interface:
