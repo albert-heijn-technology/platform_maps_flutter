@@ -1,15 +1,14 @@
-library platform_maps_flutter_google_android;
+library platform_maps_flutter_apple;
 
-import 'package:platform_maps_flutter_google_android/src/google_maps_bitmap_descriptor.dart';
-import 'package:platform_maps_flutter_google_android/src/google_maps_camera_update.dart';
-import 'package:platform_maps_flutter_google_android/src/google_maps_widget.dart';
+import 'package:platform_maps_flutter_apple/src/apple_maps_bitmap_descriptor.dart';
+import 'package:platform_maps_flutter_apple/src/apple_maps_camera_update.dart';
+import 'package:platform_maps_flutter_apple/src/apple_maps_widget.dart';
 import 'package:platform_maps_flutter_platform_interface/platform_maps_flutter_platform_interface.dart';
-import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart'
-    as google_maps;
+import 'package:apple_maps_flutter/apple_maps_flutter.dart' as apple_maps;
 
-class PlatformMapsGoogleAndroid extends PlatformMapsPlatform {
+class PlatformMapsApple extends PlatformMapsPlatform {
   static void registerWith() {
-    PlatformMapsPlatform.instance = PlatformMapsGoogleAndroid();
+    PlatformMapsPlatform.instance = PlatformMapsApple();
   }
 
   /// Create a new [PlatformPlatformMapsWidget].
@@ -20,21 +19,21 @@ class PlatformMapsGoogleAndroid extends PlatformMapsPlatform {
   PlatformMapsPlatformWidget createPlatformMapsPlatformWidget(
     PlatformMapsPlatformWidgetCreationParams params,
   ) {
-    return GoogleMapsWidget(params);
+    return AppleMapsWidget(params);
   }
 
   /// Create a new [PlatformBitmapDescriptor].
   /// This function should only be called by the app-facing package.
   @override
   PlatformBitmapDescriptor<T> createBitmapDescriptor<T>() {
-    if (T == google_maps.BitmapDescriptor) {
-      return GoogleMapsBitmapDescriptor() as PlatformBitmapDescriptor<T>;
+    if (T == apple_maps.BitmapDescriptor) {
+      return AppleMapsBitmapDescriptor() as PlatformBitmapDescriptor<T>;
     }
     throw UnsupportedError('Unsupported type $T for BitmapDescriptor');
   }
 
   @override
   PlatformCameraUpdate createPlatformCameraUpdate() {
-    return GoogleMapsPlatformCameraUpdate();
+    return AppleMapsPlatformCameraUpdate();
   }
 }

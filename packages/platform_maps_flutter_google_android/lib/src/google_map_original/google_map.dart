@@ -8,7 +8,6 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter_android/google_maps_flutter_android.dart';
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart';
 
 part 'controller.dart';
@@ -45,44 +44,6 @@ class UnknownMapObjectIdError extends Error {
       return 'Unknown $objectType ID "${objectId.value}" in $context';
     }
     return 'Unknown $objectType ID "${objectId.value}"';
-  }
-}
-
-/// Android specific settings for [GoogleMap].
-@Deprecated('See https://pub.dev/packages/google_maps_flutter_android#display-mode')
-class AndroidGoogleMapsFlutter {
-  @Deprecated('See https://pub.dev/packages/google_maps_flutter_android#display-mode')
-  AndroidGoogleMapsFlutter._();
-
-  /// Whether to render [GoogleMap] with a [AndroidViewSurface] to build the Google Maps widget.
-  ///
-  /// This implementation uses hybrid composition to render the Google Maps
-  /// Widget on Android. This comes at the cost of some performance on Android
-  /// versions below 10. See
-  /// https://flutter.dev/docs/development/platform-integration/platform-views#performance for more
-  /// information.
-  @Deprecated('See https://pub.dev/packages/google_maps_flutter_android#display-mode')
-  static bool get useAndroidViewSurface {
-    final GoogleMapsFlutterPlatform platform = GoogleMapsFlutterPlatform.instance;
-    if (platform is GoogleMapsFlutterAndroid) {
-      return platform.useAndroidViewSurface;
-    }
-    return false;
-  }
-
-  /// Set whether to render [GoogleMap] with a [AndroidViewSurface] to build the Google Maps widget.
-  ///
-  /// This implementation uses hybrid composition to render the Google Maps
-  /// Widget on Android. This comes at the cost of some performance on Android
-  /// versions below 10. See
-  /// https://flutter.dev/docs/development/platform-integration/platform-views#performance for more
-  /// information.
-  @Deprecated('See https://pub.dev/packages/google_maps_flutter_android#display-mode')
-  static set useAndroidViewSurface(bool useAndroidViewSurface) {
-    final GoogleMapsFlutterPlatform platform = GoogleMapsFlutterPlatform.instance;
-    if (platform is GoogleMapsFlutterAndroid) {
-      platform.useAndroidViewSurface = useAndroidViewSurface;
-    }
   }
 }
 

@@ -1,6 +1,5 @@
 library platform_maps_flutter;
 
-export 'src/platform_map.dart';
 export 'package:platform_maps_flutter_platform_interface/platform_maps_flutter_platform_interface.dart'
     show
         ArgumentCallback,
@@ -15,6 +14,7 @@ export 'package:platform_maps_flutter_platform_interface/platform_maps_flutter_p
         Marker,
         MarkerId,
         MinMaxZoomPreference,
+        PlatformMap,
         PlatformMapController,
         Polygon,
         Polyline;
