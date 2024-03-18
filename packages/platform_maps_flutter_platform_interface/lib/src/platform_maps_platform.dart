@@ -41,7 +41,7 @@ abstract class PlatformMapsPlatform extends PlatformInterface {
 
   /// Create a new [PlatformBitmapDescriptor].
   /// This function should only be called by the app-facing package.
-  PlatformBitmapDescriptor<T> createBitmapDescriptor<T>() {
+  PlatformBitmapDescriptor createBitmapDescriptor() {
     throw UnimplementedError('createBitmapDescriptor is not implemented on the current platform.');
   }
 

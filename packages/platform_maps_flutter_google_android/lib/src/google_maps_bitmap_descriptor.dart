@@ -5,22 +5,28 @@ import 'package:platform_maps_flutter_platform_interface/platform_maps_flutter_p
 import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart'
     as google_maps;
 
-class GoogleMapsBitmapDescriptor extends PlatformBitmapDescriptor<google_maps.BitmapDescriptor> {
-  GoogleMapsBitmapDescriptor() : super.implementation();
+class GoogleMapsPlatformBitmapDescriptor extends PlatformBitmapDescriptor {
+  GoogleMapsPlatformBitmapDescriptor() : super.implementation();
   @override
-  Future<google_maps.BitmapDescriptor> fromAssetImage(
+  Future<GoogleMapsBitmapDescriptor> fromAssetImage(
       ImageConfiguration configuration, String assetName,
-      {AssetBundle? bundle, String? package}) {
-    return google_maps.BitmapDescriptor.fromAssetImage(
+      {AssetBundle? bundle, String? package}) async {
+    final descriptor = await google_maps.BitmapDescriptor.fromAssetImage(
       configuration,
       assetName,
       bundle: bundle,
       package: package,
     );
+    return GoogleMapsBitmapDescriptor(descriptor);
   }
 
   @override
-  google_maps.BitmapDescriptor fromBytes(Uint8List byteData) {
-    return google_maps.BitmapDescriptor.fromBytes(byteData);
+  GoogleMapsBitmapDescriptor fromBytes(Uint8List byteData) {
+    return GoogleMapsBitmapDescriptor(google_maps.BitmapDescriptor.fromBytes(byteData));
   }
+}
+
+class GoogleMapsBitmapDescriptor extends BitmapDescriptor {
+  GoogleMapsBitmapDescriptor(this.descriptor);
+  google_maps.BitmapDescriptor descriptor;
 }

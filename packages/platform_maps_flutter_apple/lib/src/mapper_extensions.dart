@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:apple_maps_flutter/apple_maps_flutter.dart' as apple_maps;
+import 'package:platform_maps_flutter_apple/src/apple_maps_bitmap_descriptor.dart';
 import 'package:platform_maps_flutter_apple/src/apple_maps_platform_controller.dart';
 import 'package:platform_maps_flutter_platform_interface/platform_maps_flutter_platform_interface.dart';
 
@@ -54,7 +55,8 @@ extension on Marker {
         draggable: draggable,
         infoWindow: infoWindow.appleMapsInfoWindow,
         onTap: onTap,
-        icon: icon?.bitmapDescriptor ?? apple_maps.BitmapDescriptor.defaultAnnotation,
+        icon: (icon as AppleMapsBitmapDescriptor?)?.descriptor ??
+            apple_maps.BitmapDescriptor.defaultAnnotation,
         visible: visible,
         onDragEnd:
             onDragEnd != null ? (apple_maps.LatLng latLng) => _onDragEnd(latLng, onDragEnd) : null,

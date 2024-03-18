@@ -26,11 +26,8 @@ class PlatformMapsGoogleAndroid extends PlatformMapsPlatform {
   /// Create a new [PlatformBitmapDescriptor].
   /// This function should only be called by the app-facing package.
   @override
-  PlatformBitmapDescriptor<T> createBitmapDescriptor<T>() {
-    if (T == google_maps.BitmapDescriptor) {
-      return GoogleMapsBitmapDescriptor() as PlatformBitmapDescriptor<T>;
-    }
-    throw UnsupportedError('Unsupported type $T for BitmapDescriptor');
+  GoogleMapsPlatformBitmapDescriptor createBitmapDescriptor() {
+    return GoogleMapsPlatformBitmapDescriptor();
   }
 
   @override

@@ -7,11 +7,7 @@ import 'package:platform_maps_flutter_platform_interface/src/platform_bitmap_des
 /// image of the marker icon. For a ground overlay, it can be used to set the
 /// image to place on the surface of the earth.
 
-class BitmapDescriptor<T> {
-  final T bitmapDescriptor;
-
-  BitmapDescriptor._(this.bitmapDescriptor);
-
+abstract class BitmapDescriptor {
   /// Creates a [BitmapDescriptor] from an asset image.
   /// Asset images in flutter are stored per: https://flutter.dev/docs/development/ui/assets-and-images#declaring-resolution-aware-image-assets
   ///
@@ -24,19 +20,17 @@ class BitmapDescriptor<T> {
     AssetBundle? bundle,
     String? package,
   }) async {
-    final bitmap = PlatformBitmapDescriptor().fromAssetImage(
+    return PlatformBitmapDescriptor().fromAssetImage(
       configuration,
       assetName,
       bundle: bundle,
       package: package,
     );
-    return BitmapDescriptor._(bitmap);
   }
 
   /// Creates a BitmapDescriptor using an array of bytes that must be encoded
   /// as PNG.
   static BitmapDescriptor fromBytes(Uint8List byteData) {
-    var bitmap = PlatformBitmapDescriptor().fromBytes(byteData);
-    return BitmapDescriptor._(bitmap);
+    return PlatformBitmapDescriptor().fromBytes(byteData);
   }
 }
