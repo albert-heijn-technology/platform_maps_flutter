@@ -23,11 +23,21 @@ dependencies:
 
   # replace by published versions
   platform_maps_flutter_apple:
-    path: ../platform_maps_flutter_apple
+    git:
+      url: https://github.com/albert-heijn-technology/platform_maps_flutter
+      path: packages/platform_maps_flutter_apple
+      ref: c6cb7fae9a5ca830aea61a674b5e3d5466983b0d
   platform_maps_flutter_google_android:
-    path: ../platform_maps_flutter_google_android
+    git:
+      url: https://github.com/albert-heijn-technology/platform_maps_flutter
+      path: packages/platform_maps_flutter_google_android
+      ref: c6cb7fae9a5ca830aea61a674b5e3d5466983b0d
+
   platform_maps_flutter_platform_interface:
-    path: ../platform_maps_flutter_platform_interface
+    git:
+      url: https://github.com/albert-heijn-technology/platform_maps_flutter
+      path: packages/platform_maps_flutter_platform_interface
+      ref: c7838abbbf9ef6c9347b68cde4b71563786aca5a
 
 dev_dependencies:
   flutter_lints: ^3.0.1
