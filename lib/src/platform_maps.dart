@@ -206,16 +206,22 @@ class _PlatformMapState extends State<PlatformMap>
             widget.initialCameraPosition.target.googleLatLng.longitude),
       ),
       children: [
-        flutterMaps.TileLayer(
-          urlTemplate: widget.flutterMapUrlTemplate!,
-          // tileProvider: CachedTileProvider(
-          //   maxStale: const Duration(days: 120),
-          //   store: HiveCacheStore(
-          //     null,
-          //     hiveBoxName: 'HiveCacheStore',
-          //   ),
-          // ),
-        ),
+        if (kIsWeb)
+          flutterMaps.TileLayer(
+            urlTemplate: widget.flutterMapUrlTemplate!,
+            tileProvider: CancellableNetworkTileProvider(),
+          )
+        else
+          flutterMaps.TileLayer(
+            urlTemplate: widget.flutterMapUrlTemplate!,
+            tileProvider: CachedTileProvider(
+              maxStale: const Duration(days: 120),
+              store: HiveCacheStore(
+                null,
+                hiveBoxName: 'TileLayerHiveCacheStore',
+              ),
+            ),
+          ),
         flutterMaps.PolylineLayer(
           polylines: (widget.polylines.cast<flutterMaps.Polyline>()).toList(),
         ),
