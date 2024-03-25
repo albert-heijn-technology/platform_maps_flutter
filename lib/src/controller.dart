@@ -3,12 +3,16 @@ part of platform_maps_flutter;
 class PlatformMapController {
   appleMaps.AppleMapController? appleController;
   googleMaps.GoogleMapController? googleController;
+  flutterMapsAnimations.AnimatedMapController? flutterMapAnimationController;
 
   PlatformMapController(dynamic controller) {
     if (controller.runtimeType == googleMaps.GoogleMapController) {
       this.googleController = controller;
     } else if (controller.runtimeType == appleMaps.AppleMapController) {
       this.appleController = controller;
+    } else if (controller.runtimeType ==
+        flutterMapsAnimations.AnimatedMapController) {
+      this.flutterMapAnimationController = controller;
     }
   }
 
@@ -21,10 +25,10 @@ class PlatformMapController {
   ///   * [hideMarkerInfoWindow] to hide the Info Window.
   ///   * [isMarkerInfoWindowShown] to check if the Info Window is showing.
   Future<void> showMarkerInfoWindow(MarkerId markerId) {
-    if (Platform.isAndroid) {
+    if (this.googleController != null) {
       return googleController!
           .showMarkerInfoWindow(markerId.googleMapsMarkerId);
-    } else if (Platform.isIOS) {
+    } else if (this.appleController != null) {
       return appleController!
           .showMarkerInfoWindow(markerId.appleMapsAnnoationId);
     }
@@ -40,10 +44,10 @@ class PlatformMapController {
   ///   * [showMarkerInfoWindow] to show the Info Window.
   ///   * [isMarkerInfoWindowShown] to check if the Info Window is showing.
   Future<void> hideMarkerInfoWindow(MarkerId markerId) {
-    if (Platform.isAndroid) {
+    if (this.googleController != null) {
       return googleController!
           .hideMarkerInfoWindow(markerId.googleMapsMarkerId);
-    } else if (Platform.isIOS) {
+    } else if (this.appleController != null) {
       return appleController!
           .hideMarkerInfoWindow(markerId.appleMapsAnnoationId);
     }
@@ -59,10 +63,10 @@ class PlatformMapController {
   ///   * [showMarkerInfoWindow] to show the Info Window.
   ///   * [hideMarkerInfoWindow] to hide the Info Window.
   Future<bool> isMarkerInfoWindowShown(MarkerId markerId) async {
-    if (Platform.isAndroid) {
+    if (this.googleController != null) {
       return googleController!
           .isMarkerInfoWindowShown(markerId.googleMapsMarkerId);
-    } else if (Platform.isIOS) {
+    } else if (this.appleController != null) {
       return await appleController!
               .isMarkerInfoWindowShown(markerId.appleMapsAnnoationId) ??
           false;
@@ -75,12 +79,15 @@ class PlatformMapController {
   /// The returned [Future] completes after the change has been started on the
   /// platform side.
   Future<void> animateCamera(cameraUpdate) async {
-    if (Platform.isIOS) {
+    if (this.appleController != null) {
       return this.appleController!.animateCamera(cameraUpdate);
-    } else if (Platform.isAndroid) {
+    } else if (this.googleController != null)
       return this.googleController!.animateCamera(cameraUpdate);
+    else {
+      return Future.value(this
+          .flutterMapAnimationController!
+          .animateTo(dest: cameraUpdate['latLng'], zoom: cameraUpdate['zoom']));
     }
-    throw ('Platform not supported.');
   }
 
   /// Changes the map camera position.
@@ -88,34 +95,35 @@ class PlatformMapController {
   /// The returned [Future] completes after the change has been made on the
   /// platform side.
   Future<void> moveCamera(cameraUpdate) async {
-    if (Platform.isIOS) {
+    if (this.appleController != null) {
       return this.appleController!.moveCamera(cameraUpdate);
-    } else if (Platform.isAndroid) {
+    } else if (this.googleController != null)
       return this.googleController!.moveCamera(cameraUpdate);
+    else {
+      return Future.value(this
+          .flutterMapAnimationController!
+          .animateTo(dest: cameraUpdate['latLng'], zoom: cameraUpdate['zoom']));
     }
   }
 
   /// Return [LatLngBounds] defining the region that is visible in a map.
   Future<LatLngBounds> getVisibleRegion() async {
     late LatLngBounds _bounds;
-    if (Platform.isIOS) {
+    if (this.appleController != null) {
       appleMaps.LatLngBounds appleBounds =
           await this.appleController!.getVisibleRegion();
       _bounds = LatLngBounds._fromAppleLatLngBounds(appleBounds);
-    } else if (Platform.isAndroid) {
+    } else if (this.googleController != null) {
       googleMaps.LatLngBounds googleBounds =
           await this.googleController!.getVisibleRegion();
       _bounds = LatLngBounds._fromGoogleLatLngBounds(googleBounds);
+    } else {
+      _bounds = LatLngBounds._fromFlutterLatLngBounds(this
+          .flutterMapAnimationController!
+          .mapController
+          .camera
+          .visibleBounds);
     }
     return _bounds;
-  }
-
-  /// Returns the image bytes of the map
-  Future<Uint8List?> takeSnapshot() async {
-    if (Platform.isIOS) {
-      return this.appleController!.takeSnapshot();
-    } else if (Platform.isAndroid) {
-      return this.googleController!.takeSnapshot();
-    }
   }
 }

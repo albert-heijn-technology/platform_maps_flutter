@@ -29,6 +29,9 @@ class LatLng {
   static LatLng _fromGoogleLatLng(googleMaps.LatLng latLng) =>
       LatLng(latLng.latitude, latLng.longitude);
 
+  static LatLng _fromFlutterLatLng(latlong2.LatLng latLng) =>
+      LatLng(latLng.latitude, latLng.longitude);
+
   appleMaps.LatLng get appleLatLng => appleMaps.LatLng(
         this.latitude,
         this.longitude,
@@ -75,6 +78,12 @@ class LatLngBounds {
       LatLngBounds(
         southwest: LatLng._fromGoogleLatLng(bounds.southwest),
         northeast: LatLng._fromGoogleLatLng(bounds.northeast),
+      );
+  static LatLngBounds _fromFlutterLatLngBounds(
+          flutterMaps.LatLngBounds bounds) =>
+      LatLngBounds(
+        southwest: LatLng._fromFlutterLatLng(bounds.southWest),
+        northeast: LatLng._fromFlutterLatLng(bounds.northEast),
       );
 
   /// The southwest corner of the rectangle.

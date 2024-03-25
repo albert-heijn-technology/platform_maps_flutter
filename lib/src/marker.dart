@@ -110,6 +110,7 @@ class Marker {
     this.onTap,
     this.visible = true,
     this.onDragEnd,
+    this.zIndex = 0.0,
   }) : assert((0.0 <= alpha && alpha <= 1.0));
 
   /// Uniquely identifies a [Marker].
@@ -154,6 +155,8 @@ class Marker {
 
   final ValueChanged<LatLng>? onDragEnd;
 
+  final double zIndex;
+
   appleMaps.Annotation get appleMapsAnnotation => appleMaps.Annotation(
         annotationId: this.markerId.appleMapsAnnoationId,
         alpha: this.alpha,
@@ -169,6 +172,7 @@ class Marker {
                 _onAppleAnnotationDragEnd(latLng, this.onDragEnd)
             : null,
         position: this.position.appleLatLng,
+        zIndex: zIndex,
       );
 
   googleMaps.Marker get googleMapsMarker => googleMaps.Marker(
@@ -185,6 +189,7 @@ class Marker {
             ? (googleMaps.LatLng latLng) =>
                 _onGoogleMarkerDragEnd(latLng, this.onDragEnd)
             : null,
+        zIndex: this.zIndex,
         position: this.position.googleLatLng,
       );
 
@@ -204,6 +209,7 @@ class Marker {
                 _onAppleAnnotationDragEnd(latLng, marker.onDragEnd)
             : null,
         position: marker.position.appleLatLng,
+        zIndex: marker.zIndex,
       );
 
   static googleMaps.Marker googleMapsMarkerFromMarker(Marker marker) =>
@@ -222,6 +228,7 @@ class Marker {
                 _onGoogleMarkerDragEnd(latLng, marker.onDragEnd)
             : null,
         position: marker.position.googleLatLng,
+        zIndex: marker.zIndex,
       );
 
   static Set<appleMaps.Annotation> toAppleMapsAnnotationSet(
@@ -251,6 +258,7 @@ class Marker {
     LatLng? positionParam,
     bool? visibleParam,
     VoidCallback? onTapParam,
+    double? zIndexParam,
   }) {
     return Marker(
       markerId: markerId,
@@ -263,6 +271,7 @@ class Marker {
       position: positionParam ?? position,
       visible: visibleParam ?? visible,
       onTap: onTapParam ?? onTap,
+      zIndex: zIndexParam ?? zIndex,
     );
   }
 

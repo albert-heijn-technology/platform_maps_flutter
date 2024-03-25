@@ -9,6 +9,7 @@ class CameraPosition {
     this.bearing = 0.0,
     this.tilt = 0.0,
     this.zoom = 0,
+    this.isFlutterMap = false,
   });
 
   /// The camera's bearing in degrees, measured clockwise from north.
@@ -22,6 +23,8 @@ class CameraPosition {
 
   // In degrees where 0 is looking straight down. Pitch may be clamped to an appropriate value.
   final double tilt;
+
+  final bool isFlutterMap;
 
   /// The zoom level of the camera.
   ///
@@ -81,7 +84,14 @@ class CameraUpdate {
 
   /// Returns a camera update that moves the camera to the specified position.
   static newCameraPosition(CameraPosition cameraPosition) {
-    if (Platform.isIOS) {
+    if (cameraPosition.isFlutterMap) {
+      return {
+        "latLng": latlong2.LatLng(
+            cameraPosition.target.latitude, cameraPosition.target.longitude),
+        "zoom": cameraPosition.zoom,
+        "bearing": cameraPosition.bearing
+      };
+    } else if (Platform.isIOS) {
       return appleMaps.CameraUpdate.newCameraPosition(
           cameraPosition.appleMapsCameraPosition);
     } else if (Platform.isAndroid) {

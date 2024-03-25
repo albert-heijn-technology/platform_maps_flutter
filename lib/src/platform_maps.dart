@@ -22,16 +22,27 @@ class PlatformMap extends StatefulWidget {
     this.myLocationButtonEnabled = false,
     this.padding = const EdgeInsets.all(0),
     this.trafficEnabled = false,
-    this.markers = const <Marker>{},
-    this.polygons = const <Polygon>{},
-    this.polylines = const <Polyline>{},
-    this.circles = const <Circle>{},
+    this.markers = const {},
+    this.polygons = const {},
+    this.polylines = const {},
+    this.circles = const {},
     this.onCameraMoveStarted,
     this.onCameraMove,
     this.onCameraIdle,
     this.onTap,
     this.onLongPress,
+    this.cloudMapId,
+    this.isUseFlutterMapForAndroid = false,
+    this.isUseFlutterMapForIos = false,
+    this.flutterMapUrlTemplate,
   }) : super(key: key);
+
+  /// Pass this param if use flutter_map.
+  final bool isUseFlutterMapForAndroid;
+
+  final bool isUseFlutterMapForIos;
+
+  final String? flutterMapUrlTemplate;
 
   /// Callback method for when the map is ready to be used.
   ///
@@ -74,16 +85,16 @@ class PlatformMap extends StatefulWidget {
   final EdgeInsets padding;
 
   /// Markers to be placed on the map.
-  final Set<Marker> markers;
+  final Set markers;
 
   /// Polygons to be placed on the map.
-  final Set<Polygon> polygons;
+  final Set polygons;
 
   /// Polylines to be placed on the map.
-  final Set<Polyline> polylines;
+  final Set polylines;
 
   /// Circles to be placed on the map.
-  final Set<Circle> circles;
+  final Set circles;
 
   /// Called when the camera starts moving.
   ///
@@ -163,70 +174,142 @@ class PlatformMap extends StatefulWidget {
   /// When this set is empty, the map will only handle pointer events for gestures that
   /// were not claimed by any other gesture recognizer.
   final Set<Factory<OneSequenceGestureRecognizer>> gestureRecognizers;
+
+  //Only for google map
+  final String? cloudMapId;
+
   @override
   _PlatformMapState createState() => _PlatformMapState();
 }
 
-class _PlatformMapState extends State<PlatformMap> {
+class _PlatformMapState extends State<PlatformMap>
+    with TickerProviderStateMixin {
+  late flutterMapsAnimations.AnimatedMapController
+      flutterMapAnimationController =
+      flutterMapsAnimations.AnimatedMapController(vsync: this);
+  Widget _buildFlutterMap() {
+    return flutterMaps.FlutterMap(
+      mapController: flutterMapAnimationController.mapController,
+      options: flutterMaps.MapOptions(
+        onMapReady: () => _onMapCreated(flutterMapAnimationController),
+        onMapEvent: (event) {
+          if (event is flutterMaps.MapEventMove) {
+            _onCameraMove(event.camera.center);
+          }
+          if (event is flutterMaps.MapEventMoveEnd ||
+              event is flutterMaps.MapEventRotateEnd) {
+            widget.onCameraIdle?.call();
+          }
+        },
+        // onTap: _onTap,
+        // onLongPress: _onLongPress,
+        minZoom: widget.minMaxZoomPreference.minZoom,
+        maxZoom: widget.minMaxZoomPreference.maxZoom,
+        initialCenter: latlong2.LatLng(
+            widget.initialCameraPosition.target.googleLatLng.latitude,
+            widget.initialCameraPosition.target.googleLatLng.longitude),
+      ),
+      children: [
+        if (kIsWeb)
+          flutterMaps.TileLayer(
+            urlTemplate: widget.flutterMapUrlTemplate!,
+            tileProvider: CancellableNetworkTileProvider(),
+          )
+        else
+          flutterMaps.TileLayer(
+            urlTemplate: widget.flutterMapUrlTemplate!,
+            tileProvider: CachedTileProvider(
+              maxStale: const Duration(days: 120),
+              store: HiveCacheStore(
+                null,
+                hiveBoxName: 'TileLayerHiveCacheStore',
+              ),
+            ),
+          ),
+        flutterMaps.PolylineLayer(
+          polylines: (widget.polylines.cast<flutterMaps.Polyline>()).toList(),
+        ),
+        flutterMaps.CircleLayer(
+          circles: (widget.circles.cast<flutterMaps.CircleMarker>()).toList(),
+        ),
+        flutterMaps.MarkerLayer(
+          markers: (widget.markers.cast<flutterMaps.Marker>()).toList(),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     if (Platform.isAndroid) {
-      return googleMaps.GoogleMap(
-        initialCameraPosition:
-            widget.initialCameraPosition.googleMapsCameraPosition,
-        compassEnabled: widget.compassEnabled,
-        mapType: _getGoogleMapType(),
-        padding: widget.padding,
-        markers: Marker.toGoogleMapsMarkerSet(widget.markers),
-        polylines: Polyline.toGoogleMapsPolylines(widget.polylines),
-        polygons: Polygon.toGoogleMapsPolygonSet(widget.polygons),
-        circles: Circle.toGoogleMapsCircleSet(widget.circles),
-        gestureRecognizers: widget.gestureRecognizers,
-        onCameraIdle: widget.onCameraIdle,
-        myLocationButtonEnabled: widget.myLocationButtonEnabled,
-        myLocationEnabled: widget.myLocationEnabled,
-        onCameraMoveStarted: widget.onCameraMoveStarted,
-        tiltGesturesEnabled: widget.tiltGesturesEnabled,
-        rotateGesturesEnabled: widget.rotateGesturesEnabled,
-        zoomControlsEnabled: widget.zoomControlsEnabled,
-        zoomGesturesEnabled: widget.zoomGesturesEnabled,
-        scrollGesturesEnabled: widget.scrollGesturesEnabled,
-        onMapCreated: _onMapCreated,
-        onCameraMove: _onCameraMove,
-        onTap: _onTap,
-        onLongPress: _onLongPress,
-        trafficEnabled: widget.trafficEnabled,
-        minMaxZoomPreference:
-            widget.minMaxZoomPreference.googleMapsZoomPreference,
-      );
+      if (widget.isUseFlutterMapForAndroid)
+        return _buildFlutterMap();
+      else
+        return googleMaps.GoogleMap(
+          initialCameraPosition:
+              widget.initialCameraPosition.googleMapsCameraPosition,
+          compassEnabled: widget.compassEnabled,
+          mapType: _getGoogleMapType(),
+          padding: widget.padding,
+          markers: Marker.toGoogleMapsMarkerSet(widget.markers.cast<Marker>()),
+          polylines:
+              Polyline.toGoogleMapsPolylines(widget.polylines.cast<Polyline>()),
+          polygons:
+              Polygon.toGoogleMapsPolygonSet(widget.polygons.cast<Polygon>()),
+          circles: Circle.toGoogleMapsCircleSet(widget.circles.cast<Circle>()),
+          gestureRecognizers: widget.gestureRecognizers,
+          onCameraIdle: widget.onCameraIdle,
+          myLocationButtonEnabled: widget.myLocationButtonEnabled,
+          myLocationEnabled: widget.myLocationEnabled,
+          onCameraMoveStarted: widget.onCameraMoveStarted,
+          tiltGesturesEnabled: widget.tiltGesturesEnabled,
+          rotateGesturesEnabled: widget.rotateGesturesEnabled,
+          zoomControlsEnabled: widget.zoomControlsEnabled,
+          zoomGesturesEnabled: widget.zoomGesturesEnabled,
+          scrollGesturesEnabled: widget.scrollGesturesEnabled,
+          onMapCreated: _onMapCreated,
+          onCameraMove: _onCameraMove,
+          onTap: _onTap,
+          onLongPress: _onLongPress,
+          trafficEnabled: widget.trafficEnabled,
+          minMaxZoomPreference:
+              widget.minMaxZoomPreference.googleMapsZoomPreference,
+          cloudMapId: widget.cloudMapId,
+        );
     } else if (Platform.isIOS) {
-      return appleMaps.AppleMap(
-        initialCameraPosition:
-            widget.initialCameraPosition.appleMapsCameraPosition,
-        compassEnabled: widget.compassEnabled,
-        mapType: _getAppleMapType(),
-        padding: widget.padding,
-        annotations: Marker.toAppleMapsAnnotationSet(widget.markers),
-        polylines: Polyline.toAppleMapsPolylines(widget.polylines),
-        polygons: Polygon.toAppleMapsPolygonSet(widget.polygons),
-        circles: Circle.toAppleMapsCircleSet(widget.circles),
-        gestureRecognizers: widget.gestureRecognizers,
-        onCameraIdle: widget.onCameraIdle,
-        myLocationButtonEnabled: widget.myLocationButtonEnabled,
-        myLocationEnabled: widget.myLocationEnabled,
-        onCameraMoveStarted: widget.onCameraMoveStarted,
-        pitchGesturesEnabled: widget.tiltGesturesEnabled,
-        rotateGesturesEnabled: widget.rotateGesturesEnabled,
-        zoomGesturesEnabled: widget.zoomGesturesEnabled,
-        scrollGesturesEnabled: widget.scrollGesturesEnabled,
-        onMapCreated: _onMapCreated,
-        onCameraMove: _onCameraMove,
-        onTap: _onTap,
-        onLongPress: _onLongPress,
-        trafficEnabled: widget.trafficEnabled,
-        minMaxZoomPreference:
-            widget.minMaxZoomPreference.appleMapsZoomPreference,
-      );
+      if (widget.isUseFlutterMapForIos)
+        return _buildFlutterMap();
+      else
+        return appleMaps.AppleMap(
+          initialCameraPosition:
+              widget.initialCameraPosition.appleMapsCameraPosition,
+          compassEnabled: widget.compassEnabled,
+          mapType: _getAppleMapType(),
+          padding: widget.padding,
+          annotations:
+              Marker.toAppleMapsAnnotationSet((widget.markers.cast<Marker>())),
+          polylines: Polyline.toAppleMapsPolylines(
+              (widget.polylines.cast<Polyline>())),
+          polygons:
+              Polygon.toAppleMapsPolygonSet((widget.polygons.cast<Polygon>())),
+          circles: Circle.toAppleMapsCircleSet((widget.circles.cast<Circle>())),
+          gestureRecognizers: widget.gestureRecognizers,
+          onCameraIdle: widget.onCameraIdle,
+          myLocationButtonEnabled: widget.myLocationButtonEnabled,
+          myLocationEnabled: widget.myLocationEnabled,
+          onCameraMoveStarted: widget.onCameraMoveStarted,
+          pitchGesturesEnabled: widget.tiltGesturesEnabled,
+          rotateGesturesEnabled: widget.rotateGesturesEnabled,
+          zoomGesturesEnabled: widget.zoomGesturesEnabled,
+          scrollGesturesEnabled: widget.scrollGesturesEnabled,
+          onMapCreated: _onMapCreated,
+          onCameraMove: _onCameraMove,
+          onTap: _onTap,
+          onLongPress: _onLongPress,
+          trafficEnabled: widget.trafficEnabled,
+          minMaxZoomPreference:
+              widget.minMaxZoomPreference.appleMapsZoomPreference,
+        );
     } else {
       return Text("Platform not yet implemented");
     }
@@ -237,7 +320,14 @@ class _PlatformMapState extends State<PlatformMap> {
   }
 
   void _onCameraMove(dynamic cameraPosition) {
-    if (Platform.isIOS) {
+    if (widget.isUseFlutterMapForIos || widget.isUseFlutterMapForAndroid)
+      widget.onCameraMove?.call(
+        CameraPosition(
+          target: LatLng._fromFlutterLatLng(cameraPosition as latlong2.LatLng),
+          zoom: flutterMapAnimationController.mapController.camera.zoom,
+        ),
+      );
+    else if (Platform.isIOS) {
       widget.onCameraMove?.call(
         CameraPosition.fromAppleMapCameraPosition(
           cameraPosition as appleMaps.CameraPosition,
