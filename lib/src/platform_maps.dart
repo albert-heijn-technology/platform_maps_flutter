@@ -196,6 +196,10 @@ class _PlatformMapState extends State<PlatformMap>
           if (event is flutterMaps.MapEventMove) {
             _onCameraMove(event.camera.center);
           }
+          if (event is flutterMaps.MapEventMoveEnd ||
+              event is flutterMaps.MapEventRotateEnd) {
+            widget.onCameraIdle?.call();
+          }
         },
         // onTap: _onTap,
         // onLongPress: _onLongPress,
