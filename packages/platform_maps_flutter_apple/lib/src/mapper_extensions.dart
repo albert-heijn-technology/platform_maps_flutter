@@ -58,8 +58,9 @@ extension on Marker {
         icon: (icon as AppleMapsBitmapDescriptor?)?.descriptor ??
             apple_maps.BitmapDescriptor.defaultAnnotation,
         visible: visible,
-        onDragEnd:
-            onDragEnd != null ? (apple_maps.LatLng latLng) => _onDragEnd(latLng, onDragEnd) : null,
+        onDragEnd: onDragEnd != null
+            ? (apple_maps.LatLng latLng) => _onDragEnd(latLng, onDragEnd)
+            : null,
         position: position.appleMapsLatLng,
       );
 

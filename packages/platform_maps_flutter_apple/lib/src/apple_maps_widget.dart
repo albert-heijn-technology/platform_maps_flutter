@@ -6,7 +6,8 @@ import 'package:platform_maps_flutter_platform_interface/platform_maps_flutter_p
 import 'package:apple_maps_flutter/apple_maps_flutter.dart' as apple_maps;
 
 class AppleMapsWidget extends PlatformMapsPlatformWidget {
-  AppleMapsWidget(PlatformMapsPlatformWidgetCreationParams params) : super.implementation(params);
+  AppleMapsWidget(PlatformMapsPlatformWidgetCreationParams params)
+      : super.implementation(params);
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +151,8 @@ class _PlatformMap extends StatefulWidget {
   ///
   /// When this set is empty, the map will only handle pointer events for gestures that
   /// were not claimed by any other gesture recognizer.
-  Set<Factory<OneSequenceGestureRecognizer>> get gestureRecognizers => params.gestureRecognizers;
+  Set<Factory<OneSequenceGestureRecognizer>> get gestureRecognizers =>
+      params.gestureRecognizers;
   @override
   _PlatformMapState createState() => _PlatformMapState();
 }
@@ -159,7 +161,8 @@ class _PlatformMapState extends State<_PlatformMap> {
   @override
   Widget build(BuildContext context) {
     return apple_maps.AppleMap(
-      initialCameraPosition: widget.initialCameraPosition.appleMapsCameraPosition,
+      initialCameraPosition:
+          widget.initialCameraPosition.appleMapsCameraPosition,
       compassEnabled: widget.compassEnabled,
       mapType: _getMapType(),
       padding: widget.padding,

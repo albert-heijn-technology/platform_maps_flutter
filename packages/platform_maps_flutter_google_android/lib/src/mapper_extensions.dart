@@ -64,13 +64,17 @@ extension on Marker {
           google_maps.BitmapDescriptor.defaultMarker,
       visible: visible,
       onDragEnd: onDragEnd != null
-          ? (google_maps.LatLng latLng) => _onGoogleMarkerDragEnd(latLng, onDragEnd)
+          ? (google_maps.LatLng latLng) =>
+              _onGoogleMarkerDragEnd(latLng, onDragEnd)
           : null,
       position: position.googleMapsLatLng,
     );
   }
 
-  static _onGoogleMarkerDragEnd(google_maps.LatLng latLng, Function? onDragEnd) {
+  static _onGoogleMarkerDragEnd(
+    google_maps.LatLng latLng,
+    Function? onDragEnd,
+  ) {
     onDragEnd?.call(latLng.platformLatLng);
   }
 }
@@ -231,7 +235,8 @@ extension ZoomMapper on MinMaxZoomPreference {
   }
 }
 
-extension GoogleMapsControllerMappers on google_map_original.GoogleMapController {
+extension GoogleMapsControllerMappers
+    on google_map_original.GoogleMapController {
   PlatformMapController get platformMapController {
     return PlatformMapController(GoogleMapsPlatformController(this));
   }

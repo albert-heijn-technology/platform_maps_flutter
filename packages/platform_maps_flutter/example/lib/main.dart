@@ -47,7 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
         },
         mapType: MapType.satellite,
         onTap: (location) => debugPrint('onTap: $location'),
-        onCameraMove: (cameraUpdate) => debugPrint('onCameraMove: $cameraUpdate'),
+        onCameraMove: (cameraUpdate) =>
+            debugPrint('onCameraMove: $cameraUpdate'),
         compassEnabled: true,
         onMapCreated: (controller) {
           Future.delayed(const Duration(seconds: 2)).then(

@@ -22,7 +22,8 @@ void main() {
     final platformBitmapDescriptor = PlatformBitmapDescriptor();
     expect(platformBitmapDescriptor, isA<FakePlatformBitmapDescriptor>());
 
-    final bitmapDescriptor = platformBitmapDescriptor.fromBytes(Uint8List.fromList([1, 2]));
+    final bitmapDescriptor =
+        platformBitmapDescriptor.fromBytes(Uint8List.fromList([1, 2]));
     expect(bitmapDescriptor, isA<FakeBitmapDescriptor>());
   });
 
@@ -46,10 +47,12 @@ class FakePlatform extends PlatformMapsPlatform {
   }
 
   @override
-  PlatformBitmapDescriptor createBitmapDescriptor() => FakePlatformBitmapDescriptor();
+  PlatformBitmapDescriptor createBitmapDescriptor() =>
+      FakePlatformBitmapDescriptor();
 
   @override
-  PlatformCameraUpdate createPlatformCameraUpdate() => FakePlatformCameraUpdate();
+  PlatformCameraUpdate createPlatformCameraUpdate() =>
+      FakePlatformCameraUpdate();
 }
 
 class FakeWidget extends PlatformMapsPlatformWidget {

@@ -12,7 +12,8 @@ class AppleMapsPlatformController extends PlatformMapsPlatformController {
   @override
   Future<void> animateCamera(CameraUpdate cameraUpdate) {
     if (CameraUpdate case AppleMapsCameraUpdate cameraUpdate) {
-      return _appleMapController.animateCamera(cameraUpdate.appleMapsCameraUpdate);
+      return _appleMapController
+          .animateCamera(cameraUpdate.appleMapsCameraUpdate);
     }
     throw UnsupportedError(
       'AppleMapsPlatformController: animateCamera - cameraUpdate is not a AppleMapsCameraUpdate\n${cameraUpdate.toString()}',
@@ -27,12 +28,14 @@ class AppleMapsPlatformController extends PlatformMapsPlatformController {
 
   @override
   Future<void> hideMarkerInfoWindow(MarkerId markerId) {
-    return _appleMapController.hideMarkerInfoWindow(markerId.appleMapsAnnotationId);
+    return _appleMapController
+        .hideMarkerInfoWindow(markerId.appleMapsAnnotationId);
   }
 
   @override
   Future<bool> isMarkerInfoWindowShown(MarkerId markerId) async {
-    return (await _appleMapController.isMarkerInfoWindowShown(markerId.appleMapsAnnotationId)) ??
+    return (await _appleMapController
+            .isMarkerInfoWindowShown(markerId.appleMapsAnnotationId)) ??
         false;
   }
 
@@ -48,7 +51,8 @@ class AppleMapsPlatformController extends PlatformMapsPlatformController {
 
   @override
   Future<void> showMarkerInfoWindow(MarkerId markerId) {
-    return _appleMapController.showMarkerInfoWindow(markerId.appleMapsAnnotationId);
+    return _appleMapController
+        .showMarkerInfoWindow(markerId.appleMapsAnnotationId);
   }
 
   @override

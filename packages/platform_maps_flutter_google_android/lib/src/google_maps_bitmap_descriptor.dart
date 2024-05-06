@@ -9,8 +9,11 @@ class GoogleMapsPlatformBitmapDescriptor extends PlatformBitmapDescriptor {
   GoogleMapsPlatformBitmapDescriptor() : super.implementation();
   @override
   Future<GoogleMapsBitmapDescriptor> fromAssetImage(
-      ImageConfiguration configuration, String assetName,
-      {AssetBundle? bundle, String? package}) async {
+    ImageConfiguration configuration,
+    String assetName, {
+    AssetBundle? bundle,
+    String? package,
+  }) async {
     final descriptor = await google_maps.BitmapDescriptor.fromAssetImage(
       configuration,
       assetName,
@@ -22,7 +25,9 @@ class GoogleMapsPlatformBitmapDescriptor extends PlatformBitmapDescriptor {
 
   @override
   GoogleMapsBitmapDescriptor fromBytes(Uint8List byteData) {
-    return GoogleMapsBitmapDescriptor(google_maps.BitmapDescriptor.fromBytes(byteData));
+    return GoogleMapsBitmapDescriptor(
+      google_maps.BitmapDescriptor.fromBytes(byteData),
+    );
   }
 }
 

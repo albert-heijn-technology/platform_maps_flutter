@@ -285,7 +285,8 @@ class GoogleMap extends StatefulWidget {
 class _GoogleMapState extends State<GoogleMap> {
   final int _mapId = _nextMapCreationId++;
 
-  final Completer<GoogleMapController> _controller = Completer<GoogleMapController>();
+  final Completer<GoogleMapController> _controller =
+      Completer<GoogleMapController>();
 
   Map<MarkerId, Marker> _markers = <MarkerId, Marker>{};
   Map<PolygonId, Polygon> _polygons = <PolygonId, Polygon>{};
@@ -299,8 +300,9 @@ class _GoogleMapState extends State<GoogleMap> {
       _mapId,
       onPlatformViewCreated,
       widgetConfiguration: MapWidgetConfiguration(
-        textDirection:
-            widget.layoutDirection ?? Directionality.maybeOf(context) ?? TextDirection.ltr,
+        textDirection: widget.layoutDirection ??
+            Directionality.maybeOf(context) ??
+            TextDirection.ltr,
         initialCameraPosition: widget.initialCameraPosition,
         gestureRecognizers: widget.gestureRecognizers,
       ),
@@ -360,28 +362,40 @@ class _GoogleMapState extends State<GoogleMap> {
   Future<void> _updateMarkers() async {
     final GoogleMapController controller = await _controller.future;
     unawaited(
-        controller._updateMarkers(MarkerUpdates.from(_markers.values.toSet(), widget.markers)));
+      controller._updateMarkers(
+        MarkerUpdates.from(_markers.values.toSet(), widget.markers),
+      ),
+    );
     _markers = keyByMarkerId(widget.markers);
   }
 
   Future<void> _updatePolygons() async {
     final GoogleMapController controller = await _controller.future;
     unawaited(
-        controller._updatePolygons(PolygonUpdates.from(_polygons.values.toSet(), widget.polygons)));
+      controller._updatePolygons(
+        PolygonUpdates.from(_polygons.values.toSet(), widget.polygons),
+      ),
+    );
     _polygons = keyByPolygonId(widget.polygons);
   }
 
   Future<void> _updatePolylines() async {
     final GoogleMapController controller = await _controller.future;
-    unawaited(controller
-        ._updatePolylines(PolylineUpdates.from(_polylines.values.toSet(), widget.polylines)));
+    unawaited(
+      controller._updatePolylines(
+        PolylineUpdates.from(_polylines.values.toSet(), widget.polylines),
+      ),
+    );
     _polylines = keyByPolylineId(widget.polylines);
   }
 
   Future<void> _updateCircles() async {
     final GoogleMapController controller = await _controller.future;
     unawaited(
-        controller._updateCircles(CircleUpdates.from(_circles.values.toSet(), widget.circles)));
+      controller._updateCircles(
+        CircleUpdates.from(_circles.values.toSet(), widget.circles),
+      ),
+    );
     _circles = keyByCircleId(widget.circles);
   }
 

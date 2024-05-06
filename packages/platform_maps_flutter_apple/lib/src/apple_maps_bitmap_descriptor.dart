@@ -8,8 +8,11 @@ class AppleMapsPlatformBitmapDescriptor extends PlatformBitmapDescriptor {
   AppleMapsPlatformBitmapDescriptor() : super.implementation();
   @override
   Future<AppleMapsBitmapDescriptor> fromAssetImage(
-      ImageConfiguration configuration, String assetName,
-      {AssetBundle? bundle, String? package}) async {
+    ImageConfiguration configuration,
+    String assetName, {
+    AssetBundle? bundle,
+    String? package,
+  }) async {
     final descriptor = await apple_maps.BitmapDescriptor.fromAssetImage(
       configuration,
       assetName,
@@ -21,7 +24,9 @@ class AppleMapsPlatformBitmapDescriptor extends PlatformBitmapDescriptor {
 
   @override
   AppleMapsBitmapDescriptor fromBytes(Uint8List byteData) {
-    return AppleMapsBitmapDescriptor(apple_maps.BitmapDescriptor.fromBytes(byteData));
+    return AppleMapsBitmapDescriptor(
+      apple_maps.BitmapDescriptor.fromBytes(byteData),
+    );
   }
 }
 

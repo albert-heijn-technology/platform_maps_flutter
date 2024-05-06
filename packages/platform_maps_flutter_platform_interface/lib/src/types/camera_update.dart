@@ -1,5 +1,4 @@
 import 'package:platform_maps_flutter_platform_interface/platform_maps_flutter_platform_interface.dart';
-import 'package:platform_maps_flutter_platform_interface/src/platform_camera_update.dart';
 
 abstract class CameraUpdate {
   const CameraUpdate();
@@ -9,7 +8,8 @@ abstract class CameraUpdate {
       PlatformCameraUpdate().newCameraPosition(cameraPosition);
 
   /// Returns a camera update that moves the camera target to the specified geographical location.
-  static CameraUpdate newLatLng(LatLng latLng) => PlatformCameraUpdate().newLatLng(latLng);
+  static CameraUpdate newLatLng(LatLng latLng) =>
+      PlatformCameraUpdate().newLatLng(latLng);
 
   /// Returns a camera update that moves the camera target to the specified geographical location and zoom level.
   static CameraUpdate newLatLngZoom(LatLng latLng, double zoom) =>
@@ -26,7 +26,8 @@ abstract class CameraUpdate {
   /// Returns a camera update that modifies the camera zoom level by the specified amount.
   /// The optional [focus] is a screen point whose underlying geographical location
   /// should be invariant, if possible, by the movement.
-  static CameraUpdate zoomBy(double amount) => PlatformCameraUpdate().zoomBy(amount);
+  static CameraUpdate zoomBy(double amount) =>
+      PlatformCameraUpdate().zoomBy(amount);
 
   /// Returns a camera update that zooms the camera in,
   ///  bringing the camera closer to the surface of the Earth.
@@ -41,5 +42,6 @@ abstract class CameraUpdate {
   static CameraUpdate zoomOut() => PlatformCameraUpdate().zoomOut();
 
   /// Returns a camera update that sets the camera zoom level.
-  static CameraUpdate zoomTo(double zoom) => PlatformCameraUpdate().zoomTo(zoom);
+  static CameraUpdate zoomTo(double zoom) =>
+      PlatformCameraUpdate().zoomTo(zoom);
 }

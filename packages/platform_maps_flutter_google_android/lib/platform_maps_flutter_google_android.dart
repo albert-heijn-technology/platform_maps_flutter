@@ -4,8 +4,6 @@ import 'package:platform_maps_flutter_google_android/src/google_maps_bitmap_desc
 import 'package:platform_maps_flutter_google_android/src/google_maps_camera_update.dart';
 import 'package:platform_maps_flutter_google_android/src/google_maps_widget.dart';
 import 'package:platform_maps_flutter_platform_interface/platform_maps_flutter_platform_interface.dart';
-import 'package:google_maps_flutter_platform_interface/google_maps_flutter_platform_interface.dart'
-    as google_maps;
 
 class PlatformMapsGoogleAndroid extends PlatformMapsPlatform {
   static void registerWith() {

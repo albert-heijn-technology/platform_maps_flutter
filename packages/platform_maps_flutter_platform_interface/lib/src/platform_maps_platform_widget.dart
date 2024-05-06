@@ -5,7 +5,9 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 abstract class PlatformMapsPlatformWidget extends PlatformInterface {
   /// Creates a new [PlatformMapsPlatformWidget]
-  factory PlatformMapsPlatformWidget(PlatformMapsPlatformWidgetCreationParams params) {
+  factory PlatformMapsPlatformWidget(
+    PlatformMapsPlatformWidgetCreationParams params,
+  ) {
     assert(
       PlatformMapsPlatform.instance != null,
       'A platform implementation for `platform_maps_flutter` has not been set. Please '

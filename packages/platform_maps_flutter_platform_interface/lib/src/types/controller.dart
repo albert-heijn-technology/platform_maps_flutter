@@ -44,16 +44,19 @@ class PlatformMapController {
   ///
   /// The returned [Future] completes after the change has been started on the
   /// platform side.
-  Future<void> animateCamera(cameraUpdate) => platformController.animateCamera(cameraUpdate);
+  Future<void> animateCamera(cameraUpdate) =>
+      platformController.animateCamera(cameraUpdate);
 
   /// Changes the map camera position.
   ///
   /// The returned [Future] completes after the change has been made on the
   /// platform side.
-  Future<void> moveCamera(cameraUpdate) => platformController.moveCamera(cameraUpdate);
+  Future<void> moveCamera(cameraUpdate) =>
+      platformController.moveCamera(cameraUpdate);
 
   /// Return [LatLngBounds] defining the region that is visible in a map.
-  Future<LatLngBounds> getVisibleRegion() => platformController.getVisibleRegion();
+  Future<LatLngBounds> getVisibleRegion() =>
+      platformController.getVisibleRegion();
 
   /// Returns the image bytes of the map
   Future<Uint8List?> takeSnapshot() => platformController.takeSnapshot();

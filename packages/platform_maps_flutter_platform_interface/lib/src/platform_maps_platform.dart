@@ -1,6 +1,5 @@
 import 'package:platform_maps_flutter_platform_interface/src/platform_bitmap_descriptor.dart';
 import 'package:platform_maps_flutter_platform_interface/src/platform_camera_update.dart';
-import 'package:platform_maps_flutter_platform_interface/src/platform_maps_platform_controller.dart';
 import 'package:platform_maps_flutter_platform_interface/src/platform_maps_platform_widget.dart';
 import 'package:platform_maps_flutter_platform_interface/src/types.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
@@ -21,7 +20,9 @@ abstract class PlatformMapsPlatform extends PlatformInterface {
   /// class that extends [PlatformMapsPlatform] when they register themselves.
   static set instance(PlatformMapsPlatform? instance) {
     if (instance == null) {
-      throw AssertionError('Platform interfaces can only be set to a non-null instance');
+      throw AssertionError(
+        'Platform interfaces can only be set to a non-null instance',
+      );
     }
 
     PlatformInterface.verify(instance, _token);
@@ -36,16 +37,21 @@ abstract class PlatformMapsPlatform extends PlatformInterface {
     PlatformMapsPlatformWidgetCreationParams params,
   ) {
     throw UnimplementedError(
-        'createPlatformMapsPlatformWidget is not implemented on the current platform.');
+      'createPlatformMapsPlatformWidget is not implemented on the current platform.',
+    );
   }
 
   /// Create a new [PlatformBitmapDescriptor].
   /// This function should only be called by the app-facing package.
   PlatformBitmapDescriptor createBitmapDescriptor() {
-    throw UnimplementedError('createBitmapDescriptor is not implemented on the current platform.');
+    throw UnimplementedError(
+      'createBitmapDescriptor is not implemented on the current platform.',
+    );
   }
 
   PlatformCameraUpdate createPlatformCameraUpdate() {
-    throw UnimplementedError('createCameraUpdate is not implemented on the current platform.');
+    throw UnimplementedError(
+      'createCameraUpdate is not implemented on the current platform.',
+    );
   }
 }

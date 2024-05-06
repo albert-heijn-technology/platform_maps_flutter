@@ -9,7 +9,8 @@ import 'package:platform_maps_flutter_google_android/src/google_map_original.dar
     as google_map_original;
 
 class GoogleMapsWidget extends PlatformMapsPlatformWidget {
-  GoogleMapsWidget(PlatformMapsPlatformWidgetCreationParams params) : super.implementation(params);
+  GoogleMapsWidget(PlatformMapsPlatformWidgetCreationParams params)
+      : super.implementation(params);
 
   @override
   Widget build(BuildContext context) {
@@ -153,7 +154,8 @@ class _PlatformMap extends StatefulWidget {
   ///
   /// When this set is empty, the map will only handle pointer events for gestures that
   /// were not claimed by any other gesture recognizer.
-  Set<Factory<OneSequenceGestureRecognizer>> get gestureRecognizers => params.gestureRecognizers;
+  Set<Factory<OneSequenceGestureRecognizer>> get gestureRecognizers =>
+      params.gestureRecognizers;
   @override
   _PlatformMapState createState() => _PlatformMapState();
 }
@@ -162,7 +164,8 @@ class _PlatformMapState extends State<_PlatformMap> {
   @override
   Widget build(BuildContext context) {
     return google_map_original.GoogleMap(
-      initialCameraPosition: widget.initialCameraPosition.googleMapsCameraPosition,
+      initialCameraPosition:
+          widget.initialCameraPosition.googleMapsCameraPosition,
       compassEnabled: widget.compassEnabled,
       mapType: _getGoogleMapType(),
       padding: widget.padding,
@@ -185,7 +188,8 @@ class _PlatformMapState extends State<_PlatformMap> {
       onTap: _onTap,
       onLongPress: _onLongPress,
       trafficEnabled: widget.trafficEnabled,
-      minMaxZoomPreference: widget.minMaxZoomPreference.googleMapsZoomPreference,
+      minMaxZoomPreference:
+          widget.minMaxZoomPreference.googleMapsZoomPreference,
     );
   }
 

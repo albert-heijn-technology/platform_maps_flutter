@@ -13,7 +13,8 @@ class GoogleMapsPlatformController extends PlatformMapsPlatformController {
   @override
   Future<void> animateCamera(CameraUpdate cameraUpdate) {
     if (CameraUpdate case GoogleMapsCameraUpdate cameraUpdate) {
-      return _googleMapController.animateCamera(cameraUpdate.googleMapsCameraUpdate);
+      return _googleMapController
+          .animateCamera(cameraUpdate.googleMapsCameraUpdate);
     }
     throw UnsupportedError(
       'GoogleMapsPlatformController: animateCamera - cameraUpdate is not a GoogleMapsCameraUpdate\n${cameraUpdate.toString()}',
@@ -28,18 +29,21 @@ class GoogleMapsPlatformController extends PlatformMapsPlatformController {
 
   @override
   Future<void> hideMarkerInfoWindow(MarkerId markerId) {
-    return _googleMapController.hideMarkerInfoWindow(markerId.googleMapsMarkerId);
+    return _googleMapController
+        .hideMarkerInfoWindow(markerId.googleMapsMarkerId);
   }
 
   @override
   Future<bool> isMarkerInfoWindowShown(MarkerId markerId) {
-    return _googleMapController.isMarkerInfoWindowShown(markerId.googleMapsMarkerId);
+    return _googleMapController
+        .isMarkerInfoWindowShown(markerId.googleMapsMarkerId);
   }
 
   @override
   Future<void> moveCamera(CameraUpdate cameraUpdate) {
     if (CameraUpdate case GoogleMapsCameraUpdate cameraUpdate) {
-      return _googleMapController.moveCamera(cameraUpdate.googleMapsCameraUpdate);
+      return _googleMapController
+          .moveCamera(cameraUpdate.googleMapsCameraUpdate);
     }
     throw UnsupportedError(
       'GoogleMapsPlatformController: moveCamera - cameraUpdate is not a GoogleMapsCameraUpdate\n${cameraUpdate.toString()}',
@@ -48,7 +52,8 @@ class GoogleMapsPlatformController extends PlatformMapsPlatformController {
 
   @override
   Future<void> showMarkerInfoWindow(MarkerId markerId) {
-    return _googleMapController.showMarkerInfoWindow(markerId.googleMapsMarkerId);
+    return _googleMapController
+        .showMarkerInfoWindow(markerId.googleMapsMarkerId);
   }
 
   @override
