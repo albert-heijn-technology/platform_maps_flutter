@@ -1,3 +1,3 @@
-## 1.0.0
+## 1.0.0-beta
 
-- Initial platform_interface
+* Initial version, based on platform_maps_flutter 1.0.2

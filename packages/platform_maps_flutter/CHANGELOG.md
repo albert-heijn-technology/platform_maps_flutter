@@ -1,3 +1,7 @@
+## 2.0.0-beta
+
+* Migrate to a federated plugin structure
+
 ## 1.0.2
 
 * Updates apple_maps_flutter to apply memory leak fix
