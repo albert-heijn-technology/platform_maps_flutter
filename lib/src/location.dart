@@ -1,4 +1,4 @@
-part of platform_maps_flutter;
+part of '../platform_maps_flutter.dart';
 
 /// A pair of latitude and longitude coordinates, stored as degrees.
 class LatLng {
@@ -10,8 +10,7 @@ class LatLng {
   /// The longitude is normalized to the half-open interval from -180.0
   /// (inclusive) to +180.0 (exclusive)
   const LatLng(double latitude, double longitude)
-      : latitude =
-            (latitude < -90.0 ? -90.0 : (90.0 < latitude ? 90.0 : latitude)),
+      : latitude = (latitude < -90.0 ? -90.0 : (90.0 < latitude ? 90.0 : latitude)),
         longitude = (longitude + 180.0) % 360.0 - 180.0;
 
   /// The latitude in degrees between -90.0 and 90.0, both inclusive.
@@ -23,36 +22,35 @@ class LatLng {
   @override
   String toString() => '$runtimeType($latitude, $longitude)';
 
-  static LatLng _fromAppleLatLng(appleMaps.LatLng latLng) =>
+  static LatLng _fromAppleLatLng(apple_maps.LatLng latLng) =>
       LatLng(latLng.latitude, latLng.longitude);
 
-  static LatLng _fromGoogleLatLng(googleMaps.LatLng latLng) =>
+  static LatLng _fromGoogleLatLng(google_maps.LatLng latLng) =>
       LatLng(latLng.latitude, latLng.longitude);
 
-  appleMaps.LatLng get appleLatLng => appleMaps.LatLng(
-        this.latitude,
-        this.longitude,
+  apple_maps.LatLng get appleLatLng => apple_maps.LatLng(
+        latitude,
+        longitude,
       );
 
-  googleMaps.LatLng get googleLatLng => googleMaps.LatLng(
-        this.latitude,
-        this.longitude,
+  google_maps.LatLng get googleLatLng => google_maps.LatLng(
+        latitude,
+        longitude,
       );
 
-  static List<googleMaps.LatLng> googleMapsLatLngsFromList(
-      List<LatLng> latlngs) {
-    List<googleMaps.LatLng> googleMapsLatLngs = [];
-    latlngs.forEach((LatLng latlng) {
+  static List<google_maps.LatLng> googleMapsLatLngsFromList(List<LatLng> latlngs) {
+    List<google_maps.LatLng> googleMapsLatLngs = [];
+    for (var latlng in latlngs) {
       googleMapsLatLngs.add(latlng.googleLatLng);
-    });
+    }
     return googleMapsLatLngs;
   }
 
-  static List<appleMaps.LatLng> appleMapsLatLngsFromList(List<LatLng> latlngs) {
-    List<appleMaps.LatLng> appleMapsLatLngs = [];
-    latlngs.forEach((LatLng latlng) {
+  static List<apple_maps.LatLng> appleMapsLatLngsFromList(List<LatLng> latlngs) {
+    List<apple_maps.LatLng> appleMapsLatLngs = [];
+    for (var latlng in latlngs) {
       appleMapsLatLngs.add(latlng.appleLatLng);
-    });
+    }
     return appleMapsLatLngs;
   }
 }
@@ -65,14 +63,12 @@ class LatLngBounds {
   LatLngBounds({required this.southwest, required this.northeast})
       : assert(southwest.latitude <= northeast.latitude);
 
-  static LatLngBounds _fromAppleLatLngBounds(appleMaps.LatLngBounds bounds) =>
-      LatLngBounds(
+  static LatLngBounds _fromAppleLatLngBounds(apple_maps.LatLngBounds bounds) => LatLngBounds(
         southwest: LatLng._fromAppleLatLng(bounds.southwest),
         northeast: LatLng._fromAppleLatLng(bounds.northeast),
       );
 
-  static LatLngBounds _fromGoogleLatLngBounds(googleMaps.LatLngBounds bounds) =>
-      LatLngBounds(
+  static LatLngBounds _fromGoogleLatLngBounds(google_maps.LatLngBounds bounds) => LatLngBounds(
         southwest: LatLng._fromGoogleLatLng(bounds.southwest),
         northeast: LatLng._fromGoogleLatLng(bounds.northeast),
       );
@@ -83,19 +79,18 @@ class LatLngBounds {
   /// The northeast corner of the rectangle.
   final LatLng northeast;
 
-  appleMaps.LatLngBounds get appleLatLngBounds => appleMaps.LatLngBounds(
-        southwest: this.southwest.appleLatLng,
-        northeast: this.northeast.appleLatLng,
+  apple_maps.LatLngBounds get appleLatLngBounds => apple_maps.LatLngBounds(
+        southwest: southwest.appleLatLng,
+        northeast: northeast.appleLatLng,
       );
 
-  googleMaps.LatLngBounds get googleLatLngBounds => googleMaps.LatLngBounds(
-        southwest: this.southwest.googleLatLng,
-        northeast: this.northeast.googleLatLng,
+  google_maps.LatLngBounds get googleLatLngBounds => google_maps.LatLngBounds(
+        southwest: southwest.googleLatLng,
+        northeast: northeast.googleLatLng,
       );
 
   bool contains(LatLng point) {
-    return _containsLatitude(point.latitude) &&
-        _containsLongitude(point.longitude);
+    return _containsLatitude(point.latitude) && _containsLongitude(point.longitude);
   }
 
   bool _containsLatitude(double lat) {
