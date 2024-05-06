@@ -1,0 +1,6 @@
+name: platform_maps_flutter
+
+sdkPath: .fvm/flutter_sdk
+
+packages:
+  - packages/**
