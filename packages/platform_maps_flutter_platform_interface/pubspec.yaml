@@ -1,6 +1,6 @@
 name: platform_maps_flutter_platform_interface
 description: platform interface for platform_maps_flutter package
-version: 1.0.0
+version: 1.0.0-beta
 # NOTE: We strongly prefer non-breaking changes, even at the expense of a
 # less-clean API. See https://flutter.dev/go/platform-interface-breaking-changes
 

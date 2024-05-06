@@ -1,6 +1,6 @@
 name: platform_maps_flutter_google_android
 description: "A new Flutter package project."
-version: 0.0.1
+version: 1.0.0-beta
 homepage:
 
 environment:
@@ -20,12 +20,7 @@ dependencies:
     sdk: flutter
   google_maps_flutter_android: ^2.7.0
   google_maps_flutter_platform_interface: ^2.6.0
-  # replace by published version
-  platform_maps_flutter_platform_interface:
-    git:
-      url: https://github.com/albert-heijn-technology/platform_maps_flutter
-      path: packages/platform_maps_flutter_platform_interface
-      ref: c7838abbbf9ef6c9347b68cde4b71563786aca5a
+  platform_maps_flutter_platform_interface: ^1.0.0-beta
 
 dev_dependencies:
   flutter_test:

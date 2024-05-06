@@ -1,6 +1,6 @@
 name: platform_maps_flutter_apple
 description: "A new Flutter package project."
-version: 0.0.1
+version: 1.0.0-beta
 homepage:
 
 environment:
@@ -19,12 +19,7 @@ dependencies:
   flutter:
     sdk: flutter
   apple_maps_flutter: ^1.3.0
-  # replace by published version
-  platform_maps_flutter_platform_interface:
-    git:
-      url: https://github.com/albert-heijn-technology/platform_maps_flutter
-      path: packages/platform_maps_flutter_platform_interface
-      ref: c7838abbbf9ef6c9347b68cde4b71563786aca5a
+  platform_maps_flutter_platform_interface: ^1.0.0-beta
 
 dev_dependencies:
   flutter_test:
