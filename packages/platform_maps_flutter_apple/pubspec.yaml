@@ -1,7 +1,9 @@
 name: platform_maps_flutter_apple
-description: "A new Flutter package project."
+description: Apple Maps implementation for the platform_maps_flutter plugin.
 version: 1.0.0-beta
-homepage:
+homepage: https://github.com/albert-heijn-technology
+repository: https://github.com/albert-heijn-technology/platform_maps_flutter/tree/master/packages/platform_maps_flutter_apple
+issue_tracker: https://github.com/albert-heijn-technology/platform_maps_flutter/issues
 
 environment:
   sdk: '>=3.2.4 <4.0.0'
