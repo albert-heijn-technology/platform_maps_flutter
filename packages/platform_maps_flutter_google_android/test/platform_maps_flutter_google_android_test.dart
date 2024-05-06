@@ -26,7 +26,7 @@ void main() {
     final platformBitmapDescriptor = PlatformBitmapDescriptor();
     expect(platformBitmapDescriptor, isA<GoogleMapsPlatformBitmapDescriptor>());
 
-    final bitmapDescriptor = platformBitmapDescriptor.fromBytes(Uint8List(0));
+    final bitmapDescriptor = platformBitmapDescriptor.fromBytes(Uint8List.fromList([1, 2]));
     expect(bitmapDescriptor, isA<GoogleMapsBitmapDescriptor>());
   });
 
