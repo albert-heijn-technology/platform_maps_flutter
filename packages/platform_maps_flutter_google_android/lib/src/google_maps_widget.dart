@@ -210,13 +210,13 @@ class _PlatformMapState extends State<_PlatformMap> {
   }
 
   google_maps.MapType _getGoogleMapType() {
-    if (widget.mapType == MapType.normal) {
-      return google_maps.MapType.normal;
-    } else if (widget.mapType == MapType.satellite) {
-      return google_maps.MapType.satellite;
-    } else if (widget.mapType == MapType.hybrid) {
-      return google_maps.MapType.hybrid;
+    switch (widget.mapType) {
+      case MapType.normal:
+        return google_maps.MapType.normal;
+      case MapType.satellite:
+        return google_maps.MapType.satellite;
+      case MapType.hybrid:
+        return google_maps.MapType.hybrid;
     }
-    return google_maps.MapType.normal;
   }
 }

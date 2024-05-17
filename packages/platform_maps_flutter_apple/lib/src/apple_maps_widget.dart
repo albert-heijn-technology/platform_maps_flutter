@@ -205,13 +205,13 @@ class _PlatformMapState extends State<_PlatformMap> {
   }
 
   apple_maps.MapType _getMapType() {
-    if (widget.mapType == MapType.normal) {
-      return apple_maps.MapType.standard;
-    } else if (widget.mapType == MapType.satellite) {
-      return apple_maps.MapType.satellite;
-    } else if (widget.mapType == MapType.hybrid) {
-      return apple_maps.MapType.hybrid;
+    switch (widget.mapType) {
+      case MapType.normal:
+        return apple_maps.MapType.standard;
+      case MapType.satellite:
+        return apple_maps.MapType.satellite;
+      case MapType.hybrid:
+        return apple_maps.MapType.hybrid;
     }
-    return apple_maps.MapType.standard;
   }
 }
