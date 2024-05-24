@@ -11,7 +11,7 @@ class AppleMapsPlatformController extends PlatformMapsPlatformController {
 
   @override
   Future<void> animateCamera(CameraUpdate cameraUpdate) {
-    if (CameraUpdate case AppleMapsCameraUpdate cameraUpdate) {
+    if (cameraUpdate is AppleMapsCameraUpdate) {
       return _appleMapController
           .animateCamera(cameraUpdate.appleMapsCameraUpdate);
     }
@@ -41,7 +41,7 @@ class AppleMapsPlatformController extends PlatformMapsPlatformController {
 
   @override
   Future<void> moveCamera(CameraUpdate cameraUpdate) {
-    if (CameraUpdate case AppleMapsCameraUpdate cameraUpdate) {
+    if (cameraUpdate is AppleMapsCameraUpdate) {
       return _appleMapController.moveCamera(cameraUpdate.appleMapsCameraUpdate);
     }
     throw UnsupportedError(

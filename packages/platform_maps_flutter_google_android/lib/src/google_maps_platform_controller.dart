@@ -12,7 +12,7 @@ class GoogleMapsPlatformController extends PlatformMapsPlatformController {
 
   @override
   Future<void> animateCamera(CameraUpdate cameraUpdate) {
-    if (CameraUpdate case GoogleMapsCameraUpdate cameraUpdate) {
+    if (cameraUpdate is GoogleMapsCameraUpdate) {
       return _googleMapController
           .animateCamera(cameraUpdate.googleMapsCameraUpdate);
     }
@@ -41,7 +41,7 @@ class GoogleMapsPlatformController extends PlatformMapsPlatformController {
 
   @override
   Future<void> moveCamera(CameraUpdate cameraUpdate) {
-    if (CameraUpdate case GoogleMapsCameraUpdate cameraUpdate) {
+    if (cameraUpdate is GoogleMapsCameraUpdate) {
       return _googleMapController
           .moveCamera(cameraUpdate.googleMapsCameraUpdate);
     }
