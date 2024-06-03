@@ -73,3 +73,8 @@ pubspec.lock
 !**/ios/**/default.mode2v3
 !**/ios/**/default.pbxuser
 !**/ios/**/default.perspectivev3
+
+# FVM Version Cache
+.fvm/
+# Melos pubspec overrides
+pubspec_overrides.yaml

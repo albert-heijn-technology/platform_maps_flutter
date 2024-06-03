@@ -1,0 +1,11 @@
+name: platform_maps_flutter
+
+sdkPath: .fvm/flutter_sdk
+
+packages:
+  - packages/**
+
+scripts:
+  dart_fix: >
+    melos exec  -c 1 --fail-fast --\
+      dart fix --apply

@@ -1,0 +1,31 @@
+name: platform_maps_flutter_google_android
+description: Android Google Maps implementation for the platform_maps_flutter plugin.
+version: 1.0.0-beta
+homepage: https://github.com/albert-heijn-technology
+repository: https://github.com/albert-heijn-technology/platform_maps_flutter/tree/master/packages/platform_maps_flutter_google_android
+issue_tracker: https://github.com/albert-heijn-technology/platform_maps_flutter/issues
+
+environment:
+  sdk: '>=3.2.4 <4.0.0'
+  flutter: ">=1.17.0"
+
+flutter:
+  plugin:
+    implements: platform_maps_flutter
+    platforms:
+      android:
+        dartPluginClass: PlatformMapsGoogleAndroid
+        fileName: platform_maps_flutter_google.dart
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_maps_flutter_android: ^2.7.0
+  google_maps_flutter_platform_interface: ^2.6.0
+  platform_maps_flutter_platform_interface: ^1.0.0-beta
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
